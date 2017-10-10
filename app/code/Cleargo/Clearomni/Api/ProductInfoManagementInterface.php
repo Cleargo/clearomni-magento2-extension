@@ -12,5 +12,5 @@ interface ProductInfoManagementInterface
      * @param string $param
      * @return string
      */
-    public function getProductInfo($productId);
+    public function getProductInfo($product_id);
 }

@@ -21,7 +21,7 @@ class ProductInfoManagement
     /**
      * {@inheritdoc}
      */
-    public function getProductInfo($productId)
+    public function getProductInfo($product_id)
     {
 
         $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
@@ -44,85 +44,13 @@ class ProductInfoManagement
                     'eav.attribute_id = cpe_varchar.attribute_id',
                     ['attribute_code']                         
                 )
-                ->where('eav.attribute_code=\'name\' AND cpe.entity_id=?', $productId )
+                ->where('eav.attribute_code=\'name\' AND cpe.entity_id=?', $product_id )
                 // ->where('cpe.entity_id=?', $productId )
                 ;
 
         $data = $connection->fetchAll($select);
 
-        // $result = [];
-        // $productName = [];
-
-        // foreach( $data as $d ) {
-        //     $productName[] = [ 
-        //         'store_id' => $d
-        //         , 'frontend_label' => $d['value']
-        //     ]
-        // }
-
         return $data;
-
-        $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
-        $product = $objectManager->create('Magento\Catalog\Model\Product')->load($productId);   
-        $product_websites = $product->getWebsiteIds();
-
-        $stores = [];
-        
-        foreach( $this->getListStores() as $store ) {
-            $store['product_name'] = $product->setStoreId($store['store_id'])->getName();
-            $stores[] = $store;
-        }
-
-        return json_encode($stores);
-
-        $result = array(
-            'result' => $product->getName()
-            , 'website_id' => $product->getWebsiteIds()
-            , 'frontend_labels' => $product->getStoreLabel()
-            , 'stores' => $stores
-        );
-        // return 'test';
-        return json_encode($result);
-    }
-
-    public function getListStores() {
-        // $stores = $storeRepo->getList();
-     //    $websiteIds = array();
-     //    $storeList = array();
-     //    foreach ($stores as $store) {
-     //        $websiteId = $store["website_id"];
-     //        $storeId = $store["store_id"];
-     //        $storeName = $store["name"];
-     //        $storeList[$storeId] = $storeName;
-     //        array_push($websiteIds, $websiteId);
-     //    }
-     //    return $storeList;
-
-        /** @var \Magento\Framework\App\ObjectManager $obj */
-        $obj = \Magento\Framework\App\ObjectManager::getInstance();
-
-        /** @var \Magento\Store\Model\StoreManagerInterface|\Magento\Store\Model\StoreManager $storeManager */
-        $storeManager = $obj->get('Magento\Store\Model\StoreManagerInterface');
-        $stores = $storeManager->getStores($withDefault = false);
-
-        //Locale code
-        $locale = [];
-        $eachStore = [];
-        //Try to get list of locale for all stores;
-        foreach($stores as $store) {
-            $eachStore[] = array(
-                'website_id' => $store["website_id"]
-                , 'store_id' => $store["store_id"]
-                , 'store_name' => $store["name"]
-                // , 'locale' => $scopeConfig->getValue('general/locale/code', \Magento\Store\Model\ScopeInterface::SCOPE_STORE, $store->getStoreId())
-                , 'locale' => $this->_getStoreLocale($store->getStoreId())
-                // , 'storeList'[$storeId] = $storeName;
-                // , 'storeList'[$storeId] = $storeName;
-            );
-            //        array_push($websiteIds, $websiteId);
-        }
-
-        return $eachStore;
     }
 
     protected function _getStoreLocale($storeId) {
