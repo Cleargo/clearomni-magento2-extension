@@ -16,8 +16,8 @@ interface ProductManagementInterface
     
     /**
      * GET for product website_ids api
-     * @param string $product_id
+     * @param string $sku
      * @return string
      */
-    public function getWebsiteIds($product_id);
+    public function getWebsiteIds($sku);
 }

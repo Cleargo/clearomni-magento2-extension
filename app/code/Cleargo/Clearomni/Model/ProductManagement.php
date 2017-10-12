@@ -52,7 +52,7 @@ class ProductManagement
         return $data;
     }
 
-    public function getWebsiteIds($product_id) {
+    public function getWebsiteIds($sku) {
         $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
 
         $resource = $objectManager->get('Magento\Framework\App\ResourceConnection');
@@ -60,10 +60,15 @@ class ProductManagement
 
         $select = $connection->select()
                 ->from(
+                    ['cpe' => 'catalog_product_entity'],
+                    ['entity_id', 'sku']
+                ) 
+                ->join(
                     ['cpw' => 'catalog_product_website'],
-                    ['product_id', 'website_id']
-                )                
-                ->where('cpw.product_id=?', $product_id )
+                    'cpw.product_id = cpe.entity_id',
+                    ['product_id', 'website_id']                         
+                )
+                ->where('cpe.sku=?', $sku )
                 ;
 
         $data = $connection->fetchAll($select);
