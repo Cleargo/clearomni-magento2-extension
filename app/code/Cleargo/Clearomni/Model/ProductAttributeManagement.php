@@ -8,7 +8,7 @@ class ProductAttributeManagement
     /**
      * {@inheritdoc}
      */
-    public function getFrontendLabel($attribute_code)
+    public function getFrontendLabels($attribute_code)
     {
         $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
 

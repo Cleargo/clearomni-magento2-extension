@@ -3,7 +3,7 @@ namespace Cleargo\Clearomni\Model;
 
 use Cleargo\Clearomni\Model\ResourceModel\ProductInfo\CollectionFactory;
 
-class ProductInfoManagement
+class ProductManagement
 {
     /** @var SearchCriteriaBuilder */
     protected $collectionFactory;
@@ -21,9 +21,8 @@ class ProductInfoManagement
     /**
      * {@inheritdoc}
      */
-    public function getProductInfo($product_id)
+    public function getInfo($product_id)
     {
-
         $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
 
         $resource = $objectManager->get('Magento\Framework\App\ResourceConnection');
@@ -51,6 +50,32 @@ class ProductInfoManagement
         $data = $connection->fetchAll($select);
 
         return $data;
+    }
+
+    public function getWebsiteIds($product_id) {
+        $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+
+        $resource = $objectManager->get('Magento\Framework\App\ResourceConnection');
+        $connection = $resource->getConnection();
+
+        $select = $connection->select()
+                ->from(
+                    ['cpw' => 'catalog_product_website'],
+                    ['product_id', 'website_id']
+                )                
+                ->where('cpw.product_id=?', $product_id )
+                ;
+
+        $data = $connection->fetchAll($select);
+
+        $ret = [];
+
+        foreach ($data as $key => $d) {
+            # code...
+            $ret[] = $d['website_id'];
+        }
+        return $ret;
+        // return 'hello getWebsiteIds';
     }
 
     protected function _getStoreLocale($storeId) {

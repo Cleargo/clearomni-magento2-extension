@@ -12,5 +12,5 @@ interface ProductAttributeManagementInterface
      * @param string $param
      * @return string
      */
-    public function getFrontendLabel($attribute_code);
+    public function getFrontendLabels($attribute_code);
 }

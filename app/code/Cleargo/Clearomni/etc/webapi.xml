@@ -1,17 +1,27 @@
 <?xml version="1.0" ?>
 <routes xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Webapi:etc/webapi.xsd">
-	<route method="GET" url="/V1/cleargo-clearomni/productinfo">
-		<service class="Cleargo\Clearomni\Api\ProductInfoManagementInterface" method="getProductInfo"/>
+
+	<route method="GET" url="/V1/cleargo-clearomni/product/info">
+		<service class="Cleargo\Clearomni\Api\ProductManagementInterface" method="getInfo"/>
 		<resources>
 			<resource ref="anonymous"/>
 		</resources>
 	</route>
-	<route method="GET" url="/V1/cleargo-clearomni/productattribute/frontendlabel">
-		<service class="Cleargo\Clearomni\Api\ProductAttributeManagementInterface" method="getFrontendLabel"/>
+	
+	<route method="GET" url="/V1/cleargo-clearomni/product/websiteids">
+		<service class="Cleargo\Clearomni\Api\ProductManagementInterface" method="getWebsiteIds"/>
 		<resources>
 			<resource ref="anonymous"/>
 		</resources>
 	</route>
+
+	<route method="GET" url="/V1/cleargo-clearomni/product-attribute/frontendlabels">
+		<service class="Cleargo\Clearomni\Api\ProductAttributeManagementInterface" method="getFrontendLabels"/>
+		<resources>
+			<resource ref="anonymous"/>
+		</resources>
+	</route>
+	
 	<route method="POST" url="/V1/cleargo-clearomni/order">
 		<service class="Cleargo\Clearomni\Api\OrderManagementInterface" method="postOrder"/>
 		<resources>
