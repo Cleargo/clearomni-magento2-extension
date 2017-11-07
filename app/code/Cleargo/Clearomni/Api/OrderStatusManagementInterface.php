@@ -12,5 +12,5 @@ interface OrderStatusManagementInterface
      * @param string $param
      * @return string
      */
-    public function getOrderStatus($param);
+    public function getOrderStatus();
 }

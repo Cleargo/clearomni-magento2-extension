@@ -25,7 +25,7 @@ class ProductAttributeManagement
                     'eav.attribute_id = eav_label.attribute_id',
                     ['store_id', 'value']                         
                 )
-                ->where('eav.attribute_code=?', $attribute_code )
+                ->where('eav.attribute_code in (?)', $attribute_code )
                 // ->where('cpe.entity_id=?', $productId )
                 ;
 
