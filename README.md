@@ -1,4 +1,5 @@
 # CLEAROmni Magento 2 Connector
+No Configuration required
 
 ## Product
 ### Frontlabel
