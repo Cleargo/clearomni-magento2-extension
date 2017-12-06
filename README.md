@@ -1,4 +1,4 @@
-# CLEAROmni Magento 2 Connector
+# CLEAROmni Magento 2 Connector by Cleargo
 No Configuration required
 
 ## Product
