@@ -1,4 +1,4 @@
-# CLEAROmni Magento 2 Connector by Cleargo team
+# CLEAROmni Magento 2 Connector by Cleargo team 01
 
 ## Product
 ### Frontlabel
