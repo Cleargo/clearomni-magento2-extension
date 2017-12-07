@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Acl/etc/acl.xsd">
+     <acl>
+        <resources>
+            <resource id="Magento_Backend::admin">
+                <resource id="Cleargo_Clearomni::extension" title="CLEARomni Extension" sortOrder="50">
+                    <resource id="Cleargo_Clearomni::order" title="Order" sortOrder="10">
+                        <resource id="Cleargo_Clearomni::order_related" title="Order Related" sortOrder="15"/>
+                    </resource>
+                    <resource id="Cleargo_Clearomni::product" title="Product" sortOrder="20">
+                        <resource id="Cleargo_Clearomni::product_related" title="Product Related" sortOrder="25"/>
+                    </resource>
+                </resource>
+            </resource>
+        </resources>
+    </acl>
+</config>
