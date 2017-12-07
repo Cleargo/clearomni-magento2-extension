@@ -1,5 +1,4 @@
-# CLEAROmni Magento 2 Connector
-No Configuration required
+# CLEAROmni Magento 2 Connector by Cleargo team 01
 
 ## Product
 ### Frontlabel
