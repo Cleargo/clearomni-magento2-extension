@@ -1,21 +1,21 @@
 <?xml version="1.0" ?>
 <routes xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Webapi:etc/webapi.xsd">
 
-	<route method="GET" url="/V1/cleargo-clearomni/product/info">
+	<route method="GET" url="/V1/cleargo-clearomni/product/info/:product_id">
 		<service class="Cleargo\Clearomni\Api\ProductManagementInterface" method="getInfo"/>
 		<resources>
 			<resource ref="Cleargo_Clearomni::product_related"/>
 		</resources>
 	</route>
 	
-	<route method="GET" url="/V1/cleargo-clearomni/product/websiteids">
+	<route method="GET" url="/V1/cleargo-clearomni/product/websiteids/:sku">
 		<service class="Cleargo\Clearomni\Api\ProductManagementInterface" method="getWebsiteIds"/>
 		<resources>
 			<resource ref="Cleargo_Clearomni::product_related"/>
 		</resources>
 	</route>
 
-	<route method="GET" url="/V1/cleargo-clearomni/product-attribute/frontendlabels">
+	<route method="GET" url="/V1/cleargo-clearomni/product-attribute/frontendlabels/:attribute_code">
 		<service class="Cleargo\Clearomni\Api\ProductAttributeManagementInterface" method="getFrontendLabels"/>
 		<resources>
 			<resource ref="Cleargo_Clearomni::product_related"/>
