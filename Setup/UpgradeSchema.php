@@ -1,7 +1,7 @@
 <?php
 
 
-namespace Cleargo\ClearomniConnector\Setup;
+namespace Cleargo\Clearomni\Setup;
 
 use Magento\Framework\Setup\UpgradeSchemaInterface;
 use Magento\Framework\Setup\ModuleContextInterface;
