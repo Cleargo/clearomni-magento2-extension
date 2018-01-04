@@ -13,4 +13,10 @@ interface OrderManagementInterface
      * @return string
      */
     public function postOrder($param);
+    /**
+     * POST for order api
+     * @param string[] $param
+     * @return string
+     */
+    public function updateOrder($param);
 }

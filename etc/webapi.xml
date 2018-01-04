@@ -28,6 +28,12 @@
 			<resource ref="Cleargo_Clearomni::order_related"/>
 		</resources>
 	</route>
+	<route method="POST" url="/V1/cleargo-clearomni/order/update">
+		<service class="Cleargo\Clearomni\Api\OrderManagementInterface" method="updateOrder"/>
+		<resources>
+			<resource ref="Cleargo_Clearomni::order_related"/>
+		</resources>
+	</route>
 	<route method="GET" url="/V1/cleargo-clearomni/orderstatus">
 		<service class="Cleargo\Clearomni\Api\OrderStatusManagementInterface" method="getOrderStatus"/>
 		<resources>
@@ -47,7 +53,7 @@
 		</resources>
 	</route>
 	<route method="GET" url="/V1/cleargo-clearomni/quoteitem/:id">
-		<service class="Cleargo\Clearomni\Api\OrderItemRepositoryInterface" method="getById"/>
+		<service class="Cleargo\Clearomni\Api\OrderItemRepositoryInterface" method="getByItemId"/>
 		<resources>
 			<resource ref="Cleargo_Clearomni::OrderItem_view"/>
 		</resources>
