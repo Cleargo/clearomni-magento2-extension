@@ -11,6 +11,13 @@
                         <resource id="Cleargo_Clearomni::product_related" title="Product Related" sortOrder="25"/>
                     </resource>
                 </resource>
+
+                <resource id="Cleargo_Clearomni::OrderItem" sortOrder="10" title="OrderItem">
+                    <resource id="Cleargo_Clearomni::OrderItem_save" sortOrder="10" title="Save OrderItem"/>
+                    <resource id="Cleargo_Clearomni::OrderItem_delete" sortOrder="20" title="Delete OrderItem"/>
+                    <resource id="Cleargo_Clearomni::OrderItem_update" sortOrder="30" title="Update OrderItem"/>
+                    <resource id="Cleargo_Clearomni::OrderItem_view" sortOrder="40" title="View OrderItem"/>
+                </resource>
             </resource>
         </resources>
     </acl>

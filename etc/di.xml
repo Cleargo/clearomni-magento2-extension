@@ -4,4 +4,7 @@
 	<preference for="Cleargo\Clearomni\Api\ProductAttributeManagementInterface" type="Cleargo\Clearomni\Model\ProductAttributeManagement"/>
 	<preference for="Cleargo\Clearomni\Api\OrderManagementInterface" type="Cleargo\Clearomni\Model\OrderManagement"/>
 	<preference for="Cleargo\Clearomni\Api\OrderStatusManagementInterface" type="Cleargo\Clearomni\Model\OrderStatusManagement"/>
+	<preference for="Cleargo\Clearomni\Api\OrderItemRepositoryInterface" type="Cleargo\Clearomni\Model\OrderItemRepository"/>
+	<preference for="Cleargo\Clearomni\Api\Data\OrderItemInterface" type="Cleargo\Clearomni\Model\OrderItem"/>
+	<preference for="Cleargo\Clearomni\Api\Data\OrderItemSearchResultsInterface" type="Magento\Framework\Api\SearchResults"/>
 </config>
