@@ -28,6 +28,14 @@ interface OrderItemRepositoryInterface
     public function getById($id);
 
     /**
+     * Retrieve OrderItem
+     * @param string $id
+     * @return \Cleargo\Clearomni\Api\Data\OrderItemInterface
+     * @throws \Magento\Framework\Exception\LocalizedException
+     */
+    public function getByItemId($id);
+
+    /**
      * Retrieve OrderItem matching the specified criteria.
      * @param \Magento\Framework\Api\SearchCriteriaInterface $searchCriteria
      * @return \Cleargo\Clearomni\Api\Data\OrderItemSearchResultsInterface

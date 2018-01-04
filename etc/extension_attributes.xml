@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Api/etc/extension_attributes.xsd">
+    <extension_attributes for="Magento\Sales\Api\Data\OrderItemInterface">
+        <attribute code="qty_clearomni_reserved" type="float" />
+        <attribute code="qty_clearomni_to_transfer" type="float" />
+        <attribute code="qty_clearomni_cancelled" type="float" />
+        <attribute code="qty_clearomni_completed" type="float" />
+        <attribute code="qty_clearomni_refunded" type="float" />
+        <attribute code="qty_clearomni_exchange_success" type="float" />
+        <attribute code="qty_clearomni_exchange_rejected" type="float" />
+    </extension_attributes>
+</config>

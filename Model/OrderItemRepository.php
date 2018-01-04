@@ -99,6 +99,15 @@ class OrderItemRepository implements OrderItemRepositoryInterface
         }
         return $quoteItem;
     }
+    public function getByItemId($quoteItemId)
+    {
+        $quoteItem = $this->quoteItemFactory->create();
+        $quoteItem->getResource()->load($quoteItem,$quoteItemId,'order_item_id');
+        if (!$quoteItem->getId()) {
+            throw new NoSuchEntityException(__('OrderItem with order_item_id "%1" does not exist.', $quoteItemId));
+        }
+        return $quoteItem;
+    }
 
     /**
      * {@inheritdoc}
