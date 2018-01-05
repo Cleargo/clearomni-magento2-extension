@@ -38,6 +38,16 @@ class OrderManagement
      */
     protected $orderFactory;
 
+    /**
+     * @var \Magento\Rma\Model\Rma\RmaDataMapper
+     */
+    protected $rmaDataMapper;
+
+    /**
+     * @var \Magento\Framework\ObjectManagerInterface
+     */
+    protected $_objectManager;
+
     public function __construct(
         \Magento\Sales\Api\OrderRepositoryInterface $orderRepository,
         \Magento\Sales\Api\OrderManagementInterface $orderManagement,
@@ -46,7 +56,9 @@ class OrderManagement
         \Magento\Sales\Model\Order\CreditmemoFactory $creditmemoFactory,
         \Magento\Sales\Model\Service\CreditmemoService $creditmemoService,
         \Magento\Sales\Model\OrderFactory $orderFactory,
-        \Magento\Sales\Model\Convert\Order $convertOrder
+        \Magento\Sales\Model\Convert\Order $convertOrder,
+        \Magento\Rma\Model\Rma\RmaDataMapper $rmaDataMapper,
+        \Magento\Framework\ObjectManagerInterface $objectManagerInterface
     )
     {
         $this->orderRepository = $orderRepository;
@@ -57,6 +69,8 @@ class OrderManagement
         $this->creditmemoService = $creditmemoService;
         $this->orderFactory = $orderFactory;
         $this->convertOrder = $convertOrder;
+        $this->rmaDataMapper = $rmaDataMapper;
+        $this->_objectManager = $objectManagerInterface;
     }
 
     /**
@@ -148,6 +162,57 @@ class OrderManagement
             }
         }
         if ($toState == 'closed') {
+            if ($order->getState() == 'complete') {//create rma if order state is from complete to closed
+                /** @var $model \Magento\Rma\Model\Rma */
+                try {
+                    $model = $this->_initModel($order);
+                    $item = [];
+                    foreach ($order->getAllVisibleItems() as $key => $value) {
+                        $item[] = [
+                            'qty_requested' => $value->getQtyOrdered(),
+                            'reason' => 'reason',
+                            'condition' => '8',
+                            'resolution' => '4',
+                            'order_item_id' => $value->getId()
+                        ];
+                    }
+                    $rmaRequestData = [
+                        'contact_email' => '',
+                        'comment' => ['comment' => ''],
+                        'product_name' => '',
+                        'product_sku' => '',
+                        'qty_ordered' => '',
+                        'qty_requested' => '',
+                        'reason_other' => '',
+                        'reason' => '',
+                        'condition' => '',
+                        'resolution' => '',
+                        'items' => $item,
+                        'select' => '',
+                        'sku' => '',
+                        'price' => [
+                            'from' => '',
+                            'to' => ''
+                        ]
+                    ];
+                    $saveRequest = $this->rmaDataMapper->filterRmaSaveRequest($rmaRequestData);
+                    $model->setData(
+                        $this->rmaDataMapper->prepareNewRmaInstanceData(
+                            $saveRequest,
+                            $order
+                        )
+                    );
+                    if (!$model->saveRma($saveRequest)) {
+                        $result['result'] = false;
+                        $result['message'] = __('We can\'t save this RMA.');
+                    }
+                    $this->_processNewRmaAdditionalInfo($saveRequest, $model);
+                }catch(\Exception $e){
+                    $result['result'] = false;
+                    $result['message'] = $e->getMessage();
+                    return $result;
+                }
+            }
             if ($order->canCreditmemo()) {
                 $creditmemo = $this->creditmemoFactory->createByOrder($order);
                 $this->creditmemoService->refund($creditmemo);
@@ -209,5 +274,59 @@ class OrderManagement
         $query->execute();
         $result = $query->fetch();
         return $result['total'];
+    }
+
+
+    protected function _initModel($order)
+    {
+        /** @var $model \Magento\Rma\Model\Rma */
+        $model = $this->_objectManager->create(\Magento\Rma\Model\Rma::class);
+        $model->setStoreId(0);
+
+//        $rmaId = $this->getRequest()->getParam($requestParam);
+//        if ($rmaId) {
+//            $model->load($rmaId);
+//            if (!$model->getId()) {
+//                throw new \Magento\Framework\Exception\LocalizedException(__('The wrong RMA was requested.'));
+//            }
+//            $this->_coreRegistry->register('current_rma', $model);
+//            $orderId = $model->getOrderId();
+//        } else {
+            $orderId = $order->getId();
+//        }
+
+        if ($orderId) {
+            /** @var $order \Magento\Sales\Model\Order */
+            $order = $this->_objectManager->create(\Magento\Sales\Model\Order::class)->load($orderId);
+            if (!$order->getId()) {
+                throw new \Magento\Framework\Exception\LocalizedException(__('This is the wrong RMA order ID.'));
+            }
+//            $this->_coreRegistry->register('current_order', $order);
+        }
+
+        return $model;
+    }
+
+    protected function _processNewRmaAdditionalInfo(array $saveRequest, \Magento\Rma\Model\Rma $rma)
+    {
+        /** @var $statusHistory \Magento\Rma\Model\Rma\Status\History */
+        $systemComment = $this->_objectManager->create(\Magento\Rma\Model\Rma\Status\History::class);
+        $systemComment->setRmaEntityId($rma->getEntityId());
+        if (isset($saveRequest['rma_confirmation']) && $saveRequest['rma_confirmation']) {
+            try {
+                $systemComment->sendNewRmaEmail();
+            } catch (\Magento\Framework\Exception\MailException $exception) {
+                $this->_objectManager->get(\Psr\Log\LoggerInterface::class)->critical($exception);
+            }
+        }
+        $systemComment->saveSystemComment();
+        if (!empty($saveRequest['comment']['comment'])) {
+            $visible = isset($saveRequest['comment']['is_visible_on_front']);
+            /** @var $statusHistory \Magento\Rma\Model\Rma\Status\History */
+            $customComment = $this->_objectManager->create(\Magento\Rma\Model\Rma\Status\History::class);
+            $customComment->setRmaEntityId($rma->getEntityId());
+            $customComment->saveComment($saveRequest['comment']['comment'], $visible, true);
+        }
+        return $this;
     }
 }
