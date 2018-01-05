@@ -93,18 +93,21 @@
 ]
 ```
 
-by lumiere
-get order by id
+### get order by id
+```
 GET    /rest/V1/orders/:id
+```
+### update quote_item api
 
-update quote_item api
-
-First get the entity_id by item id
-
+## First get the entity_id by item id
+```
     GET    /rest/V1/cleargo-clearomni/quoteitem/:quote_item_id
-Then use the id retrieved
+```
+## Then use the id retrieved
+```
     PUT /rest/V1/cleargo-clearomni/quoteitem/:id
-    with below payload
+```
+## with below payload
 ```
 {
   "quoteItem":{
@@ -119,16 +122,17 @@ Then use the id retrieved
 }
 ```
 
-get order by order id
+### get order by order id
 http://aigle.dev4.cleargo.com/rest/V1/orders?searchCriteria[filter_groups][0][filters][0][field]=entity_id& searchCriteria[filter_groups][0][filters][0][value]=:ORDERID& searchCriteria[filter_groups][0][filters][0][condition_type]=eq
-or
+## or
 http://aigle.dev4.cleargo.com/rest/V1/orders/:ORDERID
-// all extra info locate in items->extension_attributes and address->extension_attributes
+## all extra info locate in items->extension_attributes and address->extension_attributes
 
-update order status
-
+### update order status
+```
 POST /rest/V1/cleargo-clearomni/order/update
-body:
+```
+## body
 ```
 {
   "param":{
@@ -137,9 +141,9 @@ body:
  }
 }
 ```
+return
 
-return:
-    failed:
+## failed
 ```
 {
     "result_data": "",//normally empty all other additional return info will put here
@@ -147,7 +151,7 @@ return:
     "message": "Order Status not exist"//return message
 }
 ```
-success:
+## success
 ```
 {
         "result_data": "",
