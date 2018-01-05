@@ -93,6 +93,7 @@
 ]
 ```
 
+#by lumiere
 ##get order by id
 GET    /rest/V1/orders/:id
 
