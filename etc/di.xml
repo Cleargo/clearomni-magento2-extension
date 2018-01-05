@@ -6,6 +6,7 @@
 	<preference for="Cleargo\Clearomni\Api\OrderStatusManagementInterface" type="Cleargo\Clearomni\Model\OrderStatusManagement"/>
 	<preference for="Cleargo\Clearomni\Api\OrderItemRepositoryInterface" type="Cleargo\Clearomni\Model\OrderItemRepository"/>
 	<preference for="Cleargo\Clearomni\Api\Data\OrderItemInterface" type="Cleargo\Clearomni\Model\OrderItem"/>
+	<preference for="Cleargo\Clearomni\Api\Data\ApiResultInterface" type="Cleargo\Clearomni\Model\ApiResult"/>
 	<preference for="Cleargo\Clearomni\Api\Data\OrderItemSearchResultsInterface" type="Magento\Framework\Api\SearchResults"/>
 	<type name="Magento\Sales\Model\OrderRepository">
 		<plugin name="orderrepository_plugin" type="Cleargo\Clearomni\Plugin\ExtraInfo" sortOrder="1000" disabled="false" />

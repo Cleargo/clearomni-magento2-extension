@@ -48,6 +48,11 @@ class OrderManagement
      */
     protected $_objectManager;
 
+    /**
+     * @var \Cleargo\Clearomni\Api\Data\ApiResultInterface
+     */
+    protected $result;
+
     public function __construct(
         \Magento\Sales\Api\OrderRepositoryInterface $orderRepository,
         \Magento\Sales\Api\OrderManagementInterface $orderManagement,
@@ -58,7 +63,8 @@ class OrderManagement
         \Magento\Sales\Model\OrderFactory $orderFactory,
         \Magento\Sales\Model\Convert\Order $convertOrder,
         \Magento\Rma\Model\Rma\RmaDataMapper $rmaDataMapper,
-        \Magento\Framework\ObjectManagerInterface $objectManagerInterface
+        \Magento\Framework\ObjectManagerInterface $objectManagerInterface,
+        \Cleargo\Clearomni\Api\Data\ApiResultInterface $apiResult
     )
     {
         $this->orderRepository = $orderRepository;
@@ -71,6 +77,7 @@ class OrderManagement
         $this->convertOrder = $convertOrder;
         $this->rmaDataMapper = $rmaDataMapper;
         $this->_objectManager = $objectManagerInterface;
+        $this->result=$apiResult;
     }
 
     /**
@@ -103,7 +110,7 @@ class OrderManagement
         } catch (\Exception $e) {
             $result['result'] = false;
             $result['message'] = $e->getMessage();
-            return json_encode($result);
+            return $this->setResult($result);
         }
         $status = $param['status'];
         $state = $this->getOrderState($status);
@@ -111,7 +118,7 @@ class OrderManagement
         if ($statusExist <= 0) {
             $result['result'] = false;
             $result['message'] = 'Order Status not exist';
-            return json_encode($result);
+            return $this->setResult($result);
         }
         if ($state == $order->getState()) {
             if ($statusExist > 0) {
@@ -127,7 +134,7 @@ class OrderManagement
         }
         $order->save();
 //        $this->orderRepository->save($order);
-        return json_encode($result);
+        return $this->setResult($result);
     }
 
     protected function handleOrder($order, $toStatus)
@@ -149,7 +156,7 @@ class OrderManagement
                 $order->addStatusHistoryComment("Order Canceled by api", $toStatus);
                 $order->setStatus('canceled');
                 $result['message'] = 'Order Canceled';
-                return $result;
+                return ($result);
             } else {
                 $statusExist = $this->checkStatusExist($toStatus);
                 if ($statusExist > 0) {
@@ -157,7 +164,7 @@ class OrderManagement
                 } else {
                     $result['result'] = false;
                     $result['message'] = $order->getState() . '_' . $toStatus . " does not exist";
-                    return $result;
+                    return ($result);
                 }
             }
         }
@@ -205,12 +212,13 @@ class OrderManagement
                     if (!$model->saveRma($saveRequest)) {
                         $result['result'] = false;
                         $result['message'] = __('We can\'t save this RMA.');
+                        return ($result);
                     }
                     $this->_processNewRmaAdditionalInfo($saveRequest, $model);
                 }catch(\Exception $e){
                     $result['result'] = false;
                     $result['message'] = $e->getMessage();
-                    return $result;
+                    return ($result);
                 }
             }
             if ($order->canCreditmemo()) {
@@ -219,11 +227,11 @@ class OrderManagement
                 $order->addStatusHistoryComment('Credit memo created by api and change status to ' . $toStatus, $toStatus);
                 $result['result'] = true;
                 $result['message'] = 'Credit memo created by api and change status to ' . $toStatus;
-                return $result;
+                return ($result);
             } else {
                 $result['result'] = false;
                 $result['message'] = 'Can not create creditmemo';
-                return $result;
+                return ($result);
             }
         }
         if ($toState == 'complete') {
@@ -246,11 +254,11 @@ class OrderManagement
                 $order->addStatusHistoryComment('Shipment created by api and change status to ' . $toStatus, $toStatus);
                 $result['result'] = true;
                 $result['message'] = 'Shipment created by api and change status to ' . $toStatus;
-                return $result;
+                return ($result);
             } else {
                 $result['result'] = false;
                 $result['message'] = 'Can not create shipment';
-                return $result;
+                return ($result);
             }
         }
     }
@@ -328,5 +336,12 @@ class OrderManagement
             $customComment->saveComment($saveRequest['comment']['comment'], $visible, true);
         }
         return $this;
+    }
+
+    public function setResult($result){
+        $this->result->setDataa($result['data']);
+        $this->result->setMessage($result['message']);
+        $this->result->setResult($result['result']);
+        return $this->result;
     }
 }

@@ -16,7 +16,7 @@ interface OrderManagementInterface
     /**
      * POST for order api
      * @param string[] $param
-     * @return string
+     * @return \Cleargo\Clearomni\Api\Data\ApiResultInterface
      */
     public function updateOrder($param);
 }

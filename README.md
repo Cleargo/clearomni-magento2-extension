@@ -116,9 +116,23 @@ Then use the id retrieved
       }
 }
 
-//get order by order id
+##get order by order id
 http://aigle.dev4.cleargo.com/rest/V1/orders?searchCriteria[filter_groups][0][filters][0][field]=entity_id& searchCriteria[filter_groups][0][filters][0][value]=:ORDERID& searchCriteria[filter_groups][0][filters][0][condition_type]=eq
 or
 http://aigle.dev4.cleargo.com/rest/V1/orders/:ORDERID
 // all extra info locate in items->extension_attributes and address->extension_attributes
+
+##update order status
+
+POST /rest/V1/cleargo-clearomni/order/update
+body:
+{
+  "param":{
+   "order_id":"80", //order_id
+   "status":"closed_exchange_success" //order_status
+ }
+}
+
+return:
+
 
