@@ -8,7 +8,7 @@ use Magento\Payment\Gateway\Command\NullCommand;
 interface ApiResultInterface
 {
 
-    const DATA = 'dataa';
+    const DATA = 'result_data';
     const RESULT = 'result';
     const MESSAGE = 'message';
 
@@ -16,14 +16,14 @@ interface ApiResultInterface
      * Get data
      * @return string|null
      */
-    public function getDataa();
+    public function getResultData();
 
     /**
      * Set data
      * @param string $data
      * @return \Cleargo\Clearomni\Api\Data\ApiResultInterface
      */
-    public function setDataa($data);
+    public function setResultData($data);
 
     /**
      * Get result

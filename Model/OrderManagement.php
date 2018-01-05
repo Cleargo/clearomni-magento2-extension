@@ -339,7 +339,7 @@ class OrderManagement
     }
 
     public function setResult($result){
-        $this->result->setDataa($result['data']);
+        $this->result->setResultData($result['data']);
         $this->result->setMessage($result['message']);
         $this->result->setResult($result['result']);
         return $this->result;

@@ -37,7 +37,7 @@ class ApiResult extends \Magento\Framework\Model\AbstractModel implements \Clear
      * Get data
      * @return string
      */
-    public function getDataa()
+    public function getResultData()
     {
         return $this->getData(self::DATA);
     }
@@ -48,7 +48,7 @@ class ApiResult extends \Magento\Framework\Model\AbstractModel implements \Clear
      * @param string $value
      * @return \Cleargo\Clearomni\Api\Data\ApiResultInterface
      */
-    public function setDataa($data)
+    public function setResultData($data)
     {
         return $this->setData(self::DATA, $data);
     }
