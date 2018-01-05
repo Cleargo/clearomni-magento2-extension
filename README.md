@@ -93,11 +93,11 @@
 ]
 ```
 
-#by lumiere
-##get order by id
+by lumiere
+get order by id
 GET    /rest/V1/orders/:id
 
-##update quote_item api
+update quote_item api
 
 First get the entity_id by item id
 
@@ -105,27 +105,27 @@ First get the entity_id by item id
 Then use the id retrieved
     PUT /rest/V1/cleargo-clearomni/quoteitem/:id
     with below payload
-    ```
-    {
-      "quoteItem":{
-        "qty_clearomni_reserved": "12.0000",
-        "qty_clearomni_to_transfer": "12.0000",
-        "qty_clearomni_cancelled": "12.0000",
-        "qty_clearomni_completed": "12.0000",
-        "qty_clearomni_refunded": "12.0000",
-        "qty_clearomni_exchange_success": "12.0000",
-        "qty_clearomni_exchange_rejected": "12.0000"
-      }
-    }
-    ```
+```
+{
+  "quoteItem":{
+    "qty_clearomni_reserved": "12.0000",
+    "qty_clearomni_to_transfer": "12.0000",
+    "qty_clearomni_cancelled": "12.0000",
+    "qty_clearomni_completed": "12.0000",
+    "qty_clearomni_refunded": "12.0000",
+    "qty_clearomni_exchange_success": "12.0000",
+    "qty_clearomni_exchange_rejected": "12.0000"
+  }
+}
+```
 
-##get order by order id
+get order by order id
 http://aigle.dev4.cleargo.com/rest/V1/orders?searchCriteria[filter_groups][0][filters][0][field]=entity_id& searchCriteria[filter_groups][0][filters][0][value]=:ORDERID& searchCriteria[filter_groups][0][filters][0][condition_type]=eq
 or
 http://aigle.dev4.cleargo.com/rest/V1/orders/:ORDERID
 // all extra info locate in items->extension_attributes and address->extension_attributes
 
-##update order status
+update order status
 
 POST /rest/V1/cleargo-clearomni/order/update
 body:
@@ -140,19 +140,19 @@ body:
 
 return:
     failed:
-    ```
-        {
-        "result_data": "",//normally empty all other additional return info will put here
-        "result": false,//result is executed successfully?
-        "message": "Order Status not exist"//return message
-        }
-	```
+```
+{
+    "result_data": "",//normally empty all other additional return info will put here
+    "result": false,//result is executed successfully?
+    "message": "Order Status not exist"//return message
+}
+```
 success:
 ```
-        {
+{
         "result_data": "",
         "result": true,
         "message": "Order Status is updated to closed_exchange_success"
-        }
-	```
+}
+```
 
