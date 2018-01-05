@@ -83,6 +83,5 @@ class SalesOrderPlaceAfterObserver implements ObserverInterface
 //            }
             $item->save();
         }
-
     }
 }

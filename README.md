@@ -134,5 +134,16 @@ body:
 }
 
 return:
-
+    failed:
+        {
+        "result_data": "",//normally empty all other additional return info will put here
+        "result": false,//result is executed successfully?
+        "message": "Order Status not exist"//return message
+        }
+success:
+        {
+        "result_data": "",
+        "result": true,
+        "message": "Order Status is updated to closed_exchange_success"
+        }
 

@@ -1,0 +1,61 @@
+<?xml version="1.0" ?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
+    <system>
+        <tab id="clearomni" sortOrder="999" translate="label">
+            <label>clearomni</label>
+        </tab>
+        <section id="clearomni" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="10" translate="label">
+            <label>clearomni</label>
+            <tab>clearomni</tab>
+            <resource>Cleargo_Clearomni::config_cleargo_clearomni</resource>
+            <group id="clearomni" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="10" translate="label">
+                <label>clearomni</label>
+                <field id="exchange_success" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="10" translate="label" type="select">
+                    <label>exchange_success</label>
+                    <comment/>
+                    <source_model>Cleargo\Clearomni\Model\Config\Source\Email\Template</source_model>
+                </field>
+                <field id="refund_success" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="10" translate="label" type="select">
+                    <label>refund_success</label>
+                    <comment/>
+                    <source_model>Cleargo\Clearomni\Model\Config\Source\Email\Template</source_model>
+                </field>
+                <field id="exchange_requested" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="10" translate="label" type="select">
+                    <label>exchange_requested</label>
+                    <comment/>
+                    <source_model>Cleargo\Clearomni\Model\Config\Source\Email\Template</source_model>
+                </field>
+                <field id="exchange_rejected" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="10" translate="label" type="select">
+                    <label>exchange_rejected</label>
+                    <comment/>
+                    <source_model>Cleargo\Clearomni\Model\Config\Source\Email\Template</source_model>
+                </field>
+                <field id="exchange_acknowledged" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="10" translate="label" type="select">
+                    <label>exchange_acknowledged</label>
+                    <comment/>
+                    <source_model>Cleargo\Clearomni\Model\Config\Source\Email\Template</source_model>
+                </field>
+                <field id="pending_transfer" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="10" translate="label" type="select">
+                    <label>pending_transfer</label>
+                    <comment/>
+                    <source_model>Cleargo\Clearomni\Model\Config\Source\Email\Template</source_model>
+                </field>
+                <field id="expired" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="10" translate="label" type="select">
+                    <label>expired</label>
+                    <comment/>
+                    <source_model>Cleargo\Clearomni\Model\Config\Source\Email\Template</source_model>
+                </field>
+                <field id="canceled" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="10" translate="label" type="select">
+                    <label>canceled</label>
+                    <comment/>
+                    <source_model>Cleargo\Clearomni\Model\Config\Source\Email\Template</source_model>
+                </field>
+                <field id="ready_to_pick" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="10" translate="label" type="select">
+                    <label>ready_to_pick</label>
+                    <comment/>
+                    <source_model>Cleargo\Clearomni\Model\Config\Source\Email\Template</source_model>
+                </field>
+            </group>
+        </section>
+    </system>
+</config>

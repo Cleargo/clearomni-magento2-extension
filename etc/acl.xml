@@ -18,6 +18,13 @@
                     <resource id="Cleargo_Clearomni::OrderItem_update" sortOrder="30" title="Update OrderItem"/>
                     <resource id="Cleargo_Clearomni::OrderItem_view" sortOrder="40" title="View OrderItem"/>
                 </resource>
+                <resource id="Magento_Backend::stores">
+                    <resource id="Magento_Backend::stores_settings">
+                        <resource id="Magento_Config::config">
+                            <resource id="Cleargo_Clearomni::config_cleargo_clearomni" title="clearomni"/>
+                        </resource>
+                    </resource>
+                </resource>
             </resource>
         </resources>
     </acl>

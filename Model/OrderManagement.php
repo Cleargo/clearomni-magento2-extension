@@ -128,11 +128,16 @@ class OrderManagement
             } else {
                 $result['result'] = false;
                 $result['message'] = 'Order Status not exist';
+                return $this->setResult($result);
             }
         } else {
             $result = $this->handleOrder($order, $status);
         }
         $order->save();
+
+        //send email change status
+
+
 //        $this->orderRepository->save($order);
         return $this->setResult($result);
     }

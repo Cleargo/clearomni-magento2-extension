@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Email:etc/email_templates.xsd">
+    <template id="clearomni_clearomni_exchange_success" label="Exchange Success" file="exchange_success.html" type="html" module="Cleargo_Clearomni" area="frontend"/>
+    <template id="clearomni_clearomni_refund_success" label="Refund Success" file="refund_success.html" type="html" module="Cleargo_Clearomni" area="frontend"/>
+    <template id="clearomni_clearomni_exchange_requested" label="Exchange Requested" file="exchange_requested.html" type="html" module="Cleargo_Clearomni" area="frontend"/>
+    <template id="clearomni_clearomni_exchange_rejected" label="Exchange Rejected" file="exchange_rejected.html" type="html" module="Cleargo_Clearomni" area="frontend"/>
+    <template id="clearomni_clearomni_exchange_acknowledged" label="Exchange Acknowledged" file="exchange_acknowledged.html" type="html" module="Cleargo_Clearomni" area="frontend"/>
+    <template id="clearomni_clearomni_pending_transfer" label="Pending Transfer" file="pending_transfer.html" type="html" module="Cleargo_Clearomni" area="frontend"/>
+    <template id="clearomni_clearomni_expired" label="Expired" file="expired.html" type="html" module="Cleargo_Clearomni" area="frontend"/>
+    <template id="clearomni_clearomni_canceled" label="Canceled" file="canceled.html" type="html" module="Cleargo_Clearomni" area="frontend"/>
+    <template id="clearomni_clearomni_ready_to_pick" label="Ready To Pick" file="ready_to_pick.html" type="html" module="Cleargo_Clearomni" area="frontend"/>
+</config>

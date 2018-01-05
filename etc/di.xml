@@ -11,4 +11,7 @@
 	<type name="Magento\Sales\Model\OrderRepository">
 		<plugin name="orderrepository_plugin" type="Cleargo\Clearomni\Plugin\ExtraInfo" sortOrder="1000" disabled="false" />
 	</type>
+	<type name="Magento\Sales\Model\ResourceModel\Order">
+		<plugin name="order_plugin" type="Cleargo\Clearomni\Plugin\Order" sortOrder="1000" disabled="false" />
+	</type>
 </config>
