@@ -14,4 +14,7 @@
 	<type name="Magento\Sales\Model\ResourceModel\Order">
 		<plugin name="order_plugin" type="Cleargo\Clearomni\Plugin\Order" sortOrder="1000" disabled="false" />
 	</type>
+	<type name="Magento\Checkout\Model\Cart">
+		<plugin name="cart_plugin" type="Cleargo\Clearomni\Plugin\Cart" sortOrder="0" disabled="false" />
+	</type>
 </config>
