@@ -34,9 +34,14 @@ class SalesOrderPlaceAfterObserver implements ObserverInterface
     protected $_date;
 
     /**
-     *
+     * @var \Cleargo\Clearomni\Model\OrderItemFactory
      */
     protected $orderItemFactory;
+
+    /**
+     * @var \Cleargo\Clearomni\Helper\Data
+     */
+    protected $helper;
     /**
      * @param \Magento\Framework\Event\Manager            $eventManager
      * @param \Magento\Framework\ObjectManagerInterface   $objectManager
@@ -50,7 +55,8 @@ class SalesOrderPlaceAfterObserver implements ObserverInterface
         \Magento\Customer\Model\Session $customerSession,
         SessionManager $coreSession,
         \Magento\Framework\Stdlib\DateTime\DateTime $date,
-        \Cleargo\Clearomni\Model\OrderItemFactory $orderItemFactory
+        \Cleargo\Clearomni\Model\OrderItemFactory $orderItemFactory,
+        \Cleargo\Clearomni\Helper\Data $helper
     ) {
         $this->_eventManager = $eventManager;
         $this->_objectManager = $objectManager;
@@ -58,6 +64,7 @@ class SalesOrderPlaceAfterObserver implements ObserverInterface
         $this->_coreSession = $coreSession;
         $this->_date = $date;
         $this->orderItemFactory=$orderItemFactory;
+        $this->helper=$helper;
     }
 
     /**
@@ -83,5 +90,7 @@ class SalesOrderPlaceAfterObserver implements ObserverInterface
 //            }
             $item->save();
         }
+        $this->helper->request('/get-order/'.$order->getId());
+
     }
 }
