@@ -20,6 +20,8 @@ class Data extends AbstractHelper
     const XML_EMAIL_CANCELED='clearomni/clearomni/canceled';
     const XML_EMAIL_READY_TO_PICK='clearomni/clearomni/ready_to_pick';
 
+    const XML_BASEURL_PATH = 'clearomni/clearomni/base_url';
+
     protected $_objectManager;
     protected $_filesystem;
 
@@ -92,6 +94,13 @@ class Data extends AbstractHelper
         parent::__construct($context);
     }
 
+    public function getBaseUrl()
+    {
+        return $this->scopeConfig->getValue(
+            self::XML_BASEURL_PATH,
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE
+        );
+    }
     public function getExchangeSuccess()
     {
         return $this->scopeConfig->getValue(
@@ -183,5 +192,11 @@ class Data extends AbstractHelper
             ->getTransport();
         $transport->sendMessage();
         return $this;
+    }
+
+    public function request($url,$returnArray=true){
+        $this->curl->get($this->getBaseUrl() . $url);
+        $response = json_decode($this->curl->getBody(), $returnArray);
+        return $response;
     }
 }

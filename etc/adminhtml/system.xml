@@ -55,6 +55,10 @@
                     <comment/>
                     <source_model>Cleargo\Clearomni\Model\Config\Source\Email\Template</source_model>
                 </field>
+                <field id="base_url" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="10" translate="label" type="text">
+                    <label>Base url</label>
+                    <comment/>
+                </field>
             </group>
         </section>
     </system>
