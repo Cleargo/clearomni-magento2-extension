@@ -8,7 +8,7 @@ namespace Cleargo\Clearomni\Helper;
 
 use Magento\Framework\App\Helper\AbstractHelper;
 
-class Data extends AbstractHelper
+class Data extends AbstractHelper implements \Cleargo\Clearomni\Helper\ClearomniHelperInterface
 {
     const XML_EMAIL_EXCHANGE_SUCCESS='clearomni/clearomni/exchange_success';
     const XML_EMAIL_REFUND_SUCCESS='clearomni/clearomni/refund_success';
@@ -56,6 +56,10 @@ class Data extends AbstractHelper
     protected $_transportBuilder;
 
     /**
+     * @var \Cleargo\Clearomni\Helper\ClearomniHelperInterface
+     */
+    protected $externalClearomniHelper;
+    /**
      * @param Magento\Framework\App\Helper\Context $context
      * @param Magento\Framework\ObjectManagerInterface $objectManager
      * @param Magento\Framework\Translate\Inline\StateInterface $inlineTranslation
@@ -75,8 +79,8 @@ class Data extends AbstractHelper
         \Magento\Quote\Api\CartRepositoryInterface $quoteRepository,
         \Magento\Framework\Translate\Inline\StateInterface $inlineTranslation,
         \Magento\Framework\Mail\Template\TransportBuilder $transportBuilder,
-        \Magento\Customer\Model\Session $customerSession
-
+        \Magento\Customer\Model\Session $customerSession,
+        \Cleargo\Clearomni\Helper\ClearomniHelperInterface $externalClearomniHelper
     )
     {
         $this->_objectManager = $objectManager;
@@ -91,6 +95,7 @@ class Data extends AbstractHelper
         $this->_inlineTranslation = $inlineTranslation;
         $this->_transportBuilder = $transportBuilder;
         $this->connection = $objectManager->get('Magento\Framework\App\ResourceConnection')->getConnection();
+        $this->externalClearomniHelper=$externalClearomniHelper;
         parent::__construct($context);
     }
 
@@ -199,4 +204,21 @@ class Data extends AbstractHelper
         $response = json_decode($this->curl->getBody(), $returnArray);
         return $response;
     }
+
+    public function getCartAvailableInStore($type)
+    {
+        return $this->externalClearomniHelper->getCartAvailableInStore($type);
+    }
+
+    public function getProductAvailableInStore($productSku, $type = 'cnr')
+    {
+        return $this->externalClearomniHelper->getProductAvailableInStore($productSku,$type);
+    }
+
+    public function getProductAvailability($productId, $storeCode = false, $sku = false, $type = 'cnr')
+    {
+        return $this->externalClearomniHelper->getProductAvailability($productId,$storeCode,$sku,$type);
+    }
+
+
 }

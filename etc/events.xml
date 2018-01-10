@@ -3,4 +3,7 @@
 	<event name="checkout_submit_all_after">
 		<observer name="clearomni_sales_order_place_after_observer" instance="Cleargo\Clearomni\Observer\SalesOrderPlaceAfterObserver" />
 	</event>
+	<event name="checkout_submit_before">
+		<observer name="clearomni_sales_order_place_before_observer" instance="Cleargo\Clearomni\Observer\SalesOrderPlaceBeforeObserver" />
+	</event>
 </config>

@@ -5,7 +5,7 @@ use Magento\Framework\Event\ObserverInterface;
 use Magento\Framework\Session\SessionManager;
 use Magento\Framework\Webapi\Exception;
 
-class SalesOrderPlaceAfterObserver implements ObserverInterface
+class SalesOrderPlaceBeforeObserver implements ObserverInterface
 {
     /**
      * @var eventManager
@@ -44,9 +44,14 @@ class SalesOrderPlaceAfterObserver implements ObserverInterface
     protected $helper;
 
     /**
-     * @var \Cleargo\Clearomni\Helper\Request
+     * @var \Cleargo\AigleClearomniConnector\Helper\Data
      */
-    protected $requestHelper;
+    protected $aigleHelper;
+
+    /**
+     * @var \Smile\Retailer\Api\RetailerRepositoryInterface
+     */
+    protected $retailerRepository;
     /**
      * @param \Magento\Framework\Event\Manager            $eventManager
      * @param \Magento\Framework\ObjectManagerInterface   $objectManager
@@ -62,7 +67,7 @@ class SalesOrderPlaceAfterObserver implements ObserverInterface
         \Magento\Framework\Stdlib\DateTime\DateTime $date,
         \Cleargo\Clearomni\Model\OrderItemFactory $orderItemFactory,
         \Cleargo\Clearomni\Helper\Data $helper,
-        \Cleargo\Clearomni\Helper\Request $requestHelper
+        \Smile\Retailer\Api\RetailerRepositoryInterface $retailerRepository
     ) {
         $this->_eventManager = $eventManager;
         $this->_objectManager = $objectManager;
@@ -71,7 +76,7 @@ class SalesOrderPlaceAfterObserver implements ObserverInterface
         $this->_date = $date;
         $this->orderItemFactory=$orderItemFactory;
         $this->helper=$helper;
-        $this->requestHelper=$requestHelper;
+        $this->retailerRepository=$retailerRepository;
     }
 
     /**
@@ -81,23 +86,31 @@ class SalesOrderPlaceAfterObserver implements ObserverInterface
      */
     public function execute(\Magento\Framework\Event\Observer $observer)
     {
-        //insert clearomni_order item
-
         /**
-         * @var $order \Magento\Sales\Model\Order
+         * @var $quote \Magento\Quote\Model\Quote
          */
-        $order=$observer->getOrder();
-        $allItem=$order->getAllItems();
-        foreach ($allItem as $key=>$value){
-            $item=$this->orderItemFactory->create();
-            $item->setOrderItemId($value->getId());
-            $item->setOrderId($value->getOrderId());
-//            if($order->getPayment()->getMethod()=='clickandreserve'){
-//                $item->setQtyClearomniReserved();
-//            }
-            $item->save();
-        }
-        $this->requestHelper->request('/get-order/'.$order->getId());
+        $quote = $observer->getQuote();
+        $storeAvail = $this->helper->getCartAvailableInStore('cnc');
+        $code='';
+        try{
+            $retailer=$this->retailerRepository->get($quote->getShippingAddress()->getRetailerId());
+            $code=$retailer->getSellerCode();
 
+        }catch (\Exception $e){
+        }
+        $selectedStore=false;
+        foreach ($storeAvail as $key=>$value){
+            if($value['code']==$code){
+                $selectedStore=$value;
+            }
+        }
+        if($selectedStore){
+            if($selectedStore['available']==false){
+                throw new \Magento\Framework\Exception\LocalizedException(
+                    __('Some of product is out of stock')
+                );
+            }
+        }
+        
     }
 }

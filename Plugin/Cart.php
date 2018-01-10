@@ -95,7 +95,7 @@ class Cart
     protected $configurable;
 
     /**
-     * @var \Cleargo\Clearomni\Helper\Data
+     * @var \Cleargo\Clearomni\Helper\Request
      */
     protected $helper;
 
@@ -112,7 +112,7 @@ class Cart
         \Magento\Quote\Api\CartRepositoryInterface $quoteRepository,
         ProductRepositoryInterface $productRepository,
         \Magento\ConfigurableProduct\Model\Product\Type\Configurable $configurable,
-        \Cleargo\Clearomni\Helper\Data $helper
+        \Cleargo\Clearomni\Helper\Request $helper
     )
     {
         $this->_eventManager = $eventManager;
