@@ -5,7 +5,7 @@
             <label>clearomni</label>
         </tab>
         <section id="clearomni" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="10" translate="label">
-            <label>clearomni</label>
+            <label>Email</label>
             <tab>clearomni</tab>
             <resource>Cleargo_Clearomni::config_cleargo_clearomni</resource>
             <group id="clearomni" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="10" translate="label">
