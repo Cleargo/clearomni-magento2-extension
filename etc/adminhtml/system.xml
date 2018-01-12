@@ -55,8 +55,20 @@
                     <comment/>
                     <source_model>Cleargo\Clearomni\Model\Config\Source\Email\Template</source_model>
                 </field>
+            </group>
+        </section>
+        <section id="clearomni_general" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="20" translate="label">
+            <label>General</label>
+            <tab>clearomni</tab>
+            <resource>Cleargo_Clearomni::config_cleargo_clearomni</resource>
+            <group id="general" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="10" translate="label">
+                <label>General</label>
                 <field id="base_url" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="10" translate="label" type="text">
                     <label>Base url</label>
+                    <comment/>
+                </field>
+                <field id="max_reserve" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="10" translate="label" type="text">
+                    <label>Max reservation per member</label>
                     <comment/>
                 </field>
             </group>

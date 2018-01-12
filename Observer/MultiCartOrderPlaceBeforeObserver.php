@@ -5,7 +5,7 @@ use Magento\Framework\Event\ObserverInterface;
 use Magento\Framework\Session\SessionManager;
 use Magento\Framework\Webapi\Exception;
 
-class SalesOrderPlaceBeforeObserver implements ObserverInterface
+class MultiCartOrderPlaceBeforeObserver implements ObserverInterface
 {
     /**
      * @var eventManager
@@ -60,7 +60,19 @@ class SalesOrderPlaceBeforeObserver implements ObserverInterface
     /**
      * @var \Magento\Framework\Api\SearchCriteriaBuilder
      */
-    public $searchCriteriaBuilder;
+    public $searchCriteria;
+    /**
+     * @var \Magento\Framework\Api\Search\FilterGroup
+     */
+    public $filterGroup;
+    /**
+     * @var \Magento\Framework\Api\FilterBuilder
+     */
+    public $filterBuilder;
+    /**
+     * @var \Magento\Framework\Api\SearchCriteriaBuilder
+     */
+    protected $_searchCriteria;
     /**
      * @param \Magento\Framework\Event\Manager            $eventManager
      * @param \Magento\Framework\ObjectManagerInterface   $objectManager
@@ -78,6 +90,9 @@ class SalesOrderPlaceBeforeObserver implements ObserverInterface
         \Cleargo\Clearomni\Helper\Data $helper,
         \Smile\Retailer\Api\RetailerRepositoryInterface $retailerRepository,
         \Magento\Sales\Api\OrderRepositoryInterface $orderRepositoryInterface,
+        \Magento\Framework\Api\SearchCriteriaInterface $criteria,
+        \Magento\Framework\Api\Search\FilterGroup $filterGroup,
+        \Magento\Framework\Api\FilterBuilder $filterBuilder,
         \Magento\Framework\Api\SearchCriteriaBuilder $searchCriteriaBuilder
     ) {
         $this->_eventManager = $eventManager;
@@ -89,7 +104,10 @@ class SalesOrderPlaceBeforeObserver implements ObserverInterface
         $this->helper=$helper;
         $this->retailerRepository=$retailerRepository;
         $this->orderRepository = $orderRepositoryInterface;
-        $this->searchCriteriaBuilder = $searchCriteriaBuilder;
+        $this->searchCriteria = $criteria;
+        $this->filterGroup = $filterGroup;
+        $this->filterBuilder = $filterBuilder;
+        $this->_searchCriteria = $searchCriteriaBuilder;
     }
 
     /**
@@ -102,28 +120,30 @@ class SalesOrderPlaceBeforeObserver implements ObserverInterface
         /**
          * @var $quote \Magento\Quote\Model\Quote
          */
-        $quote = $observer->getQuote();
-        $storeAvail = $this->helper->getCartAvailableInStore('cnc');
-        $code='';
-        try{
-            $retailer=$this->retailerRepository->get($quote->getShippingAddress()->getRetailerId());
-            $code=$retailer->getSellerCode();
+        if($this->helper->getMaxReserve()>0) {
+            $count=0;
+            $payload=$observer->getPayload();
+            if($payload['paymentMethod']['method']=='clickandreserve') {
+                $maxReserve = $this->helper->getMaxReserve();
+                if ($this->_customerSession->isLoggedIn()) {
+                    $this->searchCriteria=$this->_searchCriteria
+                        ->addFilter('state','processing')
+                        ->addFilter('customer_id',$this->_customerSession->getCustomer()->getId())->create();
+                    $list = $this->orderRepository->getList($this->searchCriteria);
+//                    echo $list->getSelect();
+//                    exit;
+                    foreach ($list->getItems() as $key=>$value){
+                        if($value->getPayment()->getMethod()=='clickandreserve'){
+                            $count++;
+                        }
+                    }
+                    if($count>=$maxReserve){
+                        throw new \Magento\Framework\Exception\LocalizedException(__('Excess max reserve limit'));
+                    }
+                }
+            }
+        }
 
-        }catch (\Exception $e){
-        }
-        $selectedStore=false;
-        foreach ($storeAvail as $key=>$value){
-            if($value['code']==$code){
-                $selectedStore=$value;
-            }
-        }
-        if($selectedStore){
-            if($selectedStore['available']==false){
-                throw new \Magento\Framework\Exception\LocalizedException(
-                    __('Some of product is out of stock')
-                );
-            }
-        }
         
     }
 }

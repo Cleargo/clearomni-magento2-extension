@@ -6,4 +6,7 @@
 	<event name="checkout_submit_before">
 		<observer name="clearomni_sales_order_place_before_observer" instance="Cleargo\Clearomni\Observer\SalesOrderPlaceBeforeObserver" />
 	</event>
+	<event name="cleargo_multicart_member_placeorder_before">
+		<observer name="cleargo_multicart_member_placeorder_before_observer" instance="Cleargo\Clearomni\Observer\MultiCartOrderPlaceBeforeObserver" />
+	</event>
 </config>

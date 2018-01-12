@@ -10,17 +10,18 @@ use Magento\Framework\App\Helper\AbstractHelper;
 
 class Data extends AbstractHelper implements \Cleargo\Clearomni\Helper\ClearomniHelperInterface
 {
-    const XML_EMAIL_EXCHANGE_SUCCESS='clearomni/clearomni/exchange_success';
-    const XML_EMAIL_REFUND_SUCCESS='clearomni/clearomni/refund_success';
-    const XML_EMAIL_EXCHANGE_REQUESTED='clearomni/clearomni/exchange_requested';
-    const XML_EMAIL_EXCHANGE_REJECTED='clearomni/clearomni/exchange_rejected';
-    const XML_EMAIL_EXCHANGE_ACKNOWLEDGED='clearomni/clearomni/exchange_acknowledged';
-    const XML_EMAIL_PENDING_TRANSFER='clearomni/clearomni/pending_transfer';
-    const XML_EMAIL_EXPIRED='clearomni/clearomni/expired';
-    const XML_EMAIL_CANCELED='clearomni/clearomni/canceled';
-    const XML_EMAIL_READY_TO_PICK='clearomni/clearomni/ready_to_pick';
+    const XML_EMAIL_EXCHANGE_SUCCESS = 'clearomni/clearomni/exchange_success';
+    const XML_EMAIL_REFUND_SUCCESS = 'clearomni/clearomni/refund_success';
+    const XML_EMAIL_EXCHANGE_REQUESTED = 'clearomni/clearomni/exchange_requested';
+    const XML_EMAIL_EXCHANGE_REJECTED = 'clearomni/clearomni/exchange_rejected';
+    const XML_EMAIL_EXCHANGE_ACKNOWLEDGED = 'clearomni/clearomni/exchange_acknowledged';
+    const XML_EMAIL_PENDING_TRANSFER = 'clearomni/clearomni/pending_transfer';
+    const XML_EMAIL_EXPIRED = 'clearomni/clearomni/expired';
+    const XML_EMAIL_CANCELED = 'clearomni/clearomni/canceled';
+    const XML_EMAIL_READY_TO_PICK = 'clearomni/clearomni/ready_to_pick';
 
-    const XML_BASEURL_PATH = 'clearomni/clearomni/base_url';
+    const XML_BASEURL_PATH = 'clearomni_general/general/base_url';
+    const XML_MAXRESERVE = 'clearomni_general/general/max_reserve';
 
     protected $_objectManager;
     protected $_filesystem;
@@ -59,6 +60,7 @@ class Data extends AbstractHelper implements \Cleargo\Clearomni\Helper\Clearomni
      * @var \Cleargo\Clearomni\Helper\ClearomniHelperInterface
      */
     protected $externalClearomniHelper;
+
     /**
      * @param Magento\Framework\App\Helper\Context $context
      * @param Magento\Framework\ObjectManagerInterface $objectManager
@@ -95,8 +97,16 @@ class Data extends AbstractHelper implements \Cleargo\Clearomni\Helper\Clearomni
         $this->_inlineTranslation = $inlineTranslation;
         $this->_transportBuilder = $transportBuilder;
         $this->connection = $objectManager->get('Magento\Framework\App\ResourceConnection')->getConnection();
-        $this->externalClearomniHelper=$externalClearomniHelper;
+        $this->externalClearomniHelper = $externalClearomniHelper;
         parent::__construct($context);
+    }
+
+    public function getMaxReserve()
+    {
+        return $this->scopeConfig->getValue(
+            self::XML_MAXRESERVE,
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE
+        );
     }
 
     public function getBaseUrl()
@@ -106,6 +116,7 @@ class Data extends AbstractHelper implements \Cleargo\Clearomni\Helper\Clearomni
             \Magento\Store\Model\ScopeInterface::SCOPE_STORE
         );
     }
+
     public function getExchangeSuccess()
     {
         return $this->scopeConfig->getValue(
@@ -179,7 +190,8 @@ class Data extends AbstractHelper implements \Cleargo\Clearomni\Helper\Clearomni
         );
     }
 
-    public function sendEmail($emailId,$order){
+    public function sendEmail($emailId, $order)
+    {
         /**
          * @var $order \Magento\Sales\Model\Order
          */
@@ -199,7 +211,8 @@ class Data extends AbstractHelper implements \Cleargo\Clearomni\Helper\Clearomni
         return $this;
     }
 
-    public function request($url,$returnArray=true){
+    public function request($url, $returnArray = true)
+    {
         $this->curl->get($this->getBaseUrl() . $url);
         $response = json_decode($this->curl->getBody(), $returnArray);
         return $response;
@@ -212,12 +225,12 @@ class Data extends AbstractHelper implements \Cleargo\Clearomni\Helper\Clearomni
 
     public function getProductAvailableInStore($productSku, $type = 'cnr')
     {
-        return $this->externalClearomniHelper->getProductAvailableInStore($productSku,$type);
+        return $this->externalClearomniHelper->getProductAvailableInStore($productSku, $type);
     }
 
     public function getProductAvailability($productId, $storeCode = false, $sku = false, $type = 'cnr')
     {
-        return $this->externalClearomniHelper->getProductAvailability($productId,$storeCode,$sku,$type);
+        return $this->externalClearomniHelper->getProductAvailability($productId, $storeCode, $sku, $type);
     }
 
 
