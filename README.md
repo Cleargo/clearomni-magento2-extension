@@ -3,8 +3,11 @@
 ##Authentication
 get token if you facing unauth access
 detail in here
+###Authentication
 ```http://devdocs.magento.com/guides/v2.1/get-started/authentication/gs-authentication.html```
+###Token-based
 ```http://devdocs.magento.com/guides/v2.1/get-started/authentication/gs-authentication-token.html```
+###OAuth-based
 ```http://devdocs.magento.com/guides/v2.1/get-started/authentication/gs-authentication-oauth.html```
 
 ## Product
@@ -166,4 +169,3 @@ return
         "message": "Order Status is updated to closed_exchange_success"
 }
 ```
-
