@@ -1,5 +1,12 @@
 # CLEAROmni Magento 2 Connector by Cleargo team 01
 
+##Authentication
+get token if you facing unauth access
+detail in here
+http://devdocs.magento.com/guides/v2.1/get-started/authentication/gs-authentication.html
+http://devdocs.magento.com/guides/v2.1/get-started/authentication/gs-authentication-token.html
+http://devdocs.magento.com/guides/v2.1/get-started/authentication/gs-authentication-oauth.html
+
 ## Product
 ### Frontlabel
 ```/rest/V1/cleargo-clearomni/product-attribute/frontendlabels?attribute_code={attribute_code}```
