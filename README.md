@@ -117,7 +117,7 @@ GET    /rest/V1/orders/:id
 ```
     PUT /rest/V1/cleargo-clearomni/quoteitem/:id
 ```
-## with below payload
+## update with below payload
 ```
 {
   "quoteItem":{
