@@ -48,6 +48,7 @@ class OrderManagement
      */
     protected $_objectManager;
 
+    protected $clearomniOrderRepository;
     /**
      * @var \Cleargo\Clearomni\Api\Data\ApiResultInterface
      */
@@ -64,7 +65,8 @@ class OrderManagement
         \Magento\Sales\Model\Convert\Order $convertOrder,
         \Magento\Rma\Model\Rma\RmaDataMapper $rmaDataMapper,
         \Magento\Framework\ObjectManagerInterface $objectManagerInterface,
-        \Cleargo\Clearomni\Api\Data\ApiResultInterface $apiResult
+        \Cleargo\Clearomni\Api\Data\ApiResultInterface $apiResult,
+        \Cleargo\Clearomni\Api\OrderRepositoryInterface $clearomniOrderRepository
     )
     {
         $this->orderRepository = $orderRepository;
@@ -77,6 +79,7 @@ class OrderManagement
         $this->convertOrder = $convertOrder;
         $this->rmaDataMapper = $rmaDataMapper;
         $this->_objectManager = $objectManagerInterface;
+        $this->clearomniOrderRepository=$clearomniOrderRepository;
         $this->result=$apiResult;
     }
 
@@ -94,6 +97,17 @@ class OrderManagement
          * param:{"order_id":"","status":""}
          */
         /**
+         * param:{
+         *  "order_id":"",
+         *  "status":"",
+         *  "staff_code":"",
+         *  "clearomni_remarks":"",
+         *  "pickup_store":"",
+         *  "pickup_store_label":"",
+         *  "pickup_store_clearomni_id":""
+         * }
+         */
+        /**
          * @var $order \Magento\Sales\Model\Order
          */
 //        $param = json_decode($param);
@@ -105,8 +119,15 @@ class OrderManagement
         $orderId = $param['order_id'];
         //Get Order
         try {
-            $order = $this->orderRepository->get($orderId);
+            $orderRepo = $this->orderRepository->get($orderId);
             $order = $this->orderFactory->create()->load($orderId);
+            try{//order exist
+                $clearomniOrder = $this->clearomniOrderRepository->getById($orderId);
+            }catch (\Exception $e){
+                $result['result']=false;
+                $result['message']=$e->getMessage();
+                return $this->setResult($result);
+            }
         } catch (\Exception $e) {
             $result['result'] = false;
             $result['message'] = $e->getMessage();
@@ -135,9 +156,14 @@ class OrderManagement
         }
         $order->save();
 
-        //send email change status
-
-
+        //update order detail
+        if(!empty($param['staff_code'])) {
+            $clearomniOrder->setStaffCode($param['staff_code']);
+        }
+        if(!empty($param['clearomni_remarks'])) {
+            $clearomniOrder->setClearomniRemarks($param['clearomni_remarks']);
+        }
+        $this->clearomniOrderRepository->save($clearomniOrder);
 //        $this->orderRepository->save($order);
         return $this->setResult($result);
     }

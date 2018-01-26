@@ -4,6 +4,9 @@
         <clearomni>
             <general>
                 <max_reserve>3</max_reserve>
+                <cnc_shippingcode>smilestoredelivery_smilestoredelivery</cnc_shippingcode>
+                <cnr_paymentcode>clickandreserve</cnr_paymentcode>
+                <cnr_shippingcode>smilestoredelivery_smilestoredelivery</cnr_shippingcode>
             </general>
         </clearomni>
     </default>

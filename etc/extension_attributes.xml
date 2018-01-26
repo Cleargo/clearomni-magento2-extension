@@ -12,5 +12,12 @@
     <extension_attributes for="Magento\Sales\Api\Data\OrderInterface">
         <attribute code="customer_group_name" type="string" />
         <attribute code="website_id" type="string" />
+        <attribute code="order_type" type="string" />
+        <attribute code="staff_code" type="string" />
+        <attribute code="clearomni_remarks" type="string" />
+        <attribute code="customer_group_id" type="string" />
+        <attribute code="pickup_store" type="string" />
+        <attribute code="pickup_store_label" type="string" />
+        <attribute code="pickup_store_clearomni_id" type="string" />
     </extension_attributes>
 </config>

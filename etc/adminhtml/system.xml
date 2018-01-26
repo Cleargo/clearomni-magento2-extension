@@ -67,8 +67,20 @@
                     <label>Base url</label>
                     <comment/>
                 </field>
-                <field id="max_reserve" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="10" translate="label" type="text">
+                <field id="max_reserve" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="20" translate="label" type="text">
                     <label>Max reservation per member</label>
+                    <comment/>
+                </field>
+                <field id="cnc_shippingcode" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="30" translate="label" type="text">
+                    <label>Click And Collect Shipping Method Code</label>
+                    <comment/>
+                </field>
+                <field id="cnr_paymentcode" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="40" translate="label" type="text">
+                    <label>Click And Reserve Payment Method Code</label>
+                    <comment/>
+                </field>
+                <field id="cnr_shippingcode" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="50" translate="label" type="text">
+                    <label>Click And Reserve Shipping Method Code</label>
                     <comment/>
                 </field>
             </group>

@@ -70,4 +70,16 @@
 			<!--<resource ref="Cleargo_Clearomni::OrderItem_delete"/>-->
 		<!--</resources>-->
 	<!--</route>-->
+	<!--<route method="POST" url="/V1/cleargo-clearomni/order">-->
+		<!--<service class="Cleargo\Clearomni\Api\OrderRepositoryInterface" method="save"/>-->
+		<!--<resources>-->
+			<!--<resource ref="Cleargo_Clearomni::Order_save"/>-->
+		<!--</resources>-->
+	<!--</route>-->
+	<!--<route method="DELETE" url="/V1/cleargo-clearomni/:orderId">-->
+		<!--<service class="Cleargo\Clearomni\Api\OrderRepositoryInterface" method="deleteById"/>-->
+		<!--<resources>-->
+			<!--<resource ref="Cleargo_Clearomni::Order_delete"/>-->
+		<!--</resources>-->
+	<!--</route>-->
 </routes>

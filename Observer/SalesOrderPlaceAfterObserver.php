@@ -39,6 +39,11 @@ class SalesOrderPlaceAfterObserver implements ObserverInterface
     protected $orderItemFactory;
 
     /**
+     * @var \Cleargo\Clearomni\Model\OrderFactory
+     */
+    protected $orderFactory;
+
+    /**
      * @var \Cleargo\Clearomni\Helper\Data
      */
     protected $helper;
@@ -47,6 +52,18 @@ class SalesOrderPlaceAfterObserver implements ObserverInterface
      * @var \Cleargo\Clearomni\Helper\Request
      */
     protected $requestHelper;
+
+    /**
+     * @var \Cleargo\Clearomni\Api\OrderRepositoryInterface
+     */
+    protected $orderRepository;
+
+    /**
+     * @var \Cleargo\Clearomni\Model\Order
+     */
+    protected $order;
+
+    protected $connection;
     /**
      * @param \Magento\Framework\Event\Manager            $eventManager
      * @param \Magento\Framework\ObjectManagerInterface   $objectManager
@@ -61,8 +78,11 @@ class SalesOrderPlaceAfterObserver implements ObserverInterface
         SessionManager $coreSession,
         \Magento\Framework\Stdlib\DateTime\DateTime $date,
         \Cleargo\Clearomni\Model\OrderItemFactory $orderItemFactory,
+        \Cleargo\Clearomni\Model\OrderFactory $orderFactory,
+        \Cleargo\Clearomni\Api\OrderRepositoryInterface $orderRepository,
         \Cleargo\Clearomni\Helper\Data $helper,
-        \Cleargo\Clearomni\Helper\Request $requestHelper
+        \Cleargo\Clearomni\Helper\Request $requestHelper,
+        \Cleargo\Clearomni\Model\Order $order
     ) {
         $this->_eventManager = $eventManager;
         $this->_objectManager = $objectManager;
@@ -70,8 +90,12 @@ class SalesOrderPlaceAfterObserver implements ObserverInterface
         $this->_coreSession = $coreSession;
         $this->_date = $date;
         $this->orderItemFactory=$orderItemFactory;
+        $this->orderFactory=$orderFactory;
         $this->helper=$helper;
         $this->requestHelper=$requestHelper;
+        $this->orderRepository=$orderRepository;
+        $this->order=$order;
+        $this->connection=$objectManager->get('Magento\Framework\App\ResourceConnection')->getConnection();
     }
 
     /**
@@ -87,6 +111,11 @@ class SalesOrderPlaceAfterObserver implements ObserverInterface
          * @var $order \Magento\Sales\Model\Order
          */
         $order=$observer->getOrder();
+        $clearomniOrder=$this->orderFactory->create();
+        $clearomniOrder->setMagentoOrderId($order->getId());
+        $clearomniOrder->setClearomniRemarks('test');
+        $clearomniOrder->save();
+//        $this->orderRepository->save($clearomniOrder);
         $allItem=$order->getAllItems();
         foreach ($allItem as $key=>$value){
             $item=$this->orderItemFactory->create();

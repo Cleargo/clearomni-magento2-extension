@@ -232,6 +232,8 @@ class Data extends AbstractHelper implements \Cleargo\Clearomni\Helper\Clearomni
     {
         return $this->externalClearomniHelper->getProductAvailability($productId, $storeCode, $sku, $type);
     }
+    
+    
 
 
 }
