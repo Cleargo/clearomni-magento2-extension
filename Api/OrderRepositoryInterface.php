@@ -26,6 +26,13 @@ interface OrderRepositoryInterface
      * @throws \Magento\Framework\Exception\LocalizedException
      */
     public function getById($orderId);
+    /**
+     * Retrieve Order
+     * @param string $orderId
+     * @return \Cleargo\Clearomni\Api\Data\OrderInterface
+     * @throws \Magento\Framework\Exception\LocalizedException
+     */
+    public function getByOrderId($orderId);
 
     /**
      * Retrieve Order matching the specified criteria.

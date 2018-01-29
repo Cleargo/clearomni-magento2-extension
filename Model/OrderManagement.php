@@ -100,32 +100,39 @@ class OrderManagement
         return 'hello api POST return the $param ' . $param;
     }
 
-    public function updateOrder($param)
+    /**
+     * {@inheritdoc}
+     */
+    public function updateOrder($param,$items)
     {
         /**
          * param:{"order_id":"","status":""}
          */
         /**
-         * param:{
-         *  "order_id":"",
-         *  "status":"",
-         *  "staff_code":"",
-         *  "clearomni_remarks":"",
-         *  "pickup_store":"",
-         *  "pickup_store_label":"",
-         *  "pickup_store_clearomni_id":""
-         *  "items":{
-         *      "item_id":"",
-         *      "qty_clearomni_reserved": "",
-         *      "qty_clearomni_to_transfer": "",
-         *      "qty_clearomni_cancelled": "",
-         *      "qty_clearomni_completed": "",
-         *      "qty_clearomni_refunded": "",
-         *      "qty_clearomni_exchange_success": "",
-         *      "qty_clearomni_exchange_rejected": ""
-         *  }
-         * }
-         *
+        {
+        "param": {
+        "order_id": "128",
+        "status": "closed_exchange_success",
+        "staff_code": "",
+        "clearomni_remarks": "",
+        "pickup_store": "",
+        "pickup_store_label": "",
+        "pickup_store_clearomni_id": ""
+        },
+        "items": [
+        {
+        "order_item_id": "211",
+        "qty_clearomni_reserved": "99",
+        "qty_clearomni_to_transfer": "99",
+        "qty_clearomni_cancelled": "99",
+        "qty_clearomni_completed": "99",
+        "qty_clearomni_refunded": "99",
+        "qty_clearomni_exchange_success": "99",
+        "qty_clearomni_exchange_rejected": "99"
+        }
+        ]
+        }
+         
          */
         /**
          * @var $order \Magento\Sales\Model\Order
@@ -142,7 +149,7 @@ class OrderManagement
             $orderRepo = $this->orderRepository->get($orderId);
             $order = $this->orderFactory->create()->load($orderId);
             try{//order exist
-                $clearomniOrder = $this->clearomniOrderRepository->getById($orderId);
+                $clearomniOrder = $this->clearomniOrderRepository->getByOrderId($orderId);
             }catch (\Exception $e){
                 $result['result']=false;
                 $result['message']=$e->getMessage();
@@ -195,29 +202,32 @@ class OrderManagement
         if(!empty($param['pickup_store_clearomni_id'])) {
             $clearomniOrder->setPickupStoreClearomniId($param['pickup_store_clearomni_id']);
         }
-        if(isset($param['items'])){
-            foreach ($param['items'] as $key=>$value){
-                $orderItem=$this->clearomniOrderItemRepository->getByItemId($value['item_id']);
-                if(!empty($param['qty_clearomni_reserved'])) {
-                    $orderItem->setQtyClearomniReserved($param['qty_clearomni_reserved']);
+        if(!empty($items)){
+            foreach ($items as $key=>$value){
+                /**
+                 * @var \Cleargo\Clearomni\Api\Data\OrderItemInterface $value
+                 */
+                $orderItem=$this->clearomniOrderItemRepository->getByItemId($value->getOrderItemId());
+                if(!empty($value->getQtyClearomniReserved())) {
+                    $orderItem->setQtyClearomniReserved($value->getQtyClearomniReserved());
                 }
-                if(!empty($param['qty_clearomni_to_transfer'])) {
-                    $orderItem->setQtyClearomniToTransfer($param['qty_clearomni_to_transfer']);
+                if(!empty($value->getQtyClearomniToTransfer())) {
+                    $orderItem->setQtyClearomniToTransfer($value->getQtyClearomniToTransfer());
                 }
-                if(!empty($param['qty_clearomni_cancelled'])) {
-                    $orderItem->setQtyClearomniCancelled($param['qty_clearomni_cancelled']);
+                if(!empty($value->getQtyClearomniCancelled())) {
+                    $orderItem->setQtyClearomniCancelled($value->getQtyClearomniCancelled());
                 }
-                if(!empty($param['qty_clearomni_completed'])) {
-                    $orderItem->setQtyClearomniCompleted($param['qty_clearomni_completed']);
+                if(!empty($value->getQtyClearomniCompleted())) {
+                    $orderItem->setQtyClearomniCompleted($value->getQtyClearomniCompleted());
                 }
-                if(!empty($param['qty_clearomni_refunded'])) {
-                    $orderItem->setQtyClearomniRefunded($param['qty_clearomni_refunded']);
+                if(!empty($value->getQtyClearomniRefunded())) {
+                    $orderItem->setQtyClearomniRefunded($value->getQtyClearomniRefunded());
                 }
-                if(!empty($param['qty_clearomni_exchange_success'])) {
-                    $orderItem->setQtyClearomniExchangeSuccess($param['qty_clearomni_exchange_success']);
+                if(!empty($value->getQtyClearomniExchangeSuccess())) {
+                    $orderItem->setQtyClearomniExchangeSuccess($value->getQtyClearomniExchangeSuccess());
                 }
-                if(!empty($param['qty_clearomni_exchange_rejected'])) {
-                    $orderItem->setQtyClearomniExchangeRejected($param['qty_clearomni_exchange_rejected']);
+                if(!empty($value->getQtyClearomniExchangeRejected())) {
+                    $orderItem->setQtyClearomniExchangeRejected($value->getQtyClearomniExchangeRejected());
                 }
                 $this->clearomniOrderItemRepository->save($orderItem);
             }
