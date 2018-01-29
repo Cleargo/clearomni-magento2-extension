@@ -102,7 +102,7 @@ class ExtraInfo
             } catch (\Exception $e) {
             }
             $this->searchCriteria=$this->_searchCriteria
-                ->addFilter('magento_order_id',$value->getId());
+                ->addFilter('magento_order_id',$value->getId())->create();
             $list = $this->orderRepository->getList($this->searchCriteria);
             foreach ($list->getItems() as $key3=>$value3){
                 $order=$value3;

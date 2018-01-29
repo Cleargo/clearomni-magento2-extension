@@ -65,6 +65,10 @@ class SalesOrderPlaceAfterObserver implements ObserverInterface
 
     protected $connection;
     /**
+     * @var \Smile\Retailer\Api\RetailerRepositoryInterface
+     */
+    protected $retailerRepository;
+    /**
      * @param \Magento\Framework\Event\Manager            $eventManager
      * @param \Magento\Framework\ObjectManagerInterface   $objectManager
      * @param \Magento\Customer\Model\Session             $customerSession
@@ -82,6 +86,7 @@ class SalesOrderPlaceAfterObserver implements ObserverInterface
         \Cleargo\Clearomni\Api\OrderRepositoryInterface $orderRepository,
         \Cleargo\Clearomni\Helper\Data $helper,
         \Cleargo\Clearomni\Helper\Request $requestHelper,
+        \Smile\Retailer\Api\RetailerRepositoryInterface $retailerRepository,
         \Cleargo\Clearomni\Model\Order $order
     ) {
         $this->_eventManager = $eventManager;
@@ -95,6 +100,7 @@ class SalesOrderPlaceAfterObserver implements ObserverInterface
         $this->requestHelper=$requestHelper;
         $this->orderRepository=$orderRepository;
         $this->order=$order;
+        $this->retailerRepository=$retailerRepository;
         $this->connection=$objectManager->get('Magento\Framework\App\ResourceConnection')->getConnection();
     }
 
@@ -111,9 +117,13 @@ class SalesOrderPlaceAfterObserver implements ObserverInterface
          * @var $order \Magento\Sales\Model\Order
          */
         $order=$observer->getOrder();
+        $retailer=$this->retailerRepository->get($order->getSellerId());
         $clearomniOrder=$this->orderFactory->create();
         $clearomniOrder->setMagentoOrderId($order->getId());
-        $clearomniOrder->setClearomniRemarks('test');
+        $clearomniOrder->setClearomniRemarks('');
+        $clearomniOrder->setPickupStore($retailer->getSellerCode());
+        $clearomniOrder->setPickupStoreLabel($retailer->getName());
+        $clearomniOrder->setPickupStoreClearomniId($retailer->getExtensionAttributes()->getClearomniId());
         $clearomniOrder->save();
 //        $this->orderRepository->save($clearomniOrder);
         $allItem=$order->getAllItems();
