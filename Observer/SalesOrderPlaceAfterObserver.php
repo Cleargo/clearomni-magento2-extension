@@ -123,7 +123,7 @@ class SalesOrderPlaceAfterObserver implements ObserverInterface
         $clearomniOrder->setClearomniRemarks('');
         $clearomniOrder->setPickupStore($retailer->getSellerCode());
         $clearomniOrder->setPickupStoreLabel($retailer->getName());
-        $clearomniOrder->setPickupStoreClearomniId($retailer->getExtensionAttributes()->getClearomniId());
+        $clearomniOrder->setPickupStoreClearomniId($retailer->getClearomniId());
         $clearomniOrder->save();
 //        $this->orderRepository->save($clearomniOrder);
         $allItem=$order->getAllItems();
