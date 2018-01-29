@@ -48,7 +48,14 @@ class OrderManagement
      */
     protected $_objectManager;
 
+    /**
+     * @var \Cleargo\Clearomni\Api\OrderRepositoryInterface
+     */
     protected $clearomniOrderRepository;
+    /**
+     * @var \Cleargo\Clearomni\Api\OrderItemRepositoryInterface
+     */
+    protected $clearomniOrderItemRepository;
     /**
      * @var \Cleargo\Clearomni\Api\Data\ApiResultInterface
      */
@@ -66,7 +73,8 @@ class OrderManagement
         \Magento\Rma\Model\Rma\RmaDataMapper $rmaDataMapper,
         \Magento\Framework\ObjectManagerInterface $objectManagerInterface,
         \Cleargo\Clearomni\Api\Data\ApiResultInterface $apiResult,
-        \Cleargo\Clearomni\Api\OrderRepositoryInterface $clearomniOrderRepository
+        \Cleargo\Clearomni\Api\OrderRepositoryInterface $clearomniOrderRepository,
+        \Cleargo\Clearomni\Api\OrderItemRepositoryInterface $clearomniOrderItemRepository
     )
     {
         $this->orderRepository = $orderRepository;
@@ -80,6 +88,7 @@ class OrderManagement
         $this->rmaDataMapper = $rmaDataMapper;
         $this->_objectManager = $objectManagerInterface;
         $this->clearomniOrderRepository=$clearomniOrderRepository;
+        $this->clearomniOrderItemRepository=$clearomniOrderItemRepository;
         $this->result=$apiResult;
     }
 
@@ -105,7 +114,18 @@ class OrderManagement
          *  "pickup_store":"",
          *  "pickup_store_label":"",
          *  "pickup_store_clearomni_id":""
+         *  "items":{
+         *      "item_id":"",
+         *      "qty_clearomni_reserved": "",
+         *      "qty_clearomni_to_transfer": "",
+         *      "qty_clearomni_cancelled": "",
+         *      "qty_clearomni_completed": "",
+         *      "qty_clearomni_refunded": "",
+         *      "qty_clearomni_exchange_success": "",
+         *      "qty_clearomni_exchange_rejected": ""
+         *  }
          * }
+         *
          */
         /**
          * @var $order \Magento\Sales\Model\Order
@@ -162,6 +182,45 @@ class OrderManagement
         }
         if(!empty($param['clearomni_remarks'])) {
             $clearomniOrder->setClearomniRemarks($param['clearomni_remarks']);
+        }
+        if(!empty($param['clearomni_remarks'])) {
+            $clearomniOrder->setClearomniRemarks($param['clearomni_remarks']);
+        }
+        if(!empty($param['pickup_store'])) {
+            $clearomniOrder->setPickupStore($param['pickup_store']);
+        }
+        if(!empty($param['pickup_store_label'])) {
+            $clearomniOrder->setPickupStoreLabel($param['pickup_store_label']);
+        }
+        if(!empty($param['pickup_store_clearomni_id'])) {
+            $clearomniOrder->setPickupStoreClearomniId($param['pickup_store_clearomni_id']);
+        }
+        if(isset($param['items'])){
+            foreach ($param['items'] as $key=>$value){
+                $orderItem=$this->clearomniOrderItemRepository->getByItemId($value['item_id']);
+                if(!empty($param['qty_clearomni_reserved'])) {
+                    $orderItem->setQtyClearomniReserved($param['qty_clearomni_reserved']);
+                }
+                if(!empty($param['qty_clearomni_to_transfer'])) {
+                    $orderItem->setQtyClearomniToTransfer($param['qty_clearomni_to_transfer']);
+                }
+                if(!empty($param['qty_clearomni_cancelled'])) {
+                    $orderItem->setQtyClearomniCancelled($param['qty_clearomni_cancelled']);
+                }
+                if(!empty($param['qty_clearomni_completed'])) {
+                    $orderItem->setQtyClearomniCompleted($param['qty_clearomni_completed']);
+                }
+                if(!empty($param['qty_clearomni_refunded'])) {
+                    $orderItem->setQtyClearomniRefunded($param['qty_clearomni_refunded']);
+                }
+                if(!empty($param['qty_clearomni_exchange_success'])) {
+                    $orderItem->setQtyClearomniExchangeSuccess($param['qty_clearomni_exchange_success']);
+                }
+                if(!empty($param['qty_clearomni_exchange_rejected'])) {
+                    $orderItem->setQtyClearomniExchangeRejected($param['qty_clearomni_exchange_rejected']);
+                }
+                $this->clearomniOrderItemRepository->save($orderItem);
+            }
         }
         $this->clearomniOrderRepository->save($clearomniOrder);
 //        $this->orderRepository->save($order);

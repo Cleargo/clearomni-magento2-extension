@@ -64,22 +64,22 @@
 			<resource ref="Cleargo_Clearomni::OrderItem_update"/>
 		</resources>
 	</route>
-	<!--<route method="DELETE" url="/V1/cleargo-clearomni/quoteitem/:id">-->
-		<!--<service class="Cleargo\Clearomni\Api\OrderItemRepositoryInterface" method="deleteById"/>-->
-		<!--<resources>-->
-			<!--<resource ref="Cleargo_Clearomni::OrderItem_delete"/>-->
-		<!--</resources>-->
-	<!--</route>-->
-	<!--<route method="POST" url="/V1/cleargo-clearomni/order">-->
-		<!--<service class="Cleargo\Clearomni\Api\OrderRepositoryInterface" method="save"/>-->
-		<!--<resources>-->
-			<!--<resource ref="Cleargo_Clearomni::Order_save"/>-->
-		<!--</resources>-->
-	<!--</route>-->
-	<!--<route method="DELETE" url="/V1/cleargo-clearomni/:orderId">-->
-		<!--<service class="Cleargo\Clearomni\Api\OrderRepositoryInterface" method="deleteById"/>-->
-		<!--<resources>-->
-			<!--<resource ref="Cleargo_Clearomni::Order_delete"/>-->
-		<!--</resources>-->
-	<!--</route>-->
+	<route method="GET" url="/V1/cleargo-clearomni/search">
+		<service class="Cleargo\Clearomni\Api\OrderRepositoryInterface" method="getList"/>
+		<resources>
+			<resource ref="Cleargo_Clearomni::Order_view"/>
+		</resources>
+	</route>
+	<route method="GET" url="/V1/cleargo-clearomni/:orderId">
+		<service class="Cleargo\Clearomni\Api\OrderRepositoryInterface" method="getById"/>
+		<resources>
+			<resource ref="Cleargo_Clearomni::Order_view"/>
+		</resources>
+	</route>
+	<route method="PUT" url="/V1/cleargo-clearomni/:orderId">
+		<service class="Cleargo\Clearomni\Api\OrderRepositoryInterface" method="save"/>
+		<resources>
+			<resource ref="Cleargo_Clearomni::Order_update"/>
+		</resources>
+	</route>
 </routes>
