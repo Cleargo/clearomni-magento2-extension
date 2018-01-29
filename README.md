@@ -145,10 +145,37 @@ POST /rest/V1/cleargo-clearomni/order/update
 ## body
 ```
 {
-  "param":{
-   "order_id":"80", //order_id
-   "status":"closed_exchange_success" //order_status
- }
+  "param": {
+    "order_id": "128",
+    "status": "closed_exchange_success",
+    "staff_code": "9994",
+    "clearomni_remarks": "4445",
+    "pickup_store": "666",
+    "pickup_store_label": "555",
+    "pickup_store_clearomni_id": "1"
+  },
+  "items": [
+      {
+        "order_item_id": "211",
+        "qty_clearomni_reserved": "99",
+        "qty_clearomni_to_transfer": "99",
+        "qty_clearomni_cancelled": "99",
+        "qty_clearomni_completed": "99",
+        "qty_clearomni_refunded": "99",
+        "qty_clearomni_exchange_success": "99",
+        "qty_clearomni_exchange_rejected": "99"
+      },
+      {
+        "order_item_id": "210",
+        "qty_clearomni_reserved": "991",
+        "qty_clearomni_to_transfer": "991",
+        "qty_clearomni_cancelled": "991",
+        "qty_clearomni_completed": "991",
+        "qty_clearomni_refunded": "991",
+        "qty_clearomni_exchange_success": "991",
+        "qty_clearomni_exchange_rejected": "991"
+      }
+    ]
 }
 ```
 return
