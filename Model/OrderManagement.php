@@ -170,7 +170,7 @@ class OrderManagement
         }
         if ($state == $order->getState()) {
             if ($statusExist > 0) {
-                $order->addStatusHistoryComment('Order Status is updated to ' . $status . ' by api', $status);
+                $order->addStatusHistoryComment('Order Status is updated to ' . $status . ' by api'.'with below payload'.json_encode($param), $status);
                 $result['result'] = true;
                 $result['message'] = 'Order Status is updated to ' . $status;
             } else {
