@@ -92,6 +92,73 @@ class UpgradeSchema implements UpgradeSchemaInterface
 
             $setup->getConnection()->createTable($table_cleargo_clearomni_order);
         }
+        if (version_compare($context->getVersion(), "1.0.2", "<")) {
+            //Your upgrade script
+            $table_cleargo_clearomni_order = $setup->getConnection()->newTable($setup->getTable('cleargo_clearomni_api_log'));
+
+
+            $table_cleargo_clearomni_order->addColumn(
+                'id',
+                \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
+                null,
+                array('identity' => true,'nullable' => false,'primary' => true,'unsigned' => true,),
+                'Entity ID'
+            );
+
+
+
+            $table_cleargo_clearomni_order->addColumn(
+                'request_url',
+                \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
+                null,
+                [],
+                'request_url'
+            );
+
+
+
+            $table_cleargo_clearomni_order->addColumn(
+                'request_body',
+                \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
+                null,
+                [],
+                'request_body'
+            );
+
+
+
+            $table_cleargo_clearomni_order->addColumn(
+                'response_body',
+                \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
+                null,
+                [],
+                'response_body'
+            );
+
+
+
+            $table_cleargo_clearomni_order->addColumn(
+                'response_code',
+                \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
+                null,
+                [],
+                'response_code'
+            );
+
+
+
+            $table_cleargo_clearomni_order->addColumn(
+                'date',
+                \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
+                null,
+                [],
+                'date'
+            );
+
+
+
+            $setup->getConnection()->createTable($table_cleargo_clearomni_order);
+        }
         $setup->endSetup();
     }
 }
