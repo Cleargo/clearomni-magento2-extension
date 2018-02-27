@@ -8,6 +8,17 @@
                 <cnr_paymentcode>clickandreserve</cnr_paymentcode>
                 <cnr_shippingcode>smilestoredelivery_smilestoredelivery</cnr_shippingcode>
             </general>
+            <clearomni>
+                <exchange_success>no_template</exchange_success>
+                <refund_success>no_template</refund_success>
+                <exchange_requested>no_template</exchange_requested>
+                <exchange_rejected>no_template</exchange_rejected>
+                <exchange_acknowledged>no_template</exchange_acknowledged>
+                <pending_transfer>no_template</pending_transfer>
+                <expired>no_template</expired>
+                <canceled>no_template</canceled>
+                <ready_to_pick>no_template</ready_to_pick>
+            </clearomni>
         </clearomni>
     </default>
 </config>
