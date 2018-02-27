@@ -5,7 +5,7 @@ use Magento\Framework\Event\ObserverInterface;
 use Magento\Framework\Session\SessionManager;
 use Magento\Framework\Webapi\Exception;
 
-class SalesOrderPlaceAfterObserver implements ObserverInterface
+class InvoiceRegisterObserver implements ObserverInterface
 {
     /**
      * @var eventManager
@@ -117,27 +117,7 @@ class SalesOrderPlaceAfterObserver implements ObserverInterface
          * @var $order \Magento\Sales\Model\Order
          */
         $order=$observer->getOrder();
-        $retailer=$this->retailerRepository->get($order->getSellerId());
-        $clearomniOrder=$this->orderFactory->create();
-        $clearomniOrder->setMagentoOrderId($order->getId());
-        $clearomniOrder->setClearomniRemarks('');
-        $clearomniOrder->setPickupStore($retailer->getSellerCode());
-        $clearomniOrder->setPickupStoreLabel($retailer->getName());
-        $clearomniOrder->setPickupStoreClearomniId($retailer->getClearomniId());
-        $clearomniOrder->save();
-//        $this->orderRepository->save($clearomniOrder);
-        $allItem=$order->getAllItems();
-        foreach ($allItem as $key=>$value){
-            $item=$this->orderItemFactory->create();
-            $item->setOrderItemId($value->getId());
-            $item->setOrderId($value->getOrderId());
-//            if($order->getPayment()->getMethod()=='clickandreserve'){
-//                $item->setQtyClearomniReserved();
-//            }
-            $item->save();
-        }
-        //move to InvoiceRegisterObserver
-//        $this->requestHelper->request('/get-order/'.$order->getId());
+        $this->requestHelper->request('/get-order/'.$order->getId());
 
     }
 }
