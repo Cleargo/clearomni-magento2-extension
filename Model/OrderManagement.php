@@ -181,6 +181,7 @@ class OrderManagement
         } else {
             $result = $this->handleOrder($order, $status);
         }
+        $order->setUpdatedAt(gmdate('Y-m-d H:i:s'));
         $order->save();
 
         //update order detail
