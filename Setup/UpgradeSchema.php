@@ -157,6 +157,16 @@ class UpgradeSchema implements UpgradeSchemaInterface
 
 
 
+            $table_cleargo_clearomni_order->addColumn(
+                'debug',
+                \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
+                null,
+                [],
+                'Debug stack trace'
+            );
+
+
+
             $setup->getConnection()->createTable($table_cleargo_clearomni_order);
         }
         $setup->endSetup();

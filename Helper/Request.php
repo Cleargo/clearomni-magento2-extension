@@ -95,12 +95,13 @@ class Request extends AbstractHelper
     }
     public function request($url,$returnArray=true){
         $this->curl->get($this->getBaseUrl() . $url);
-        $query=$this->connection->prepare('insert into cleargo_clearomni_api_log set request_url=?,request_body=?,response_body=?,response_code=?,`date`=?');
+        $query=$this->connection->prepare('insert into cleargo_clearomni_api_log set request_url=?,request_body=?,response_body=?,response_code=?,`date`=?,`debug`=?');
         $query->bindValue(1,$url);
         $query->bindValue(2,'empty');
         $query->bindValue(3,$this->curl->getBody());
         $query->bindValue(4,$this->curl->getStatus());
         $query->bindValue(5,date('d-m-Y H:i:s'));
+        $query->bindValue(6,json_encode(debug_backtrace()));
         $query->execute();
         $response = json_decode($this->curl->getBody(), $returnArray);
         return $response;
