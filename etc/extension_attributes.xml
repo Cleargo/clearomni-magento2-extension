@@ -8,6 +8,7 @@
         <attribute code="qty_clearomni_refunded" type="float" />
         <attribute code="qty_clearomni_exchange_success" type="float" />
         <attribute code="qty_clearomni_exchange_rejected" type="float" />
+        <attribute code="qty_clearomni_ready_to_pick" type="float" />
     </extension_attributes>
     <extension_attributes for="Magento\Sales\Api\Data\OrderInterface">
         <attribute code="customer_group_name" type="string" />
