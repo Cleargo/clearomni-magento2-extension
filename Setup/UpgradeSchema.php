@@ -169,6 +169,18 @@ class UpgradeSchema implements UpgradeSchemaInterface
 
             $setup->getConnection()->createTable($table_cleargo_clearomni_order);
         }
+        if (version_compare($context->getVersion(), '1.0.3', '<')) {
+            $setup->getConnection()->addColumn(
+                $setup->getTable('cleargo_clearomni_orderitem'),
+                'qty_clearomni_ready_to_pick',
+                [
+                    'type' => \Magento\Framework\DB\Ddl\Table::TYPE_DECIMAL,
+                    'length' => '12,4',
+                    'comment' => 'qty_clearomni_reserved',
+                    'precision' => 10,'scale' => 4,'default' => '0'
+                ]
+            );
+        }
         $setup->endSetup();
     }
 }

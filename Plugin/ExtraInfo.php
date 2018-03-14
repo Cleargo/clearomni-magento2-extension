@@ -80,6 +80,7 @@ class ExtraInfo
                     $extensionAttributes->setQtyClearomniRefunded($orderItem->getQtyClearomniRefunded());
                     $extensionAttributes->setQtyClearomniExchangeSuccess($orderItem->getQtyClearomniExchangeSuccess());
                     $extensionAttributes->setQtyClearomniExchangeRejected($orderItem->getQtyClearomniExchangeRejected());
+                    $extensionAttributes->setQtyClearomniReadyToPick($orderItem->getQtyClearomniReadyToPick());
                 } catch (\Exception $e) {
 
                 }
@@ -140,6 +141,7 @@ class ExtraInfo
                 $extensionAttributes->setQtyClearomniRefunded($orderItem->getQtyClearomniRefunded());
                 $extensionAttributes->setQtyClearomniExchangeSuccess($orderItem->getQtyClearomniExchangeSuccess());
                 $extensionAttributes->setQtyClearomniExchangeRejected($orderItem->getQtyClearomniExchangeRejected());
+                $extensionAttributes->setQtyClearomniReadyToPick($orderItem->getQtyClearomniReadyToPick());
             } catch (\Exception $e) {
 
             }

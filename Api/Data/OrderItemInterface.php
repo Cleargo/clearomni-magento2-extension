@@ -16,6 +16,7 @@ interface OrderItemInterface
     const QTY_CLEAROMNI_COMPLETED = 'qty_clearomni_completed';
     const ORDER_ITEM_ID = 'order_item_id';
     const QTY_CLEAROMNI_CANCELLED = 'qty_clearomni_cancelled';
+    const QTY_CLEAROMNI_READY_TO_PICK = 'qty_clearomni_ready_to_pick';
 
 
     /**
@@ -147,4 +148,17 @@ interface OrderItemInterface
      * @return \Cleargo\Clearomni\Api\Data\OrderItemInterface
      */
     public function setQtyClearomniExchangeRejected($qty_clearomni_exchange_rejected);
+
+    /**
+     * Get qty_clearomni_ready_to_pick
+     * @return string|null
+     */
+    public function getQtyClearomniReadyToPick();
+
+    /**
+     * Set qty_clearomni_ready_to_pick
+     * @param string $qty_clearomni_exchange_rejected
+     * @return \Cleargo\Clearomni\Api\Data\OrderItemInterface
+     */
+    public function setQtyClearomniReadyToPick($qty_clearomni_ready_to_pick);
 }
