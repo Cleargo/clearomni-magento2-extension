@@ -205,4 +205,15 @@ class OrderItem extends \Magento\Framework\Model\AbstractModel implements OrderI
     {
         return $this->setData(self::QTY_CLEAROMNI_EXCHANGE_REJECTED, $qty_clearomni_exchange_rejected);
     }
+
+    public function getQtyClearomniReadyToPick()
+    {
+        return $this->getData(self::QTY_CLEAROMNI_READY_TO_PICK);
+    }
+
+    public function setQtyClearomniReadyToPick($qty_clearomni_ready_to_pick)
+    {
+        return $this->setData(self::QTY_CLEAROMNI_READY_TO_PICK, $qty_clearomni_ready_to_pick);
+    }
+
 }
