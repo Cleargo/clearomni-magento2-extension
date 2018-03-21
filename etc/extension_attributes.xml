@@ -9,6 +9,10 @@
         <attribute code="qty_clearomni_exchange_success" type="float" />
         <attribute code="qty_clearomni_exchange_rejected" type="float" />
         <attribute code="qty_clearomni_ready_to_pick" type="float" />
+        <attribute code="qty_clearomni_still_considering" type="float" />
+        <attribute code="qty_clearomni_not_interested" type="float" />
+        <attribute code="qty_clearomni_no_show" type="float" />
+        <attribute code="qty_clearomni_closed" type="float" />
     </extension_attributes>
     <extension_attributes for="Magento\Sales\Api\Data\OrderInterface">
         <attribute code="customer_group_name" type="string" />
@@ -20,5 +24,7 @@
         <attribute code="pickup_store" type="string" />
         <attribute code="pickup_store_label" type="string" />
         <attribute code="pickup_store_clearomni_id" type="string" />
+        <attribute code="visiting_date" type="string" />
+        <attribute code="visiting_hour" type="string" />
     </extension_attributes>
 </config>

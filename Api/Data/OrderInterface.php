@@ -13,6 +13,8 @@ interface OrderInterface
     const MAGNETO_ORDER_ID = 'magento_order_id';
     const PICKUP_STORE = 'pickup_store';
     const CLEAROMNI_REMARKS = 'clearomni_remarks';
+    const VISITING_DATE = 'visiting_date';
+    const VISITING_HOUR = 'visiting_hour';
 
 
     /**
@@ -105,4 +107,30 @@ interface OrderInterface
      * @return \Cleargo\Clearomni\Api\Data\OrderInterface
      */
     public function setMagentoOrderId($magento_order_id);
+
+    /**
+     * Get visiting_date
+     * @return string|null
+     */
+    public function getVisitingDate();
+
+    /**
+     * Set visiting_date
+     * @param string $visiting_date
+     * @return \Cleargo\Clearomni\Api\Data\OrderInterface
+     */
+    public function setVisitingDate($visiting_date);
+
+    /**
+     * Get visiting_hour
+     * @return string|null
+     */
+    public function getVisitingHour();
+
+    /**
+     * Set visiting_hour
+     * @param string $visiting_hour
+     * @return \Cleargo\Clearomni\Api\Data\OrderInterface
+     */
+    public function setVisitingHour($visiting_hour);
 }

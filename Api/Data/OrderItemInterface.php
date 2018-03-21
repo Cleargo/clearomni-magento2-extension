@@ -17,6 +17,10 @@ interface OrderItemInterface
     const ORDER_ITEM_ID = 'order_item_id';
     const QTY_CLEAROMNI_CANCELLED = 'qty_clearomni_cancelled';
     const QTY_CLEAROMNI_READY_TO_PICK = 'qty_clearomni_ready_to_pick';
+    const QTY_CLEAROMNI_STILL_CONSIDERING = 'qty_clearomni_still_considering';
+    const QTY_CLEAROMNI_NOT_INTERESTING = 'qty_clearomni_not_interested';
+    const QTY_CLEAROMNI_NO_SHOW = 'qty_clearomni_no_show';
+    const QTY_CLEAROMNI_CLOSED = 'qty_clearomni_closed';
 
 
     /**
@@ -161,4 +165,57 @@ interface OrderItemInterface
      * @return \Cleargo\Clearomni\Api\Data\OrderItemInterface
      */
     public function setQtyClearomniReadyToPick($qty_clearomni_ready_to_pick);
+
+
+    /**
+     * Get qty_clearomni_still_considering
+     * @return string|null
+     */
+    public function getQtyClearomniStillConsidering();
+
+    /**
+     * Set qty_clearomni_still_considering
+     * @param string $qty_clearomni_still_considering
+     * @return \Cleargo\Clearomni\Api\Data\OrderItemInterface
+     */
+    public function setQtyClearomniStillConsidering($qty_clearomni_still_considering);
+
+    /**
+     * Get qty_clearomni_not_interested
+     * @return string|null
+     */
+    public function getQtyClearomniNotInterested();
+
+    /**
+     * Set qty_clearomni_not_interested
+     * @param string $qty_clearomni_not_interested
+     * @return \Cleargo\Clearomni\Api\Data\OrderItemInterface
+     */
+    public function setQtyClearomniNotInterested($qty_clearomni_not_interested);
+
+    /**
+     * Get qty_clearomni_no_show
+     * @return string|null
+     */
+    public function getQtyClearomniNoShow();
+
+    /**
+     * Set qty_clearomni_no_show
+     * @param string $qty_clearomni_no_show
+     * @return \Cleargo\Clearomni\Api\Data\OrderItemInterface
+     */
+    public function setQtyClearomniNoShow($qty_clearomni_no_show);
+
+    /**
+     * Get qty_clearomni_closed
+     * @return string|null
+     */
+    public function getQtyClearomniClosed();
+
+    /**
+     * Set qty_clearomni_closed
+     * @param string $qty_clearomni_closed
+     * @return \Cleargo\Clearomni\Api\Data\OrderItemInterface
+     */
+    public function setQtyClearomniClosed($qty_clearomni_closed);
 }

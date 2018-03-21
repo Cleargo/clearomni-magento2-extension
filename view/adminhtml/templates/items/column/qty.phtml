@@ -91,5 +91,29 @@ $orderItemRepos=$objectManager->get('Cleargo\Clearomni\Model\OrderItemRepository
             <td><?= /* @escapeNotVerified */ $item->getQtyClearomniToTransfer()*1 ?></td>
         </tr>
     <?php endif;?>
+    <?php if((float)$item->getQtyClearomniStillConsidering()):?>
+        <tr>
+            <th><?= /* @escapeNotVerified */ __('Clearomni Still Considering') ?></th>
+            <td><?= /* @escapeNotVerified */ $item->getQtyClearomniStillConsidering()*1 ?></td>
+        </tr>
+    <?php endif;?>
+    <?php if((float)$item->getQtyClearomniNotInterested()):?>
+        <tr>
+            <th><?= /* @escapeNotVerified */ __('Clearomni Not Interested') ?></th>
+            <td><?= /* @escapeNotVerified */ $item->getQtyClearomniNotInterested()*1 ?></td>
+        </tr>
+    <?php endif;?>
+    <?php if((float)$item->getQtyClearomniNoShow()):?>
+        <tr>
+            <th><?= /* @escapeNotVerified */ __('Clearomni No Show') ?></th>
+            <td><?= /* @escapeNotVerified */ $item->getQtyClearomniNoShow()*1 ?></td>
+        </tr>
+    <?php endif;?>
+    <?php if((float)$item->getQtyClearomniClosed()):?>
+        <tr>
+            <th><?= /* @escapeNotVerified */ __('Clearomni Closed') ?></th>
+            <td><?= /* @escapeNotVerified */ $item->getQtyClearomniClosed()*1 ?></td>
+        </tr>
+    <?php endif;?>
 </table>
 <?php endif; ?>

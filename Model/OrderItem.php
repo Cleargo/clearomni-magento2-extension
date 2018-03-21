@@ -205,4 +205,99 @@ class OrderItem extends \Magento\Framework\Model\AbstractModel implements OrderI
     {
         return $this->setData(self::QTY_CLEAROMNI_EXCHANGE_REJECTED, $qty_clearomni_exchange_rejected);
     }
+
+    /**
+     * Get qty_clearomni_ready_to_pick
+     * @return string
+     */
+    public function getQtyClearomniReadyToPick()
+    {
+        return $this->getData(self::QTY_CLEAROMNI_READY_TO_PICK);
+    }
+
+    /**
+     * Set qty_clearomni_ready_to_pick
+     * @param string $qty_clearomni_ready_to_pick
+     * @return \Cleargo\Clearomni\Api\Data\OrderItemInterface
+     */
+    public function setQtyClearomniReadyToPick($qty_clearomni_ready_to_pick)
+    {
+        return $this->setData(self::QTY_CLEAROMNI_READY_TO_PICK, $qty_clearomni_ready_to_pick);
+    }
+
+    /**
+     * Get qty_clearomni_still_considering
+     * @return string
+     */
+    public function getQtyClearomniStillConsidering()
+    {
+        return $this->getData(self::QTY_CLEAROMNI_STILL_CONSIDERING);
+    }
+
+    /**
+     * Set qty_clearomni_still_considering
+     * @param string $qty_clearomni_still_considering
+     * @return \Cleargo\Clearomni\Api\Data\OrderItemInterface
+     */
+    public function setQtyClearomniStillConsidering($qty_clearomni_still_considering)
+    {
+        return $this->setData(self::QTY_CLEAROMNI_STILL_CONSIDERING, $qty_clearomni_still_considering);
+    }
+
+    /**
+     * Get qty_clearomni_not_interested
+     * @return string
+     */
+    public function getQtyClearomniNotInterested()
+    {
+        return $this->getData(self::QTY_CLEAROMNI_NOT_INTERESTING);
+    }
+
+    /**
+     * Set qty_clearomni_not_interested
+     * @param string $qty_clearomni_not_interested
+     * @return \Cleargo\Clearomni\Api\Data\OrderItemInterface
+     */
+    public function setQtyClearomniNotInterested($qty_clearomni_not_interested)
+    {
+        return $this->setData(self::QTY_CLEAROMNI_NOT_INTERESTING, $qty_clearomni_not_interested);
+    }
+
+    /**
+     * Get qty_clearomni_no_show
+     * @return string
+     */
+    public function getQtyClearomniNoShow()
+    {
+        return $this->getData(self::QTY_CLEAROMNI_NO_SHOW);
+    }
+
+    /**
+     * Set qty_clearomni_no_show
+     * @param string $qty_clearomni_no_show
+     * @return \Cleargo\Clearomni\Api\Data\OrderItemInterface
+     */
+    public function setQtyClearomniNoShow($qty_clearomni_no_show)
+    {
+        return $this->setData(self::QTY_CLEAROMNI_NO_SHOW, $qty_clearomni_no_show);
+    }
+
+    /**
+     * Get qty_clearomni_closed
+     * @return string
+     */
+    public function getQtyClearomniClosed()
+    {
+        return $this->getData(self::QTY_CLEAROMNI_CLOSED);
+    }
+
+    /**
+     * Set qty_clearomni_closed
+     * @param string $qty_clearomni_closed
+     * @return \Cleargo\Clearomni\Api\Data\OrderItemInterface
+     */
+    public function setQtyClearomniClosed($qty_clearomni_closed)
+    {
+        return $this->setData(self::QTY_CLEAROMNI_CLOSED, $qty_clearomni_closed);
+    }
 }

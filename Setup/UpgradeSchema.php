@@ -181,6 +181,66 @@ class UpgradeSchema implements UpgradeSchemaInterface
                 ]
             );
         }
+        if (version_compare($context->getVersion(), '1.0.4', '<')) {
+            $setup->getConnection()->addColumn(
+                $setup->getTable('cleargo_clearomni_orderitem'),
+                'qty_clearomni_still_considering',
+                [
+                    'type' => \Magento\Framework\DB\Ddl\Table::TYPE_DECIMAL,
+                    'length' => '12,4',
+                    'comment' => 'qty_clearomni_still_considering',
+                    'precision' => 10,'scale' => 4,'default' => '0'
+                ]
+            );
+            $setup->getConnection()->addColumn(
+                $setup->getTable('cleargo_clearomni_orderitem'),
+                'qty_clearomni_not_interested',
+                [
+                    'type' => \Magento\Framework\DB\Ddl\Table::TYPE_DECIMAL,
+                    'length' => '12,4',
+                    'comment' => 'qty_clearomni_not_interested',
+                    'precision' => 10,'scale' => 4,'default' => '0'
+                ]
+            );
+            $setup->getConnection()->addColumn(
+                $setup->getTable('cleargo_clearomni_orderitem'),
+                'qty_clearomni_no_show',
+                [
+                    'type' => \Magento\Framework\DB\Ddl\Table::TYPE_DECIMAL,
+                    'length' => '12,4',
+                    'comment' => 'qty_clearomni_no_show',
+                    'precision' => 10,'scale' => 4,'default' => '0'
+                ]
+            );
+            $setup->getConnection()->addColumn(
+                $setup->getTable('cleargo_clearomni_orderitem'),
+                'qty_clearomni_closed',
+                [
+                    'type' => \Magento\Framework\DB\Ddl\Table::TYPE_DECIMAL,
+                    'length' => '12,4',
+                    'comment' => 'qty_clearomni_closed',
+                    'precision' => 10,'scale' => 4,'default' => '0'
+                ]
+            );
+        }
+        if (version_compare($context->getVersion(), '1.0.5', '<')) {
+            $setup->getConnection()->addColumn(
+                $setup->getTable('cleargo_clearomni_order'),
+                'visiting_date',
+                [
+                    'type' => \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
+                    'comment' => 'visiting_date'
+                ]
+            );
+            $setup->getConnection()->addColumn(
+                $setup->getTable('cleargo_clearomni_order'),
+                'visiting_hour',
+                [
+                    'type' => \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
+                    'comment' => 'visiting_hour'
+                ]
+            );
+        }
         $setup->endSetup();
     }
 }

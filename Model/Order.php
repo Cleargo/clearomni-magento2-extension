@@ -148,4 +148,42 @@ class Order extends \Magento\Framework\Model\AbstractModel implements OrderInter
     {
         return $this->setData(self::MAGNETO_ORDER_ID, $magento_order_id);
     }
+
+    /**
+     * Get visiting_date
+     * @return string
+     */
+    public function getVisitingDate()
+    {
+        return $this->getData(self::VISITING_DATE);
+    }
+
+    /**
+     * Set visiting_date
+     * @param string $visiting_date
+     * @return \Cleargo\Clearomni\Api\Data\OrderInterface
+     */
+    public function setVisitingDate($visiting_date)
+    {
+        return $this->setData(self::VISITING_DATE, $visiting_date);
+    }
+
+    /**
+     * Get visiting_hour
+     * @return string
+     */
+    public function getVisitingHour()
+    {
+        return $this->getData(self::VISITING_HOUR);
+    }
+
+    /**
+     * Set visiting_hour
+     * @param string $visiting_hour
+     * @return \Cleargo\Clearomni\Api\Data\OrderInterface
+     */
+    public function setVisitingHour($visiting_hour)
+    {
+        return $this->setData(self::VISITING_HOUR, $visiting_hour);
+    }
 }

@@ -203,6 +203,12 @@ class OrderManagement
         if(!empty($param['pickup_store_clearomni_id'])) {
             $clearomniOrder->setPickupStoreClearomniId($param['pickup_store_clearomni_id']);
         }
+        if(!empty($param['visiting_date'])) {
+            $clearomniOrder->setVisitingDate($param['visiting_date']);
+        }
+        if(!empty($param['visiting_hour'])) {
+            $clearomniOrder->setVisitingHour($param['visiting_hour']);
+        }
         if(!empty($items)){
             foreach ($items as $key=>$value){
                 /**
@@ -229,6 +235,18 @@ class OrderManagement
                 }
                 if(!empty($value->getQtyClearomniExchangeRejected())) {
                     $orderItem->setQtyClearomniExchangeRejected($value->getQtyClearomniExchangeRejected());
+                }
+                if(!empty($value->getQtyClearomniStillConsidering())) {
+                    $orderItem->setQtyClearomniStillConsidering($value->getQtyClearomniStillConsidering());
+                }
+                if(!empty($value->getQtyClearomniNotInterested())) {
+                    $orderItem->setQtyClearomniNotInterested($value->getQtyClearomniNotInterested());
+                }
+                if(!empty($value->getQtyClearomniNoShow())) {
+                    $orderItem->setQtyClearomniNoShow($value->getQtyClearomniNoShow());
+                }
+                if(!empty($value->getQtyClearomniClosed())) {
+                    $orderItem->setQtyClearomniClosed($value->getQtyClearomniClosed());
                 }
                 $this->clearomniOrderItemRepository->save($orderItem);
             }

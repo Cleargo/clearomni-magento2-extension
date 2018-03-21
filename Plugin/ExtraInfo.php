@@ -81,6 +81,10 @@ class ExtraInfo
                     $extensionAttributes->setQtyClearomniExchangeSuccess($orderItem->getQtyClearomniExchangeSuccess());
                     $extensionAttributes->setQtyClearomniExchangeRejected($orderItem->getQtyClearomniExchangeRejected());
                     $extensionAttributes->setQtyClearomniReadyToPick($orderItem->getQtyClearomniReadyToPick());
+                    $extensionAttributes->setQtyClearomniStillConsidering($orderItem->getQtyClearomniStillConsidering());
+                    $extensionAttributes->setQtyClearomniNotInterested($orderItem->getQtyClearomniNotInterested());
+                    $extensionAttributes->setQtyClearomniNoShow($orderItem->getQtyClearomniNoShow());
+                    $extensionAttributes->setQtyClearomniClosed($orderItem->getQtyClearomniClosed());
                 } catch (\Exception $e) {
 
                 }
@@ -142,6 +146,11 @@ class ExtraInfo
                 $extensionAttributes->setQtyClearomniExchangeSuccess($orderItem->getQtyClearomniExchangeSuccess());
                 $extensionAttributes->setQtyClearomniExchangeRejected($orderItem->getQtyClearomniExchangeRejected());
                 $extensionAttributes->setQtyClearomniReadyToPick($orderItem->getQtyClearomniReadyToPick());
+                $extensionAttributes->setQtyClearomniStillConsidering($orderItem->getQtyClearomniStillConsidering());
+                $extensionAttributes->setQtyClearomniNotInterested($orderItem->getQtyClearomniNotInterested());
+                $extensionAttributes->setQtyClearomniNoShow($orderItem->getQtyClearomniNoShow());
+                $extensionAttributes->setQtyClearomniClosed($orderItem->getQtyClearomniClosed());
+
             } catch (\Exception $e) {
 
             }
@@ -177,6 +186,8 @@ class ExtraInfo
                 $extensionAttributes2->setPickupStore($order->getPickupStore());
                 $extensionAttributes2->setPickupStoreLabel($order->getPickupStoreLabel());
                 $extensionAttributes2->setPickupStoreClearomniId($order->getPickupStoreClearomniId());
+                $extensionAttributes2->setVisitingDate($order->getVisitingDate());
+                $extensionAttributes2->setVisitingHour($order->getVisitingHour());
             }
         } catch (\Exception $e) {
         }
