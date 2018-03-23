@@ -20,4 +20,5 @@
 	<type name="Magento\Checkout\Model\Cart">
 		<plugin name="cart_plugin" type="Cleargo\Clearomni\Plugin\Cart" sortOrder="0" disabled="false" />
 	</type>
+	<preference for="Cleargo\Clearomni\Api\Data\ProductOptionInterface" type="Cleargo\Clearomni\Model\Data\ProductOption"/>
 </config>

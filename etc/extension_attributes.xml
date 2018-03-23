@@ -13,6 +13,7 @@
         <attribute code="qty_clearomni_not_interested" type="float" />
         <attribute code="qty_clearomni_no_show" type="float" />
         <attribute code="qty_clearomni_closed" type="float" />
+        <attribute code="product_option" type="Cleargo\Clearomni\Api\Data\ProductOptionInterface[]" />
     </extension_attributes>
     <extension_attributes for="Magento\Sales\Api\Data\OrderInterface">
         <attribute code="customer_group_name" type="string" />

@@ -40,6 +40,13 @@ class ExtraInfo
      */
     protected $util;
 
+    /**
+     * @var \Cleargo\Clearomni\Model\Data\ProductOptionFactory
+     */
+    public $productOptionFactory;
+
+    public $connection;
+
     public function __construct(
         \Magento\Quote\Model\QuoteRepository $quoteRepository,
         \Cleargo\Clearomni\Model\OrderItemRepository $orderItemRepository,
@@ -50,7 +57,8 @@ class ExtraInfo
         \Magento\Framework\Api\FilterBuilder $filterBuilder,
         \Magento\Framework\Api\SearchCriteriaBuilder $searchCriteriaBuilder,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
-        \Cleargo\Clearomni\Helper\Util $util
+        \Cleargo\Clearomni\Helper\Util $util,
+        \Cleargo\Clearomni\Model\Data\ProductOptionFactory $productOptionFactory
     )
     {
         $this->quoteRepository = $quoteRepository;
@@ -61,6 +69,9 @@ class ExtraInfo
         $this->_searchCriteria = $searchCriteriaBuilder;
         $this->storeManager = $storeManager;
         $this->util=$util;
+        $this->productOptionFactory=$productOptionFactory;
+        $this->connection = \Magento\Framework\App\ObjectManager::getInstance()->get('Magento\Framework\App\ResourceConnection')->getConnection();
+
     }
 
     public function afterGetList(
@@ -85,6 +96,16 @@ class ExtraInfo
                     $extensionAttributes->setQtyClearomniNotInterested($orderItem->getQtyClearomniNotInterested());
                     $extensionAttributes->setQtyClearomniNoShow($orderItem->getQtyClearomniNoShow());
                     $extensionAttributes->setQtyClearomniClosed($orderItem->getQtyClearomniClosed());
+                    $productOptions=$value2->getProductOptions();
+                    /**
+                     * @var $productOption \Cleargo\Clearomni\Api\Data\ProductOptionInterface
+                     */
+                    if(!empty($productOptions)) {
+                        foreach ($productOptions as $key3 => $value3) {
+                            $productOption = $this->productOptionInterfaceFactory->create();
+                            $productOption->setName();
+                        }
+                    }
                 } catch (\Exception $e) {
 
                 }
@@ -150,9 +171,46 @@ class ExtraInfo
                 $extensionAttributes->setQtyClearomniNotInterested($orderItem->getQtyClearomniNotInterested());
                 $extensionAttributes->setQtyClearomniNoShow($orderItem->getQtyClearomniNoShow());
                 $extensionAttributes->setQtyClearomniClosed($orderItem->getQtyClearomniClosed());
-
+                $productOptions=$value2->getProductOptions();
+                /**
+                 * @var $productOption \Cleargo\Clearomni\Api\Data\ProductOptionInterface
+                 */
+                $temp=[];
+                if(isset($productOptions['info_buyRequest'])) {
+                    if(isset($productOptions['info_buyRequest']['options'])) {
+                        $nameDefaultQuery=$this->connection->prepare('select title from catalog_product_option_title where option_id=? and store_id=0');
+                        $valueDefaultQuery=$this->connection->prepare('select title from catalog_product_option_type_title where option_type_id=? and store_id=0');
+                        $nameQuery=$this->connection->prepare('select title from catalog_product_option_title where option_id=? and store_id=?');
+                        $valueQuery=$this->connection->prepare('select title from catalog_product_option_type_title where option_type_id=? and store_id=?');
+                        foreach ($productOptions['info_buyRequest']['options'] as $key3 => $value3) {
+                            $nameDefaultQuery->bindValue(1,$key3);
+                            $nameDefaultQuery->execute();
+                            $nameDefault=$nameDefaultQuery->fetch();
+                            $valueDefaultQuery->bindValue(1,$value3);
+                            $valueDefaultQuery->execute();
+                            $optionValueDefault=$valueDefaultQuery->fetch();
+                            $nameQuery->bindValue(1,$key3);
+                            $nameQuery->bindValue(2,$value2->getOrder()->getStoreId());
+                            $nameQuery->execute();
+                            $name=$nameQuery->fetch();
+                            $valueQuery->bindValue(1,$value3);
+                            $valueQuery->bindValue(2,$value2->getOrder()->getStoreId());
+                            $valueQuery->execute();
+                            $optionValue=$valueQuery->fetch();
+                            $productOption = $this->productOptionFactory->create();
+                            $productOption->setNameId($key3);
+                            $productOption->setName($name['title']);
+                            $productOption->setValueId($value3);
+                            $productOption->setValue($optionValue['title']);
+                            $productOption->setDefaultName($nameDefault['title']);
+                            $productOption->setDefaultValue($optionValueDefault['title']);
+                            $temp[]=$productOption;
+                        }
+                    }
+                }
+                $extensionAttributes->setProductOption($temp);
             } catch (\Exception $e) {
-
+                throw $e;
             }
             $value2->setExtensionAttributes($extensionAttributes);
         }
