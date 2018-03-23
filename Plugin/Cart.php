@@ -136,6 +136,9 @@ class Cart
         $product = $this->_getProduct($productInfo);
         $request = $this->_getProductRequest($requestInfo);
         $productId = $product->getId();
+        if($requestInfo['buyType']=='bnd'){
+            return [$productInfo,$requestInfo];
+        }
         if(isset($requestInfo['super_attribute'])) {//check product is configurable
             //get child product sku
             $childProduct =  $this->configurable->getProductByAttributes($requestInfo['super_attribute'],$product);

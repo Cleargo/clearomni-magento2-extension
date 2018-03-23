@@ -9,6 +9,9 @@
 	<event name="cleargo_multicart_member_placeorder_before">
 		<observer name="cleargo_multicart_member_placeorder_before_observer" instance="Cleargo\Clearomni\Observer\MultiCartOrderPlaceBeforeObserver" />
 	</event>
+	<event name="cleargo_multicart_member_placeorder_after">
+		<observer name="cleargo_multicart_member_placeorder_after_observer" instance="Cleargo\Clearomni\Observer\MultiCartOrderPlaceAfterObserver" />
+	</event>
 	<event name="sales_order_invoice_register">
 		<observer name="clearomni_sales_order_invoice_register_observer" instance="Cleargo\Clearomni\Observer\InvoiceRegisterObserver" />
 	</event>
