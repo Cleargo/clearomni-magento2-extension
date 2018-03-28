@@ -117,13 +117,17 @@ class SalesOrderPlaceAfterObserver implements ObserverInterface
          * @var $order \Magento\Sales\Model\Order
          */
         $order=$observer->getOrder();
-        $retailer=$this->retailerRepository->get($order->getSellerId());
         $clearomniOrder=$this->orderFactory->create();
+        try {
+            $retailer = $this->retailerRepository->get($order->getSellerId());
+            $clearomniOrder->setPickupStore($retailer->getSellerCode());
+            $clearomniOrder->setPickupStoreLabel($retailer->getName());
+            $clearomniOrder->setPickupStoreClearomniId($retailer->getClearomniId());
+        }catch (\Exception $e){
+
+        }
         $clearomniOrder->setMagentoOrderId($order->getId());
         $clearomniOrder->setClearomniRemarks('');
-        $clearomniOrder->setPickupStore($retailer->getSellerCode());
-        $clearomniOrder->setPickupStoreLabel($retailer->getName());
-        $clearomniOrder->setPickupStoreClearomniId($retailer->getClearomniId());
         $clearomniOrder->save();
 //        $this->orderRepository->save($clearomniOrder);
         $allItem=$order->getAllItems();

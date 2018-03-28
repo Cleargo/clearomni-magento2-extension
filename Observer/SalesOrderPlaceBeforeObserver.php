@@ -103,7 +103,11 @@ class SalesOrderPlaceBeforeObserver implements ObserverInterface
          * @var $quote \Magento\Quote\Model\Quote
          */
         $quote = $observer->getQuote();
-        $storeAvail = $this->helper->getCartAvailableInStore('cnc');
+        try {
+            $storeAvail = $this->helper->getCartAvailableInStore('cnc');
+        }catch (\Exception $e){
+            $storeAvail=[];
+        }
         $code='';
         try{
             $retailer=$this->retailerRepository->get($quote->getShippingAddress()->getRetailerId());
