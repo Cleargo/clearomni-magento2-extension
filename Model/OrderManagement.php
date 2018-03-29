@@ -61,6 +61,16 @@ class OrderManagement
      */
     protected $result;
 
+    /**
+     * @var \Magento\Sales\Model\Service\InvoiceService
+     */
+    protected $invoiceService;
+
+    /**
+     * @var \Magento\Framework\DB\Transaction
+     */
+    protected $transaction;
+
     public function __construct(
         \Magento\Sales\Api\OrderRepositoryInterface $orderRepository,
         \Magento\Sales\Api\OrderManagementInterface $orderManagement,
@@ -74,7 +84,9 @@ class OrderManagement
         \Magento\Framework\ObjectManagerInterface $objectManagerInterface,
         \Cleargo\Clearomni\Api\Data\ApiResultInterface $apiResult,
         \Cleargo\Clearomni\Api\OrderRepositoryInterface $clearomniOrderRepository,
-        \Cleargo\Clearomni\Api\OrderItemRepositoryInterface $clearomniOrderItemRepository
+        \Cleargo\Clearomni\Api\OrderItemRepositoryInterface $clearomniOrderItemRepository,
+        \Magento\Sales\Model\Service\InvoiceService $invoiceService,
+        \Magento\Framework\DB\Transaction $transaction
     )
     {
         $this->orderRepository = $orderRepository;
@@ -89,6 +101,8 @@ class OrderManagement
         $this->_objectManager = $objectManagerInterface;
         $this->clearomniOrderRepository=$clearomniOrderRepository;
         $this->clearomniOrderItemRepository=$clearomniOrderItemRepository;
+        $this->invoiceService=$invoiceService;
+        $this->transaction=$transaction;
         $this->result=$apiResult;
     }
 
@@ -132,7 +146,7 @@ class OrderManagement
         }
         ]
         }
-         
+
          */
         /**
          * @var $order \Magento\Sales\Model\Order
@@ -144,6 +158,7 @@ class OrderManagement
             'message' => ''
         ];
         $orderId = $param['order_id'];
+
         //Get Order
         try {
             $orderRepo = $this->orderRepository->get($orderId);
@@ -160,30 +175,6 @@ class OrderManagement
             $result['message'] = $e->getMessage();
             return $this->setResult($result);
         }
-        $status = $param['status'];
-        $state = $this->getOrderState($status);
-        $statusExist = $this->checkStatusExist($status);
-        if ($statusExist <= 0) {
-            $result['result'] = false;
-            $result['message'] = 'Order Status not exist';
-            return $this->setResult($result);
-        }
-        if ($state == $order->getState()) {
-            if ($statusExist > 0) {
-                $order->addStatusHistoryComment('Order Status is updated to ' . $status . ' by api'.'with below payload'.json_encode($param), $status);
-                $result['result'] = true;
-                $result['message'] = 'Order Status is updated to ' . $status;
-            } else {
-                $result['result'] = false;
-                $result['message'] = 'Order Status not exist';
-                return $this->setResult($result);
-            }
-        } else {
-            $result = $this->handleOrder($order, $status);
-        }
-        $order->setUpdatedAt(gmdate('Y-m-d H:i:s'));
-        $order->save();
-
         //update order detail
         if(!empty($param['staff_code'])) {
             $clearomniOrder->setStaffCode($param['staff_code']);
@@ -215,43 +206,71 @@ class OrderManagement
                  * @var \Cleargo\Clearomni\Api\Data\OrderItemInterface $value
                  */
                 $orderItem=$this->clearomniOrderItemRepository->getByItemId($value->getOrderItemId());
-                if(!empty($value->getQtyClearomniReserved())||$value->getQtyClearomniReserved()==="0") {
+                if(!empty($value->getQtyClearomniReserved())&&$value->getQtyClearomniReserved()!=="0") {
                     $orderItem->setQtyClearomniReserved($value->getQtyClearomniReserved());
                 }
-                if(!empty($value->getQtyClearomniToTransfer())||$value->getQtyClearomniToTransfer()==="0") {
+                if(!empty($value->getQtyClearomniToTransfer()&&$value->getQtyClearomniToTransfer()!=="0")) {
                     $orderItem->setQtyClearomniToTransfer($value->getQtyClearomniToTransfer());
                 }
-                if(!empty($value->getQtyClearomniCancelled())||$value->getQtyClearomniCancelled()==="0") {
+                if(!empty($value->getQtyClearomniCancelled())&&$value->getQtyClearomniCancelled()!=="0") {
                     $orderItem->setQtyClearomniCancelled($value->getQtyClearomniCancelled());
                 }
-                if(!empty($value->getQtyClearomniCompleted())||$value->getQtyClearomniCompleted()==="0") {
+                if(!empty($value->getQtyClearomniCompleted())&&$value->getQtyClearomniCompleted()!=="0") {
                     $orderItem->setQtyClearomniCompleted($value->getQtyClearomniCompleted());
                 }
-                if(!empty($value->getQtyClearomniRefunded())||$value->getQtyClearomniRefunded()==="0") {
+                if(!empty($value->getQtyClearomniRefunded())&&$value->getQtyClearomniRefunded()!=="0") {
                     $orderItem->setQtyClearomniRefunded($value->getQtyClearomniRefunded());
                 }
-                if(!empty($value->getQtyClearomniExchangeSuccess())||$value->getQtyClearomniExchangeSuccess()==="0") {
+                if(!empty($value->getQtyClearomniExchangeSuccess())&&$value->getQtyClearomniExchangeSuccess()!=="0") {
                     $orderItem->setQtyClearomniExchangeSuccess($value->getQtyClearomniExchangeSuccess());
                 }
-                if(!empty($value->getQtyClearomniExchangeRejected())||$value->getQtyClearomniExchangeRejected()==="0") {
+                if(!empty($value->getQtyClearomniExchangeRejected())&&$value->getQtyClearomniExchangeRejected()!=="0") {
                     $orderItem->setQtyClearomniExchangeRejected($value->getQtyClearomniExchangeRejected());
                 }
-                if(!empty($value->getQtyClearomniStillConsidering())||$value->getQtyClearomniStillConsidering()==="0") {
+                if(!empty($value->getQtyClearomniStillConsidering())&&$value->getQtyClearomniStillConsidering()!=="0") {
                     $orderItem->setQtyClearomniStillConsidering($value->getQtyClearomniStillConsidering());
                 }
-                if(!empty($value->getQtyClearomniNotInterested())||$value->getQtyClearomniNotInterested()==="0") {
+                if(!empty($value->getQtyClearomniNotInterested())&&$value->getQtyClearomniNotInterested()!=="0") {
                     $orderItem->setQtyClearomniNotInterested($value->getQtyClearomniNotInterested());
                 }
-                if(!empty($value->getQtyClearomniNoShow())||$value->getQtyClearomniNoShow()==="0") {
+                if(!empty($value->getQtyClearomniNoShow())&&$value->getQtyClearomniNoShow()!=="0") {
                     $orderItem->setQtyClearomniNoShow($value->getQtyClearomniNoShow());
                 }
-                if(!empty($value->getQtyClearomniClosed())||$value->getQtyClearomniClosed()==="0") {
+                if(!empty($value->getQtyClearomniClosed())&&$value->getQtyClearomniClosed()!=="0") {
                     $orderItem->setQtyClearomniClosed($value->getQtyClearomniClosed());
                 }
                 $this->clearomniOrderItemRepository->save($orderItem);
             }
         }
         $this->clearomniOrderRepository->save($clearomniOrder);
+        $status = $param['status'];
+        $state = $this->getOrderState($status);
+        $statusExist = $this->checkStatusExist($status);
+        if ($statusExist <= 0) {
+            $result['result'] = false;
+            $result['message'] = 'Order Status not exist';
+            return $this->setResult($result);
+        }
+        if ($state == $order->getState()) {
+            if ($statusExist > 0) {
+                if($order->canInvoice()){
+                    $result = $this->handleOrder($order, $status);
+                    return $this->setResult($result);
+                }
+                $order->addStatusHistoryComment('Order Status is updated to ' . $status . ' by api'.'with below payload'.json_encode($param), $status);
+                $result['result'] = true;
+                $result['message'] = 'Order Status is updated to ' . $status;
+            } else {
+                $result['result'] = false;
+                $result['message'] = 'Order Status not exist';
+                return $this->setResult($result);
+            }
+        } else {
+            $result = $this->handleOrder($order, $status);
+        }
+        $order->setUpdatedAt(gmdate('Y-m-d H:i:s'));
+        $order->save();
+
 //        $this->orderRepository->save($order);
         return $this->setResult($result);
     }
@@ -268,6 +287,45 @@ class OrderManagement
         ];
         $toState = $this->getOrderState($toStatus);
         $result['data'] = [$toState, $toStatus];
+        if($toState=='processing'){
+            if($order->getState()=='new'||$order->getState()=='processing'){
+                if($order->canInvoice()){
+                    $qtys=[];
+                    foreach ($order->getAllItems() as $key=>$value){
+                        $orderItem=$this->clearomniOrderItemRepository->getByItemId($value->getItemId());
+                        $qtys[$value->getItemId()]=$value->getQtyOrdered()-$orderItem->getQtyClearomniCancelled();
+                    }
+                    $invoice_object = $this->invoiceService->prepareInvoice($order,$qtys);
+
+                    // Make sure there is a qty on the invoice
+                    if (!$invoice_object->getTotalQty()) {
+                        throw new \Magento\Framework\Exception\LocalizedException(
+                            __('You can\'t create an invoice without products.'));
+                    }
+                    // Register as invoice item
+                    if(in_array($order->getPayment()->getMethod(),['checkmo','clickandreserve','free'])) {
+                        $invoice_object->setRequestedCaptureCase(\Magento\Sales\Model\Order\Invoice::CAPTURE_OFFLINE);
+                    }else{
+                        $invoice_object->setRequestedCaptureCase(\Magento\Sales\Model\Order\Invoice::CAPTURE_ONLINE);
+                    }
+                    $invoice_object->register();
+
+                    // Save the invoice to the order
+                    $transaction = $this->transaction
+                        ->addObject($invoice_object)
+                        ->addObject($invoice_object->getOrder());
+
+                    $transaction->save();
+                    // Magento\Sales\Model\Order\Email\Sender\InvoiceSender
+                    //$this->
+//                $this->invoiceSender->send($invoice_object);
+                    $order->addStatusHistoryComment('Invoice created by api and change status to ' . $toStatus, $toStatus);
+                    $result['result'] = true;
+                    $result['message'] = 'Invoice created by api and change status to ' . $toStatus;
+                    return $result;
+                }
+            }
+        }
         if ($toState == 'canceled') {
             if (($order->getState() == 'new' || $order->getState() == 'processing') && $order->hasInvoices() == false) {
                 $result['result'] = $this->orderManagement->cancel($order->getId());
@@ -380,6 +438,7 @@ class OrderManagement
                 return ($result);
             }
         }
+        return $result;
     }
 
     protected function getOrderState($status)
@@ -419,7 +478,7 @@ class OrderManagement
 //            $this->_coreRegistry->register('current_rma', $model);
 //            $orderId = $model->getOrderId();
 //        } else {
-            $orderId = $order->getId();
+        $orderId = $order->getId();
 //        }
 
         if ($orderId) {
