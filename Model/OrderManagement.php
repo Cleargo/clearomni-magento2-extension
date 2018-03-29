@@ -293,7 +293,9 @@ class OrderManagement
                     $qtys=[];
                     foreach ($order->getAllItems() as $key=>$value){
                         $orderItem=$this->clearomniOrderItemRepository->getByItemId($value->getItemId());
-                        $qtys[$value->getItemId()]=$value->getQtyOrdered()-$orderItem->getQtyClearomniCancelled();
+                        if($value->getQtyOrdered()-$value->getQtyInvoiced()-$orderItem->getQtyClearomniCancelled()>0) {
+                            $qtys[$value->getItemId()] = $value->getQtyOrdered() - $value->getQtyInvoiced() - $orderItem->getQtyClearomniCancelled();
+                        }
                     }
                     $invoice_object = $this->invoiceService->prepareInvoice($order,$qtys);
 
