@@ -215,37 +215,37 @@ class OrderManagement
                  * @var \Cleargo\Clearomni\Api\Data\OrderItemInterface $value
                  */
                 $orderItem=$this->clearomniOrderItemRepository->getByItemId($value->getOrderItemId());
-                if(!empty($value->getQtyClearomniReserved())) {
+                if(!empty($value->getQtyClearomniReserved())||$value->getQtyClearomniReserved()==="0") {
                     $orderItem->setQtyClearomniReserved($value->getQtyClearomniReserved());
                 }
-                if(!empty($value->getQtyClearomniToTransfer())) {
+                if(!empty($value->getQtyClearomniToTransfer())||$value->getQtyClearomniToTransfer()==="0") {
                     $orderItem->setQtyClearomniToTransfer($value->getQtyClearomniToTransfer());
                 }
-                if(!empty($value->getQtyClearomniCancelled())) {
+                if(!empty($value->getQtyClearomniCancelled())||$value->getQtyClearomniCancelled()==="0") {
                     $orderItem->setQtyClearomniCancelled($value->getQtyClearomniCancelled());
                 }
-                if(!empty($value->getQtyClearomniCompleted())) {
+                if(!empty($value->getQtyClearomniCompleted())||$value->getQtyClearomniCompleted()==="0") {
                     $orderItem->setQtyClearomniCompleted($value->getQtyClearomniCompleted());
                 }
-                if(!empty($value->getQtyClearomniRefunded())) {
+                if(!empty($value->getQtyClearomniRefunded())||$value->getQtyClearomniRefunded()==="0") {
                     $orderItem->setQtyClearomniRefunded($value->getQtyClearomniRefunded());
                 }
-                if(!empty($value->getQtyClearomniExchangeSuccess())) {
+                if(!empty($value->getQtyClearomniExchangeSuccess())||$value->getQtyClearomniExchangeSuccess()==="0") {
                     $orderItem->setQtyClearomniExchangeSuccess($value->getQtyClearomniExchangeSuccess());
                 }
-                if(!empty($value->getQtyClearomniExchangeRejected())) {
+                if(!empty($value->getQtyClearomniExchangeRejected())||$value->getQtyClearomniExchangeRejected()==="0") {
                     $orderItem->setQtyClearomniExchangeRejected($value->getQtyClearomniExchangeRejected());
                 }
-                if(!empty($value->getQtyClearomniStillConsidering())) {
+                if(!empty($value->getQtyClearomniStillConsidering())||$value->getQtyClearomniStillConsidering()==="0") {
                     $orderItem->setQtyClearomniStillConsidering($value->getQtyClearomniStillConsidering());
                 }
-                if(!empty($value->getQtyClearomniNotInterested())) {
+                if(!empty($value->getQtyClearomniNotInterested())||$value->getQtyClearomniNotInterested()==="0") {
                     $orderItem->setQtyClearomniNotInterested($value->getQtyClearomniNotInterested());
                 }
-                if(!empty($value->getQtyClearomniNoShow())) {
+                if(!empty($value->getQtyClearomniNoShow())||$value->getQtyClearomniNoShow()==="0") {
                     $orderItem->setQtyClearomniNoShow($value->getQtyClearomniNoShow());
                 }
-                if(!empty($value->getQtyClearomniClosed())) {
+                if(!empty($value->getQtyClearomniClosed())||$value->getQtyClearomniClosed()==="0") {
                     $orderItem->setQtyClearomniClosed($value->getQtyClearomniClosed());
                 }
                 $this->clearomniOrderItemRepository->save($orderItem);
