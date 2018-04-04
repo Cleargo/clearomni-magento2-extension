@@ -94,6 +94,9 @@ class Request extends AbstractHelper
         );
     }
     public function request($url,$returnArray=true){
+        if(empty($this->getBaseUrl())){
+            return false;
+        }
         $this->curl->get($this->getBaseUrl() . $url);
         $query=$this->connection->prepare('insert into cleargo_clearomni_api_log set request_url=?,request_body=?,response_body=?,response_code=?,`date`=?,`debug`=?');
         $query->bindValue(1,$url);
