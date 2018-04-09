@@ -210,7 +210,7 @@ class ExtraInfo
                 }
                 $extensionAttributes->setProductOption($temp);
             } catch (\Exception $e) {
-                throw $e;
+//                throw $e;
             }
             $value2->setExtensionAttributes($extensionAttributes);
         }
