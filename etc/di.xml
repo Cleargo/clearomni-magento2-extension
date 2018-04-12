@@ -21,4 +21,7 @@
 		<plugin name="cart_plugin" type="Cleargo\Clearomni\Plugin\Cart" sortOrder="0" disabled="false" />
 	</type>
 	<preference for="Cleargo\Clearomni\Api\Data\ProductOptionInterface" type="Cleargo\Clearomni\Model\Data\ProductOption"/>
+	<type name="Magento\Sales\Model\Order">
+		<plugin name="payment_plugin" type="Cleargo\Clearomni\Plugin\CapturePayment" sortOrder="1000" disabled="false" />
+	</type>
 </config>
