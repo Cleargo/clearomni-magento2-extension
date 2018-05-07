@@ -163,6 +163,7 @@ class OrderManagement
         try {
             $orderRepo = $this->orderRepository->get($orderId);
             $order = $this->orderFactory->create()->load($orderId);
+            $oldStatus=$order->getStatus();
             try{//order exist
                 $clearomniOrder = $this->clearomniOrderRepository->getByOrderId($orderId);
             }catch (\Exception $e){
@@ -257,13 +258,13 @@ class OrderManagement
                     $result = $this->handleOrder($order, $status);
                     return $this->setResult($result);
                 }
-                if($status!=$order->getStatus()) {
+                if($status!=$oldStatus) {
                     $order->addStatusHistoryComment('Order Status is updated to ' . $status . ' by api' . 'with below payload' . json_encode($param), $status);
                 }
                 $result['result'] = true;
                 $result['message'] = 'Order Status is updated to ' . $status;
-                if($status==$order->getStatus()){
-                    $result['message'].='(Status is same so dont add history comment)';
+                if($status==$oldStatus){
+                    $result['message'].='(Status is same so dont add history comment and no email is sent)'.$status.' '.$oldStatus;
                 }
             } else {
                 $result['result'] = false;
@@ -274,6 +275,7 @@ class OrderManagement
             $result = $this->handleOrder($order, $status);
         }
         $order->setUpdatedAt(gmdate('Y-m-d H:i:s'));
+        $order->setOldStatus($oldStatus);
         $order->save();
 
 //        $this->orderRepository->save($order);

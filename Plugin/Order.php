@@ -44,6 +44,7 @@ class Order
     //need to use around method to get the order object
     public function aroundSave($object, callable $proceed, \Magento\Framework\Model\AbstractModel $order)
     {
+        $oldStatus=$order->getStatus();
         //handle status change
         $result = $proceed($order);
 
@@ -81,7 +82,9 @@ class Order
         }
         if($template!='no_template'){
             //send status change email
-            $this->emailHelper->sendEmail($template,$order);
+            if($order->getOldStatus()!=$status) {
+                $this->emailHelper->sendEmail($template, $order);
+            }
         }
         return $result;
     }
