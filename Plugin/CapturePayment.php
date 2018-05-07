@@ -14,7 +14,6 @@ class CapturePayment
     )
     {
         $this->requestHelper=$requestHelper;
-
     }
 
     public function afterAddStatusHistoryComment(
@@ -23,7 +22,7 @@ class CapturePayment
     )
     {
         $comment=$result->getComment();
-        if($comment=='Adyen Payment Successfully completed'){
+        if($comment=='Adyen Payment Successfully completed'||$comment=='Payment is authorised waiting for capture'){
             $this->requestHelper->request('/get-order/'.$subject->getId());
         }
         return $result;
