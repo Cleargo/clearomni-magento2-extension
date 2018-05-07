@@ -257,9 +257,14 @@ class OrderManagement
                     $result = $this->handleOrder($order, $status);
                     return $this->setResult($result);
                 }
-                $order->addStatusHistoryComment('Order Status is updated to ' . $status . ' by api'.'with below payload'.json_encode($param), $status);
+                if($status!=$order->getStatus()) {
+                    $order->addStatusHistoryComment('Order Status is updated to ' . $status . ' by api' . 'with below payload' . json_encode($param), $status);
+                }
                 $result['result'] = true;
                 $result['message'] = 'Order Status is updated to ' . $status;
+                if($status==$order->getStatus()){
+                    $result['message'].='(Status is same so dont add history comment)';
+                }
             } else {
                 $result['result'] = false;
                 $result['message'] = 'Order Status not exist';
