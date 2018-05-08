@@ -328,7 +328,7 @@ class OrderManagement
                     // Magento\Sales\Model\Order\Email\Sender\InvoiceSender
                     //$this->
 //                $this->invoiceSender->send($invoice_object);
-                    $order->addStatusHistoryComment('Invoice created by api and change status to ' . $toStatus, $toStatus);
+                    $order->addStatusHistoryComment('Invoice created by api and change status to ' . $toStatus, $toStatus)->save();
                     $result['result'] = true;
                     $result['message'] = 'Invoice created by api and change status to ' . $toStatus;
                     return $result;
