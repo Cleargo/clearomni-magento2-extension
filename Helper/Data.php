@@ -19,6 +19,7 @@ class Data extends AbstractHelper implements \Cleargo\Clearomni\Helper\Clearomni
     const XML_EMAIL_EXPIRED = 'clearomni/clearomni/expired';
     const XML_EMAIL_CANCELED = 'clearomni/clearomni/canceled';
     const XML_EMAIL_READY_TO_PICK = 'clearomni/clearomni/ready_to_pick';
+    const XML_EMAIL_READY_TO_PICK_GUEST = 'clearomni/clearomni/ready_to_pick_guest';
 
     const XML_BASEURL_PATH = 'clearomni_general/general/base_url';
     const XML_MAXRESERVE = 'clearomni_general/general/max_reserve';
@@ -186,6 +187,14 @@ class Data extends AbstractHelper implements \Cleargo\Clearomni\Helper\Clearomni
     {
         return $this->scopeConfig->getValue(
             self::XML_EMAIL_READY_TO_PICK,
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE
+        );
+    }
+
+    public function getReadyToPickGuest()
+    {
+        return $this->scopeConfig->getValue(
+            self::XML_EMAIL_READY_TO_PICK_GUEST,
             \Magento\Store\Model\ScopeInterface::SCOPE_STORE
         );
     }

@@ -18,6 +18,7 @@
                 <expired>no_template</expired>
                 <canceled>no_template</canceled>
                 <ready_to_pick>no_template</ready_to_pick>
+                <ready_to_pick_guest>no_template</ready_to_pick_guest>
             </clearomni>
         </clearomni>
     </default>

@@ -77,7 +77,11 @@ class Order
                 $template=$this->emailHelper->getCanceled();
                 break;
             case 'processing_ready_to_pick':
-                $template=$this->emailHelper->getReadyToPick();
+                if($order->getCustomerId()>0) {
+                    $template = $this->emailHelper->getReadyToPick();
+                }else{
+                    $template = $this->emailHelper->getReadyToPickGuest();
+                }
                 break;
         }
         if($template!='no_template'){

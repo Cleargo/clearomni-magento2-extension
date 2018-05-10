@@ -55,6 +55,11 @@
                     <comment/>
                     <source_model>Cleargo\Clearomni\Model\Config\Source\Email\Template</source_model>
                 </field>
+                <field id="ready_to_pick_guest" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="10" translate="label" type="select">
+                    <label>ready_to_pick_guest</label>
+                    <comment/>
+                    <source_model>Cleargo\Clearomni\Model\Config\Source\Email\Template</source_model>
+                </field>
             </group>
         </section>
         <section id="clearomni_general" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="20" translate="label">

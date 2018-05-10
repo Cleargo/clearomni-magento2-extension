@@ -407,18 +407,18 @@ class OrderManagement
                     return ($result);
                 }
             }
-            if ($order->canCreditmemo()) {
-                $creditmemo = $this->creditmemoFactory->createByOrder($order);
-                $this->creditmemoService->refund($creditmemo);
-                $order->addStatusHistoryComment('Credit memo created by api and change status to ' . $toStatus, $toStatus);
-                $result['result'] = true;
-                $result['message'] = 'Credit memo created by api and change status to ' . $toStatus;
-                return ($result);
-            } else {
-                $result['result'] = false;
-                $result['message'] = 'Can not create creditmemo';
-                return ($result);
-            }
+//            if ($order->canCreditmemo()) {
+//                $creditmemo = $this->creditmemoFactory->createByOrder($order);
+//                $this->creditmemoService->refund($creditmemo);
+//                $order->addStatusHistoryComment('Credit memo created by api and change status to ' . $toStatus, $toStatus);
+//                $result['result'] = true;
+//                $result['message'] = 'Credit memo created by api and change status to ' . $toStatus;
+//                return ($result);
+//            } else {
+//                $result['result'] = false;
+//                $result['message'] = 'Can not create creditmemo';
+//                return ($result);
+//            }
         }
         if ($toState == 'complete') {
             if ($order->canShip()) {
