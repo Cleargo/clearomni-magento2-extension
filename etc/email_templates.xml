@@ -9,4 +9,5 @@
     <template id="clearomni_clearomni_expired" label="Expired" file="expired.html" type="html" module="Cleargo_Clearomni" area="frontend"/>
     <template id="clearomni_clearomni_canceled" label="Canceled" file="canceled.html" type="html" module="Cleargo_Clearomni" area="frontend"/>
     <template id="clearomni_clearomni_ready_to_pick" label="Ready To Pick" file="ready_to_pick.html" type="html" module="Cleargo_Clearomni" area="frontend"/>
+    <template id="clearomni_clearomni_ready_to_pick_guest" label="Ready To Pick(Guest)" file="ready_to_pick_guest.html" type="html" module="Cleargo_Clearomni" area="frontend"/>
 </config>
