@@ -205,11 +205,34 @@ class Data extends AbstractHelper implements \Cleargo\Clearomni\Helper\Clearomni
          * @var $order \Magento\Sales\Model\Order
          */
         $store = $this->storeManager->getStore()->getId();
+        $customer = $this->_objectManager->create('Magento\Customer\Model\Customer')->load($order->getCustomerId());
+        $clearomniOrder = $this->_objectManager->create('Cleargo\Clearomni\Model\Order')->load($order->getId(), 'magento_order_id');
+        $expiryDate =  date("Y-m-d", strtotime('+2 days'));
+
+        $orderRep = $this->_objectManager->create('Magento\Sales\Api\OrderRepositoryInterface')->get($order->getId());
+        $extensionAttribute = $orderRep->getExtensionAttributes();
+        $orderType = $extensionAttribute->getOrderType();
+        $temp = ['is_cnr' => false, 'is_cnc' => false];
+        switch ($orderType) {
+            case Util::ORDER_TYPE_CNR:
+                $temp['is_cnr'] = true;
+                break;
+            case Util::ORDER_TYPE_CNC:
+                $temp['is_cnc'] = true;
+                break;
+        }
+
         $transport = $this->_transportBuilder->setTemplateIdentifier($emailId)
             ->setTemplateOptions(['area' => 'frontend', 'store' => $store])
             ->setTemplateVars(
                 [
                     'store' => $this->storeManager->getStore(),
+                    'order' => $order,
+                    'customer' => $customer,
+                    'expiry_date' => $expiryDate,
+                    'clearomni_order' => $clearomniOrder,
+                    'is_cnr' => $temp['is_cnr'],
+                    'is_cnc' => $temp['is_cnc'],
                 ]
             )
             ->setFrom('general')
