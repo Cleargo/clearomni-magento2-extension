@@ -16,7 +16,7 @@ $orderItemRepos=$objectManager->get('Cleargo\Clearomni\Model\OrderItemRepository
     try {
         $item = $orderItemRepos->getByItemId($_item->getItemId());
     }catch(\Exception $e){
-
+        $item=null;
     }
     ?>
 <table class="qty-table">

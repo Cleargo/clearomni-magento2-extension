@@ -134,7 +134,11 @@ class MultiCartOrderPlaceBeforeObserver implements ObserverInterface
 //                    exit;
                     foreach ($list->getItems() as $key=>$value){
                         if($value->getPayment()->getMethod()=='clickandreserve'){
-                            $count++;
+                            foreach($value->getItems() as $key=>$value) {
+                                if(empty($value->getParentItemId())) {
+                                    $count++;
+                                }
+                            }
                         }
                     }
                     if($count>=$maxReserve){
