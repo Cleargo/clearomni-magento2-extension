@@ -163,6 +163,7 @@ class OrderManagement
         try {
             $orderRepo = $this->orderRepository->get($orderId);
             $order = $this->orderFactory->create()->load($orderId);
+            $oldStatus=$order->getStatus();
             try{//order exist
                 $clearomniOrder = $this->clearomniOrderRepository->getByOrderId($orderId);
             }catch (\Exception $e){
@@ -257,9 +258,14 @@ class OrderManagement
                     $result = $this->handleOrder($order, $status);
                     return $this->setResult($result);
                 }
-                $order->addStatusHistoryComment('Order Status is updated to ' . $status . ' by api'.'with below payload'.json_encode($param), $status);
+                if($status!=$oldStatus) {
+                    $order->addStatusHistoryComment('Order Status is updated to ' . $status . ' by api' . 'with below payload' . json_encode($param), $status);
+                }
                 $result['result'] = true;
                 $result['message'] = 'Order Status is updated to ' . $status;
+                if($status==$oldStatus){
+                    $result['message'].='(Status is same so dont add history comment and no email is sent)'.$status.' '.$oldStatus;
+                }
             } else {
                 $result['result'] = false;
                 $result['message'] = 'Order Status not exist';
@@ -269,6 +275,7 @@ class OrderManagement
             $result = $this->handleOrder($order, $status);
         }
         $order->setUpdatedAt(gmdate('Y-m-d H:i:s'));
+        $order->setOldStatus($oldStatus);
         $order->save();
 
 //        $this->orderRepository->save($order);
@@ -321,7 +328,7 @@ class OrderManagement
                     // Magento\Sales\Model\Order\Email\Sender\InvoiceSender
                     //$this->
 //                $this->invoiceSender->send($invoice_object);
-                    $order->addStatusHistoryComment('Invoice created by api and change status to ' . $toStatus, $toStatus);
+                    $order->addStatusHistoryComment('Invoice created by api and change status to ' . $toStatus, $toStatus)->save();
                     $result['result'] = true;
                     $result['message'] = 'Invoice created by api and change status to ' . $toStatus;
                     return $result;
@@ -400,18 +407,18 @@ class OrderManagement
                     return ($result);
                 }
             }
-            if ($order->canCreditmemo()) {
-                $creditmemo = $this->creditmemoFactory->createByOrder($order);
-                $this->creditmemoService->refund($creditmemo);
-                $order->addStatusHistoryComment('Credit memo created by api and change status to ' . $toStatus, $toStatus);
-                $result['result'] = true;
-                $result['message'] = 'Credit memo created by api and change status to ' . $toStatus;
-                return ($result);
-            } else {
-                $result['result'] = false;
-                $result['message'] = 'Can not create creditmemo';
-                return ($result);
-            }
+//            if ($order->canCreditmemo()) {
+//                $creditmemo = $this->creditmemoFactory->createByOrder($order);
+//                $this->creditmemoService->refund($creditmemo);
+//                $order->addStatusHistoryComment('Credit memo created by api and change status to ' . $toStatus, $toStatus);
+//                $result['result'] = true;
+//                $result['message'] = 'Credit memo created by api and change status to ' . $toStatus;
+//                return ($result);
+//            } else {
+//                $result['result'] = false;
+//                $result['message'] = 'Can not create creditmemo';
+//                return ($result);
+//            }
         }
         if ($toState == 'complete') {
             if ($order->canShip()) {

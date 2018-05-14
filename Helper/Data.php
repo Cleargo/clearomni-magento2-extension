@@ -19,6 +19,7 @@ class Data extends AbstractHelper implements \Cleargo\Clearomni\Helper\Clearomni
     const XML_EMAIL_EXPIRED = 'clearomni/clearomni/expired';
     const XML_EMAIL_CANCELED = 'clearomni/clearomni/canceled';
     const XML_EMAIL_READY_TO_PICK = 'clearomni/clearomni/ready_to_pick';
+    const XML_EMAIL_READY_TO_PICK_GUEST = 'clearomni/clearomni/ready_to_pick_guest';
 
     const XML_BASEURL_PATH = 'clearomni_general/general/base_url';
     const XML_MAXRESERVE = 'clearomni_general/general/max_reserve';
@@ -190,17 +191,48 @@ class Data extends AbstractHelper implements \Cleargo\Clearomni\Helper\Clearomni
         );
     }
 
+    public function getReadyToPickGuest()
+    {
+        return $this->scopeConfig->getValue(
+            self::XML_EMAIL_READY_TO_PICK_GUEST,
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE
+        );
+    }
+
     public function sendEmail($emailId, $order)
     {
         /**
          * @var $order \Magento\Sales\Model\Order
          */
         $store = $this->storeManager->getStore()->getId();
+        $customer = $this->_objectManager->create('Magento\Customer\Model\Customer')->load($order->getCustomerId());
+        $clearomniOrder = $this->_objectManager->create('Cleargo\Clearomni\Model\Order')->load($order->getId(), 'magento_order_id');
+        $expiryDate =  date("Y-m-d", strtotime('+2 days'));
+
+        $orderRep = $this->_objectManager->create('Magento\Sales\Api\OrderRepositoryInterface')->get($order->getId());
+        $extensionAttribute = $orderRep->getExtensionAttributes();
+        $orderType = $extensionAttribute->getOrderType();
+        $temp = ['is_cnr' => false, 'is_cnc' => false];
+        switch ($orderType) {
+            case Util::ORDER_TYPE_CNR:
+                $temp['is_cnr'] = true;
+                break;
+            case Util::ORDER_TYPE_CNC:
+                $temp['is_cnc'] = true;
+                break;
+        }
+
         $transport = $this->_transportBuilder->setTemplateIdentifier($emailId)
             ->setTemplateOptions(['area' => 'frontend', 'store' => $store])
             ->setTemplateVars(
                 [
                     'store' => $this->storeManager->getStore(),
+                    'order' => $order,
+                    'customer' => $customer,
+                    'expiry_date' => $expiryDate,
+                    'clearomni_order' => $clearomniOrder,
+                    'is_cnr' => $temp['is_cnr'],
+                    'is_cnc' => $temp['is_cnc'],
                 ]
             )
             ->setFrom('general')

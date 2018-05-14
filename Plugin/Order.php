@@ -44,6 +44,7 @@ class Order
     //need to use around method to get the order object
     public function aroundSave($object, callable $proceed, \Magento\Framework\Model\AbstractModel $order)
     {
+        $oldStatus=$order->getStatus();
         //handle status change
         $result = $proceed($order);
 
@@ -76,12 +77,18 @@ class Order
                 $template=$this->emailHelper->getCanceled();
                 break;
             case 'processing_ready_to_pick':
-                $template=$this->emailHelper->getReadyToPick();
+                if($order->getCustomerId()>0) {
+                    $template = $this->emailHelper->getReadyToPick();
+                }else{
+                    $template = $this->emailHelper->getReadyToPickGuest();
+                }
                 break;
         }
         if($template!='no_template'){
             //send status change email
-            $this->emailHelper->sendEmail($template,$order);
+            if($order->getOldStatus()!=$status) {
+                $this->emailHelper->sendEmail($template, $order);
+            }
         }
         return $result;
     }

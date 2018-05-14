@@ -117,7 +117,9 @@ class InvoiceRegisterObserver implements ObserverInterface
          * @var $order \Magento\Sales\Model\Order
          */
         $order=$observer->getOrder();
-        $this->requestHelper->request('/get-order/'.$order->getId());
+        if($order->getPayment()->getMethod()=='clickandreserve') {
+            $this->requestHelper->request('/get-order/' . $order->getId());
+        }
 
     }
 }
