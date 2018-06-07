@@ -71,6 +71,11 @@ class OrderManagement
      */
     protected $transaction;
 
+    /**
+     * @var \Magento\Sales\Model\Order\Email\Sender\InvoiceSender
+     */
+    protected $invoiceSender;
+
     public function __construct(
         \Magento\Sales\Api\OrderRepositoryInterface $orderRepository,
         \Magento\Sales\Api\OrderManagementInterface $orderManagement,
@@ -86,7 +91,8 @@ class OrderManagement
         \Cleargo\Clearomni\Api\OrderRepositoryInterface $clearomniOrderRepository,
         \Cleargo\Clearomni\Api\OrderItemRepositoryInterface $clearomniOrderItemRepository,
         \Magento\Sales\Model\Service\InvoiceService $invoiceService,
-        \Magento\Framework\DB\Transaction $transaction
+        \Magento\Framework\DB\Transaction $transaction,
+        \Magento\Sales\Model\Order\Email\Sender\InvoiceSender $invoiceSender
     )
     {
         $this->orderRepository = $orderRepository;
@@ -104,6 +110,7 @@ class OrderManagement
         $this->invoiceService=$invoiceService;
         $this->transaction=$transaction;
         $this->result=$apiResult;
+        $this->invoiceSender=$invoiceSender;
     }
 
     /**
@@ -207,37 +214,59 @@ class OrderManagement
                  * @var \Cleargo\Clearomni\Api\Data\OrderItemInterface $value
                  */
                 $orderItem=$this->clearomniOrderItemRepository->getByItemId($value->getOrderItemId());
-                if(!empty($value->getQtyClearomniReserved())&&$value->getQtyClearomniReserved()!=="0") {
+                $temp=$value->getQtyClearomniReserved();
+                if(isset($temp)) {
+//                    if(!empty($value->getQtyClearomniReserved())&&$value->getQtyClearomniReserved()!=="0") {
                     $orderItem->setQtyClearomniReserved($value->getQtyClearomniReserved());
                 }
-                if(!empty($value->getQtyClearomniToTransfer()&&$value->getQtyClearomniToTransfer()!=="0")) {
+                $temp=$value->getQtyClearomniToTransfer();
+                if(isset($temp)) {
+//                    if(!empty($value->getQtyClearomniToTransfer()&&$value->getQtyClearomniToTransfer()!=="0")) {
                     $orderItem->setQtyClearomniToTransfer($value->getQtyClearomniToTransfer());
                 }
-                if(!empty($value->getQtyClearomniCancelled())&&$value->getQtyClearomniCancelled()!=="0") {
+                $temp=$value->getQtyClearomniCancelled();
+                if(isset($temp)) {
+//                    if(!empty($value->getQtyClearomniCancelled())&&$value->getQtyClearomniCancelled()!=="0") {
                     $orderItem->setQtyClearomniCancelled($value->getQtyClearomniCancelled());
                 }
-                if(!empty($value->getQtyClearomniCompleted())&&$value->getQtyClearomniCompleted()!=="0") {
+                $temp=$value->getQtyClearomniCompleted();
+                if(isset($temp)) {
+//                    if(!empty($value->getQtyClearomniCompleted())&&$value->getQtyClearomniCompleted()!=="0") {
                     $orderItem->setQtyClearomniCompleted($value->getQtyClearomniCompleted());
                 }
-                if(!empty($value->getQtyClearomniRefunded())&&$value->getQtyClearomniRefunded()!=="0") {
+                $temp=$value->getQtyClearomniRefunded();
+                if(isset($temp)) {
+//                    if(!empty($value->getQtyClearomniRefunded())&&$value->getQtyClearomniRefunded()!=="0") {
                     $orderItem->setQtyClearomniRefunded($value->getQtyClearomniRefunded());
                 }
-                if(!empty($value->getQtyClearomniExchangeSuccess())&&$value->getQtyClearomniExchangeSuccess()!=="0") {
+                $temp=$value->getQtyClearomniExchangeSuccess();
+                if(isset($temp)) {
+//                    if(!empty($value->getQtyClearomniExchangeSuccess())&&$value->getQtyClearomniExchangeSuccess()!=="0") {
                     $orderItem->setQtyClearomniExchangeSuccess($value->getQtyClearomniExchangeSuccess());
                 }
-                if(!empty($value->getQtyClearomniExchangeRejected())&&$value->getQtyClearomniExchangeRejected()!=="0") {
+                $temp=$value->getQtyClearomniExchangeRejected();
+                if(isset($temp)) {
+//                    if(!empty($value->getQtyClearomniExchangeRejected())&&$value->getQtyClearomniExchangeRejected()!=="0") {
                     $orderItem->setQtyClearomniExchangeRejected($value->getQtyClearomniExchangeRejected());
                 }
-                if(!empty($value->getQtyClearomniStillConsidering())&&$value->getQtyClearomniStillConsidering()!=="0") {
+                $temp=$value->getQtyClearomniStillConsidering();
+                if(isset($temp)) {
+//                    if(!empty($value->getQtyClearomniStillConsidering())&&$value->getQtyClearomniStillConsidering()!=="0") {
                     $orderItem->setQtyClearomniStillConsidering($value->getQtyClearomniStillConsidering());
                 }
-                if(!empty($value->getQtyClearomniNotInterested())&&$value->getQtyClearomniNotInterested()!=="0") {
+                $temp=$value->getQtyClearomniNotInterested();
+                if(isset($temp)) {
+//                    if(!empty($value->getQtyClearomniNotInterested())&&$value->getQtyClearomniNotInterested()!=="0") {
                     $orderItem->setQtyClearomniNotInterested($value->getQtyClearomniNotInterested());
                 }
-                if(!empty($value->getQtyClearomniNoShow())&&$value->getQtyClearomniNoShow()!=="0") {
+                $temp=$value->getQtyClearomniNoShow();
+                if(isset($temp)) {
+//                    if(!empty($value->getQtyClearomniNoShow())&&$value->getQtyClearomniNoShow()!=="0") {
                     $orderItem->setQtyClearomniNoShow($value->getQtyClearomniNoShow());
                 }
-                if(!empty($value->getQtyClearomniClosed())&&$value->getQtyClearomniClosed()!=="0") {
+                $temp=$value->getQtyClearomniClosed();
+                if(isset($temp)) {
+//                    if(!empty($value->getQtyClearomniClosed())&&$value->getQtyClearomniClosed()!=="0") {
                     $orderItem->setQtyClearomniClosed($value->getQtyClearomniClosed());
                 }
                 $this->clearomniOrderItemRepository->save($orderItem);
@@ -325,9 +354,11 @@ class OrderManagement
                         ->addObject($invoice_object->getOrder());
 
                     $transaction->save();
+
+
                     // Magento\Sales\Model\Order\Email\Sender\InvoiceSender
                     //$this->
-//                $this->invoiceSender->send($invoice_object);
+                $this->invoiceSender->send($invoice_object);
                     $order->addStatusHistoryComment('Invoice created by api and change status to ' . $toStatus, $toStatus)->save();
                     $result['result'] = true;
                     $result['message'] = 'Invoice created by api and change status to ' . $toStatus;
