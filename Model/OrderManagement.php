@@ -352,7 +352,6 @@ class OrderManagement
                     }
                     break;
             }
-            var_dump($template);
             if($template!='no_template'){
                 //send status change email
                 $this->emailHelper->sendEmail($template, $order);
