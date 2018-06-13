@@ -225,8 +225,9 @@ class Data extends AbstractHelper implements \Cleargo\Clearomni\Helper\Clearomni
         $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
         $emul = $objectManager->create("\Magento\Store\Model\App\Emulation");
         $initialEnvironmentInfo = $emul->startEnvironmentEmulation($order->getStoreId(),'frontend',true);
+
         $transport = $this->_transportBuilder->setTemplateIdentifier($emailId)
-            ->setTemplateOptions(['area' => 'frontend', 'store' => $store])
+            ->setTemplateOptions(['area' => 'frontend', 'store' => $order->getStoreId()])
             ->setTemplateVars(
                 [
                     'store' => $this->storeManager->getStore(),

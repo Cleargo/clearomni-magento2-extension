@@ -75,6 +75,10 @@ class OrderManagement
      * @var \Magento\Sales\Model\Order\Email\Sender\InvoiceSender
      */
     protected $invoiceSender;
+    /**
+     * @var \Cleargo\Clearomni\Helper\Data
+     */
+    protected $emailHelper;
 
     public function __construct(
         \Magento\Sales\Api\OrderRepositoryInterface $orderRepository,
@@ -92,7 +96,8 @@ class OrderManagement
         \Cleargo\Clearomni\Api\OrderItemRepositoryInterface $clearomniOrderItemRepository,
         \Magento\Sales\Model\Service\InvoiceService $invoiceService,
         \Magento\Framework\DB\Transaction $transaction,
-        \Magento\Sales\Model\Order\Email\Sender\InvoiceSender $invoiceSender
+        \Magento\Sales\Model\Order\Email\Sender\InvoiceSender $invoiceSender,
+        \Cleargo\Clearomni\Helper\Data $emailHelper
     )
     {
         $this->orderRepository = $orderRepository;
@@ -111,6 +116,7 @@ class OrderManagement
         $this->transaction=$transaction;
         $this->result=$apiResult;
         $this->invoiceSender=$invoiceSender;
+        $this->emailHelper=$emailHelper;
     }
 
     /**
@@ -281,6 +287,7 @@ class OrderManagement
             $result['message'] = 'Order Status not exist';
             return $this->setResult($result);
         }
+        $sendEmail=isset($param['send_email']);
         if ($state == $order->getState()) {
             if ($statusExist > 0) {
                 if($order->canInvoice()){
@@ -289,6 +296,7 @@ class OrderManagement
                 }
                 if($status!=$oldStatus) {
                     $order->addStatusHistoryComment('Order Status is updated to ' . $status . ' by api' . 'with below payload' . json_encode($param), $status);
+                    $sendEmail=false;
                 }
                 $result['result'] = true;
                 $result['message'] = 'Order Status is updated to ' . $status;
@@ -306,6 +314,50 @@ class OrderManagement
         $order->setUpdatedAt(gmdate('Y-m-d H:i:s'));
         $order->setOldStatus($oldStatus);
         $order->save();
+        if($sendEmail){
+
+            $status=$order->getStatus();
+
+            $template='no_template';
+            switch ($status){
+                case 'closed_exchange_success':
+                    $template=$this->emailHelper->getExchangeSuccess();
+                    break;
+                case 'closed_refund_success':
+                    $template=$this->emailHelper->getRefundSuccess();
+                    break;
+                case 'copmlete_exchange_requested':
+                    $template=$this->emailHelper->getExchangeRequested();
+                    break;
+                case 'complete_exchange_rejected':
+                    $template=$this->emailHelper->getExchangeRejected();
+                    break;
+                case 'complete_exchange_acknowledged':
+                    $template=$this->emailHelper->getExchangeAcknowledged();
+                    break;
+                case 'processing_pending_transfer':
+                    $template=$this->emailHelper->getPendingTransfer();
+                    break;
+                case 'processing_expired':
+                    $template=$this->emailHelper->getExpired();
+                    break;
+                case 'processing_canceled':
+                    $template=$this->emailHelper->getCanceled();
+                    break;
+                case 'processing_ready_to_pick':
+                    if($order->getCustomerId()>0) {
+                        $template = $this->emailHelper->getReadyToPick();
+                    }else{
+                        $template = $this->emailHelper->getReadyToPickGuest();
+                    }
+                    break;
+            }
+            var_dump($template);
+            if($template!='no_template'){
+                //send status change email
+                $this->emailHelper->sendEmail($template, $order);
+            }
+        }
 
 //        $this->orderRepository->save($order);
         return $this->setResult($result);
