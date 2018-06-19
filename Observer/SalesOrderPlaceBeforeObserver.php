@@ -110,7 +110,11 @@ class SalesOrderPlaceBeforeObserver implements ObserverInterface
         }
         $code='';
         try{
-            $retailer=$this->retailerRepository->get($quote->getShippingAddress()->getRetailerId());
+            $retailerId=$quote->getShippingAddress()->getRetailerId();
+            if(empty($retailerId)){
+                $retailerId=$quote->getSellerId();
+            }
+            $retailer=$this->retailerRepository->get($retailerId);
             $code=$retailer->getSellerCode();
 
         }catch (\Exception $e){
