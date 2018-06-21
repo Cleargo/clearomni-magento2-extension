@@ -131,6 +131,8 @@ class SalesOrderPlaceBeforeObserver implements ObserverInterface
                     __('Some of product is out of stock')
                 );
             }
+            $customerData=\Magento\Framework\App\ObjectManager::getInstance()->create('Smile\StoreLocator\CustomerData\CurrentStore');
+            $customerData->setRetailer($retailer);
         }
         
     }
