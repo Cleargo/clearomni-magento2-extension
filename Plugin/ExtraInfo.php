@@ -96,6 +96,9 @@ class ExtraInfo
                     $extensionAttributes->setQtyClearomniNotInterested($orderItem->getQtyClearomniNotInterested());
                     $extensionAttributes->setQtyClearomniNoShow($orderItem->getQtyClearomniNoShow());
                     $extensionAttributes->setQtyClearomniClosed($orderItem->getQtyClearomniClosed());
+                    $extensionAttributes->setItemData($orderItem->getItemData());
+                    $extensionAttributes->setItemKey(array_keys($orderItem->getItemData()));
+                    $extensionAttributes->setItemData($orderItem->getItemData());
                     $productOptions=$value2->getProductOptions();
                     /**
                      * @var $productOption \Cleargo\Clearomni\Api\Data\ProductOptionInterface
@@ -142,6 +145,8 @@ class ExtraInfo
                     $extensionAttributes2->setPickupStore($order->getPickupStore());
                     $extensionAttributes2->setPickupStoreLabel($order->getPickupStoreLabel());
                     $extensionAttributes2->setPickupStoreClearomniId($order->getPickupStoreClearomniId());
+                    $extensionAttributes2->setItemKey(array_keys($order->getItemData()));
+                    $extensionAttributes2->setItemData($order->getItemData());
                 }
             } catch (\Exception $e) {
             }
@@ -171,6 +176,8 @@ class ExtraInfo
                 $extensionAttributes->setQtyClearomniNotInterested($orderItem->getQtyClearomniNotInterested());
                 $extensionAttributes->setQtyClearomniNoShow($orderItem->getQtyClearomniNoShow());
                 $extensionAttributes->setQtyClearomniClosed($orderItem->getQtyClearomniClosed());
+                $extensionAttributes->setItemKey(array_keys($orderItem->getItemData()));
+                $extensionAttributes->setItemData($orderItem->getItemData());
                 $productOptions=$value2->getProductOptions();
                 /**
                  * @var $productOption \Cleargo\Clearomni\Api\Data\ProductOptionInterface
@@ -246,6 +253,8 @@ class ExtraInfo
                 $extensionAttributes2->setPickupStoreClearomniId($order->getPickupStoreClearomniId());
                 $extensionAttributes2->setVisitingDate($order->getVisitingDate());
                 $extensionAttributes2->setVisitingHour($order->getVisitingHour());
+                $extensionAttributes2->setItemKey(array_keys($order->getItemData()));
+                $extensionAttributes2->setItemData($order->getItemData());
             }
         } catch (\Exception $e) {
         }
