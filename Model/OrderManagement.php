@@ -75,6 +75,10 @@ class OrderManagement
      * @var \Magento\Sales\Model\Order\Email\Sender\InvoiceSender
      */
     protected $invoiceSender;
+    /**
+     * @var \Cleargo\Clearomni\Helper\Data
+     */
+    protected $emailHelper;
 
     public function __construct(
         \Magento\Sales\Api\OrderRepositoryInterface $orderRepository,
@@ -92,7 +96,8 @@ class OrderManagement
         \Cleargo\Clearomni\Api\OrderItemRepositoryInterface $clearomniOrderItemRepository,
         \Magento\Sales\Model\Service\InvoiceService $invoiceService,
         \Magento\Framework\DB\Transaction $transaction,
-        \Magento\Sales\Model\Order\Email\Sender\InvoiceSender $invoiceSender
+        \Magento\Sales\Model\Order\Email\Sender\InvoiceSender $invoiceSender,
+        \Cleargo\Clearomni\Helper\Data $emailHelper
     )
     {
         $this->orderRepository = $orderRepository;
@@ -111,6 +116,7 @@ class OrderManagement
         $this->transaction=$transaction;
         $this->result=$apiResult;
         $this->invoiceSender=$invoiceSender;
+        $this->emailHelper=$emailHelper;
     }
 
     /**
@@ -269,9 +275,96 @@ class OrderManagement
 //                    if(!empty($value->getQtyClearomniClosed())&&$value->getQtyClearomniClosed()!=="0") {
                     $orderItem->setQtyClearomniClosed($value->getQtyClearomniClosed());
                 }
+                $temp=$value->getQtyLensProduction();
+                if(isset($temp)) {
+//                    if(!empty($value->getQtyClearomniClosed())&&$value->getQtyClearomniClosed()!=="0") {
+                    $orderItem->setQtyLensProduction($value->getQtyLensProduction());
+                }
+                $temp=$value->getQtyOptomReceived();
+                if(isset($temp)) {
+//                    if(!empty($value->getQtyClearomniClosed())&&$value->getQtyClearomniClosed()!=="0") {
+                    $orderItem->setQtyOptomReceived($value->getQtyOptomReceived());
+                }
+                $temp=$value->getQtyPendingTransfer();
+                if(isset($temp)) {
+//                    if(!empty($value->getQtyClearomniClosed())&&$value->getQtyClearomniClosed()!=="0") {
+                    $orderItem->setQtyPendingTransfer($value->getQtyPendingTransfer());
+                }
+                $temp=$value->getQtyPickAndPack();
+                if(isset($temp)) {
+//                    if(!empty($value->getQtyClearomniClosed())&&$value->getQtyClearomniClosed()!=="0") {
+                    $orderItem->setQtyPickAndPack($value->getQtyPickAndPack());
+                }
+                $temp=$value->getQtyReadyToShip();
+                if(isset($temp)) {
+//                    if(!empty($value->getQtyClearomniClosed())&&$value->getQtyClearomniClosed()!=="0") {
+                    $orderItem->setQtyReadyToShip($value->getQtyReadyToShip());
+                }
+                $temp=$value->getQtyToFulfilment();
+                if(isset($temp)) {
+//                    if(!empty($value->getQtyClearomniClosed())&&$value->getQtyClearomniClosed()!=="0") {
+                    $orderItem->setQtyToFulfilment($value->getQtyToFulfilment());
+                }
+                $temp=$value->getQtyTransferringToOptom();
+                if(isset($temp)) {
+//                    if(!empty($value->getQtyClearomniClosed())&&$value->getQtyClearomniClosed()!=="0") {
+                    $orderItem->setQtyTransferringToOptom($value->getQtyTransferringToOptom());
+                }
+                $temp=$value->getQtyTransferringToPick();
+                if(isset($temp)) {
+//                    if(!empty($value->getQtyClearomniClosed())&&$value->getQtyClearomniClosed()!=="0") {
+                    $orderItem->setQtyTransferringToPick($value->getQtyTransferringToPick());
+                }
+                $temp=$value->getQtyToWarehouse();
+                if(isset($temp)) {
+//                    if(!empty($value->getQtyClearomniClosed())&&$value->getQtyClearomniClosed()!=="0") {
+                    $orderItem->setQtyToWarehouse($value->getQtyToWarehouse());
+                }
+                $temp=$value->getQtyToPickupStore();
+                if(isset($temp)) {
+//                    if(!empty($value->getQtyClearomniClosed())&&$value->getQtyClearomniClosed()!=="0") {
+                    $orderItem->setQtyToPickupStore($value->getQtyToPickupStore());
+                }
+                $temp=$value->getQtyClearomniClosed();
+                if(isset($temp)) {
+//                    if(!empty($value->getQtyClearomniClosed())&&$value->getQtyClearomniClosed()!=="0") {
+                    $orderItem->setQtyClearomniClosed($value->getQtyClearomniClosed());
+                }
+                $temp=$value->getQtyCompleted();
+                if(isset($temp)) {
+//                    if(!empty($value->getQtyClearomniClosed())&&$value->getQtyClearomniClosed()!=="0") {
+                    $orderItem->setQtyCompleted($value->getQtyCompleted());
+                }
+                $temp=$value->getQtyCancelled();
+                if(isset($temp)) {
+//                    if(!empty($value->getQtyClearomniClosed())&&$value->getQtyClearomniClosed()!=="0") {
+                    $orderItem->setQtyCancelled($value->getQtyCancelled());
+                }
+                $temp=$value->getQtyRefundRequested();
+                if(isset($temp)) {
+//                    if(!empty($value->getQtyClearomniClosed())&&$value->getQtyClearomniClosed()!=="0") {
+                    $orderItem->setQtyRefundRequested($value->getQtyRefundRequested());
+                }
+                $temp=$value->getQtyRefundReviewing();
+                if(isset($temp)) {
+//                    if(!empty($value->getQtyClearomniClosed())&&$value->getQtyClearomniClosed()!=="0") {
+                    $orderItem->setQtyRefundReviewing($value->getQtyRefundReviewing());
+                }
+                $temp=$value->getQtyRefundApproved();
+                if(isset($temp)) {
+//                    if(!empty($value->getQtyClearomniClosed())&&$value->getQtyClearomniClosed()!=="0") {
+                    $orderItem->setQtyRefundApproved($value->getQtyRefundApproved());
+                }
+                $temp=$value->getQtyRefundRejected();
+                if(isset($temp)) {
+//                    if(!empty($value->getQtyClearomniClosed())&&$value->getQtyClearomniClosed()!=="0") {
+                    $orderItem->setQtyRefundRejected($value->getQtyRefundRejected());
+                }
+                $orderItem->setItemData($value->getItemData());
                 $this->clearomniOrderItemRepository->save($orderItem);
             }
         }
+        $clearomniOrder->setItemData($param);
         $this->clearomniOrderRepository->save($clearomniOrder);
         $status = $param['status'];
         $state = $this->getOrderState($status);
@@ -281,6 +374,7 @@ class OrderManagement
             $result['message'] = 'Order Status not exist';
             return $this->setResult($result);
         }
+        $sendEmail=isset($param['send_email']);
         if ($state == $order->getState()) {
             if ($statusExist > 0) {
                 if($order->canInvoice()){
@@ -306,7 +400,49 @@ class OrderManagement
         $order->setUpdatedAt(gmdate('Y-m-d H:i:s'));
         $order->setOldStatus($oldStatus);
         $order->save();
+        if($sendEmail) {
 
+            $status = $order->getStatus();
+
+            $template = 'no_template';
+            switch ($status) {
+                case 'closed_exchange_success':
+                    $template = $this->emailHelper->getExchangeSuccess();
+                    break;
+                case 'closed_refund_success':
+                    $template = $this->emailHelper->getRefundSuccess();
+                    break;
+                case 'copmlete_exchange_requested':
+                    $template = $this->emailHelper->getExchangeRequested();
+                    break;
+                case 'complete_exchange_rejected':
+                    $template = $this->emailHelper->getExchangeRejected();
+                    break;
+                case 'complete_exchange_acknowledged':
+                    $template = $this->emailHelper->getExchangeAcknowledged();
+                    break;
+                case 'processing_pending_transfer':
+                    $template = $this->emailHelper->getPendingTransfer();
+                    break;
+                case 'processing_expired':
+                    $template = $this->emailHelper->getExpired();
+                    break;
+                case 'processing_canceled':
+                    $template = $this->emailHelper->getCanceled();
+                    break;
+                case 'processing_ready_to_pick':
+                    if ($order->getCustomerId() > 0) {
+                        $template = $this->emailHelper->getReadyToPick();
+                    } else {
+                        $template = $this->emailHelper->getReadyToPickGuest();
+                    }
+                    break;
+            }
+            if ($template != 'no_template') {
+                //send status change email
+                $this->emailHelper->sendEmail($template, $order);
+            }
+        }
 //        $this->orderRepository->save($order);
         return $this->setResult($result);
     }

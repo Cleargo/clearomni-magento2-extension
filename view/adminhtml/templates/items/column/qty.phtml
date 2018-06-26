@@ -54,72 +54,14 @@ $orderItemRepos=$objectManager->get('Cleargo\Clearomni\Model\OrderItemRepository
     <?php endif; ?>
 
     <?php if(isset($item)):?>
-        <?php if((float)$item->getQtyClearomniRefunded()):?>
-            <tr>
-                <th><?= /* @escapeNotVerified */ __('Clearomni Refunded') ?></th>
-                <td><?= /* @escapeNotVerified */ $item->getQtyClearomniRefunded()*1 ?></td>
-            </tr>
-        <?php endif;?>
-        <?php if((float)$item->getQtyClearomniCancelled()):?>
-            <tr>
-                <th><?= /* @escapeNotVerified */ __('Clearomni Cancelled') ?></th>
-                <td><?= /* @escapeNotVerified */ $item->getQtyClearomniCancelled()*1 ?></td>
-            </tr>
-        <?php endif;?>
-        <?php if((float)$item->getQtyClearomniCompleted()):?>
-            <tr>
-                <th><?= /* @escapeNotVerified */ __('Clearomni Completed') ?></th>
-                <td><?= /* @escapeNotVerified */ $item->getQtyClearomniCompleted()*1 ?></td>
-            </tr>
-        <?php endif;?>
-        <?php if((float)$item->getQtyClearomniExchangeRejected()):?>
-            <tr>
-                <th><?= /* @escapeNotVerified */ __('Clearomni Exchange Rejected') ?></th>
-                <td><?= /* @escapeNotVerified */ $item->getQtyClearomniExchangeRejected()*1 ?></td>
-            </tr>
-        <?php endif;?>
-        <?php if((float)$item->getQtyClearomniExchangeSuccess()):?>
-            <tr>
-                <th><?= /* @escapeNotVerified */ __('Clearomni Exchange Success') ?></th>
-                <td><?= /* @escapeNotVerified */ $item->getQtyClearomniExchangeSuccess()*1 ?></td>
-            </tr>
-        <?php endif;?>
-        <?php if((float)$item->getQtyClearomniReserved()):?>
-            <tr>
-                <th><?= /* @escapeNotVerified */ __('Clearomni Reserved') ?></th>
-                <td><?= /* @escapeNotVerified */ $item->getQtyClearomniReserved()*1 ?></td>
-            </tr>
-        <?php endif;?>
-        <?php if((float)$item->getQtyClearomniToTransfer()):?>
-            <tr>
-                <th><?= /* @escapeNotVerified */ __('Clearomni To Transfer') ?></th>
-                <td><?= /* @escapeNotVerified */ $item->getQtyClearomniToTransfer()*1 ?></td>
-            </tr>
-        <?php endif;?>
-        <?php if((float)$item->getQtyClearomniStillConsidering()):?>
-            <tr>
-                <th><?= /* @escapeNotVerified */ __('Clearomni Still Considering') ?></th>
-                <td><?= /* @escapeNotVerified */ $item->getQtyClearomniStillConsidering()*1 ?></td>
-            </tr>
-        <?php endif;?>
-        <?php if((float)$item->getQtyClearomniNotInterested()):?>
-            <tr>
-                <th><?= /* @escapeNotVerified */ __('Clearomni Not Interested') ?></th>
-                <td><?= /* @escapeNotVerified */ $item->getQtyClearomniNotInterested()*1 ?></td>
-            </tr>
-        <?php endif;?>
-        <?php if((float)$item->getQtyClearomniNoShow()):?>
-            <tr>
-                <th><?= /* @escapeNotVerified */ __('Clearomni No Show') ?></th>
-                <td><?= /* @escapeNotVerified */ $item->getQtyClearomniNoShow()*1 ?></td>
-            </tr>
-        <?php endif;?>
-        <?php if((float)$item->getQtyClearomniClosed()):?>
-            <tr>
-                <th><?= /* @escapeNotVerified */ __('Clearomni Closed') ?></th>
-                <td><?= /* @escapeNotVerified */ $item->getQtyClearomniClosed()*1 ?></td>
-            </tr>
-        <?php endif;?>
+        <?php foreach ($item->getItemData() as $key=>$value):?>
+            <?php if((float)$value):?>
+                <tr>
+                    <th><?= /* @escapeNotVerified */ __($key) ?></th>
+                    <td><?= /* @escapeNotVerified */ $value*1 ?></td>
+                </tr>
+            <?php endif;?>
+        <?php endforeach; ?>
     <?php endif; ?>
 </table>
 <?php endif; ?>

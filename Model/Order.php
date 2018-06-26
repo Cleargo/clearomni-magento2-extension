@@ -32,6 +32,9 @@ class Order extends \Magento\Framework\Model\AbstractModel implements OrderInter
      */
     public function setOrderId($orderId)
     {
+        $data = $this->getItemData();
+        $data[self::ORDER_ID] = $orderId;
+        $this->getItemData($data);
         return $this->setData(self::ORDER_ID, $orderId);
     }
 
@@ -41,6 +44,12 @@ class Order extends \Magento\Framework\Model\AbstractModel implements OrderInter
      */
     public function getStaffCode()
     {
+        $data = $this->getItemData();
+        if (isset($data[self::STAFF_CODE])) {
+            return $data[self::STAFF_CODE];
+        } else {
+            return $this->getData(self::STAFF_CODE);
+        }
         return $this->getData(self::STAFF_CODE);
     }
 
@@ -51,6 +60,9 @@ class Order extends \Magento\Framework\Model\AbstractModel implements OrderInter
      */
     public function setStaffCode($staff_code)
     {
+        $data = $this->getItemData();
+        $data[self::STAFF_CODE] = $staff_code;
+        $this->getItemData($data);
         return $this->setData(self::STAFF_CODE, $staff_code);
     }
 
@@ -60,6 +72,12 @@ class Order extends \Magento\Framework\Model\AbstractModel implements OrderInter
      */
     public function getClearomniRemarks()
     {
+        $data = $this->getItemData();
+        if (isset($data[self::CLEAROMNI_REMARKS])) {
+            return $data[self::CLEAROMNI_REMARKS];
+        } else {
+            return $this->getData(self::CLEAROMNI_REMARKS);
+        }
         return $this->getData(self::CLEAROMNI_REMARKS);
     }
 
@@ -70,6 +88,9 @@ class Order extends \Magento\Framework\Model\AbstractModel implements OrderInter
      */
     public function setClearomniRemarks($clearomni_remarks)
     {
+        $data = $this->getItemData();
+        $data[self::CLEAROMNI_REMARKS] = $clearomni_remarks;
+        $this->getItemData($data);
         return $this->setData(self::CLEAROMNI_REMARKS, $clearomni_remarks);
     }
 
@@ -79,6 +100,12 @@ class Order extends \Magento\Framework\Model\AbstractModel implements OrderInter
      */
     public function getPickupStore()
     {
+        $data = $this->getItemData();
+        if (isset($data[self::PICKUP_STORE])) {
+            return $data[self::PICKUP_STORE];
+        } else {
+            return $this->getData(self::PICKUP_STORE);
+        }
         return $this->getData(self::PICKUP_STORE);
     }
 
@@ -89,6 +116,9 @@ class Order extends \Magento\Framework\Model\AbstractModel implements OrderInter
      */
     public function setPickupStore($pickup_store)
     {
+        $data = $this->getItemData();
+        $data[self::PICKUP_STORE] = $pickup_store;
+        $this->getItemData($data);
         return $this->setData(self::PICKUP_STORE, $pickup_store);
     }
 
@@ -98,6 +128,12 @@ class Order extends \Magento\Framework\Model\AbstractModel implements OrderInter
      */
     public function getPickupStoreLabel()
     {
+        $data = $this->getItemData();
+        if (isset($data[self::PICKUP_STORE_LABEL])) {
+            return $data[self::PICKUP_STORE_LABEL];
+        } else {
+            return $this->getData(self::PICKUP_STORE_LABEL);
+        }
         return $this->getData(self::PICKUP_STORE_LABEL);
     }
 
@@ -108,6 +144,9 @@ class Order extends \Magento\Framework\Model\AbstractModel implements OrderInter
      */
     public function setPickupStoreLabel($pickup_store_label)
     {
+        $data = $this->getItemData();
+        $data[self::PICKUP_STORE_LABEL] = $pickup_store_label;
+        $this->getItemData($data);
         return $this->setData(self::PICKUP_STORE_LABEL, $pickup_store_label);
     }
 
@@ -117,6 +156,12 @@ class Order extends \Magento\Framework\Model\AbstractModel implements OrderInter
      */
     public function getPickupStoreClearomniId()
     {
+        $data = $this->getItemData();
+        if (isset($data[self::PICKUP_STORE_CLEAROMNI_ID])) {
+            return $data[self::PICKUP_STORE_CLEAROMNI_ID];
+        } else {
+            return $this->getData(self::PICKUP_STORE_CLEAROMNI_ID);
+        }
         return $this->getData(self::PICKUP_STORE_CLEAROMNI_ID);
     }
 
@@ -127,6 +172,9 @@ class Order extends \Magento\Framework\Model\AbstractModel implements OrderInter
      */
     public function setPickupStoreClearomniId($pickup_store_clearomni_id)
     {
+        $data = $this->getItemData();
+        $data[self::PICKUP_STORE_CLEAROMNI_ID] = $pickup_store_clearomni_id;
+        $this->getItemData($data);
         return $this->setData(self::PICKUP_STORE_CLEAROMNI_ID, $pickup_store_clearomni_id);
     }
 
@@ -136,6 +184,12 @@ class Order extends \Magento\Framework\Model\AbstractModel implements OrderInter
      */
     public function getMagentoOrderId()
     {
+        $data = $this->getItemData();
+        if (isset($data[self::MAGNETO_ORDER_ID])) {
+            return $data[self::MAGNETO_ORDER_ID];
+        } else {
+            return $this->getData(self::MAGNETO_ORDER_ID);
+        }
         return $this->getData(self::MAGNETO_ORDER_ID);
     }
 
@@ -146,6 +200,9 @@ class Order extends \Magento\Framework\Model\AbstractModel implements OrderInter
      */
     public function setMagentoOrderId($magento_order_id)
     {
+        $data = $this->getItemData();
+        $data[self::MAGNETO_ORDER_ID] = $magento_order_id;
+        $this->getItemData($data);
         return $this->setData(self::MAGNETO_ORDER_ID, $magento_order_id);
     }
 
@@ -155,6 +212,12 @@ class Order extends \Magento\Framework\Model\AbstractModel implements OrderInter
      */
     public function getVisitingDate()
     {
+        $data = $this->getItemData();
+        if (isset($data[self::VISITING_DATE])) {
+            return $data[self::VISITING_DATE];
+        } else {
+            return $this->getData(self::VISITING_DATE);
+        }
         return $this->getData(self::VISITING_DATE);
     }
 
@@ -165,6 +228,9 @@ class Order extends \Magento\Framework\Model\AbstractModel implements OrderInter
      */
     public function setVisitingDate($visiting_date)
     {
+        $data = $this->getItemData();
+        $data[self::VISITING_DATE] = $visiting_date;
+        $this->getItemData($data);
         return $this->setData(self::VISITING_DATE, $visiting_date);
     }
 
@@ -174,7 +240,12 @@ class Order extends \Magento\Framework\Model\AbstractModel implements OrderInter
      */
     public function getVisitingHour()
     {
-        return $this->getData(self::VISITING_HOUR);
+        $data = $this->getItemData();
+        if (isset($data[self::VISITING_HOUR])) {
+            return $data[self::VISITING_HOUR];
+        } else {
+            return $this->getData(self::VISITING_HOUR);
+        }
     }
 
     /**
@@ -184,6 +255,28 @@ class Order extends \Magento\Framework\Model\AbstractModel implements OrderInter
      */
     public function setVisitingHour($visiting_hour)
     {
+        $data = $this->getItemData();
+        $data[self::VISITING_HOUR] = $visiting_hour;
+        $this->getItemData($data);
         return $this->setData(self::VISITING_HOUR, $visiting_hour);
     }
+
+    public function getItemData()
+    {
+        return empty($this->getData(self::DATA)) ? [] : json_decode($this->getData(self::DATA), true);
+    }
+
+    public function setItemData($data)
+    {
+        return $this->setData(self::DATA, json_encode($data));
+    }
+
+    public function addItemData($code, $value)
+    {
+        $data = $this->getItemData();
+        $data[$code] = $value;
+        $this->getItemData($data);
+    }
+
+
 }

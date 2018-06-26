@@ -241,6 +241,24 @@ class UpgradeSchema implements UpgradeSchemaInterface
                 ]
             );
         }
+        if (version_compare($context->getVersion(), '1.0.6', '<')) {
+            $setup->getConnection()->addColumn(
+                $setup->getTable('cleargo_clearomni_order'),
+                'item_data',
+                [
+                    'type' => \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
+                    'comment' => 'data in json'
+                ]
+            );
+            $setup->getConnection()->addColumn(
+                $setup->getTable('cleargo_clearomni_orderitem'),
+                'item_data',
+                [
+                    'type' => \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
+                    'comment' => 'data in json',
+                ]
+            );
+        }
         $setup->endSetup();
     }
 }

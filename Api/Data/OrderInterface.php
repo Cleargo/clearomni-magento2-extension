@@ -15,6 +15,7 @@ interface OrderInterface
     const CLEAROMNI_REMARKS = 'clearomni_remarks';
     const VISITING_DATE = 'visiting_date';
     const VISITING_HOUR = 'visiting_hour';
+    const DATA = 'item_data';
 
 
     /**
@@ -133,4 +134,25 @@ interface OrderInterface
      * @return \Cleargo\Clearomni\Api\Data\OrderInterface
      */
     public function setVisitingHour($visiting_hour);
+    /**
+     * Get data
+     * @return string[]|null
+     */
+    public function getItemData();
+
+    /**
+     * Set data
+     * @param string $data
+     * @return \Cleargo\Clearomni\Api\Data\OrderInterface
+     */
+    public function setItemData($data);
+
+    /**
+     * Set data
+     * @param string $code
+     * @param string $value
+     * @return \Cleargo\Clearomni\Api\Data\OrderItemInterface
+     */
+    public function addItemData($code,$value);
+
 }
