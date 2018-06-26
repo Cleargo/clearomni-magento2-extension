@@ -110,7 +110,11 @@ class SalesOrderPlaceBeforeObserver implements ObserverInterface
         }
         $code='';
         try{
-            $retailer=$this->retailerRepository->get($quote->getShippingAddress()->getRetailerId());
+            $retailerId=$quote->getShippingAddress()->getRetailerId();
+            if(empty($retailerId)){
+                $retailerId=$quote->getSellerId();
+            }
+            $retailer=$this->retailerRepository->get($retailerId);
             $code=$retailer->getSellerCode();
 
         }catch (\Exception $e){
@@ -127,6 +131,8 @@ class SalesOrderPlaceBeforeObserver implements ObserverInterface
                     __('Some of product is out of stock')
                 );
             }
+            $customerData=\Magento\Framework\App\ObjectManager::getInstance()->create('Smile\StoreLocator\CustomerData\CurrentStore');
+            $customerData->setRetailer($retailer);
         }
         
     }

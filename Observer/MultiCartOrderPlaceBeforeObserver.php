@@ -128,6 +128,7 @@ class MultiCartOrderPlaceBeforeObserver implements ObserverInterface
                 if ($this->_customerSession->isLoggedIn()) {
                     $this->searchCriteria=$this->_searchCriteria
                         ->addFilter('state','processing')
+                        ->addFilter('status','processing_canceled','neq')
                         ->addFilter('customer_id',$this->_customerSession->getCustomer()->getId())->create();
                     $list = $this->orderRepository->getList($this->searchCriteria);
 //                    echo $list->getSelect();

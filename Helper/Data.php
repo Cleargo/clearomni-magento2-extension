@@ -207,7 +207,6 @@ class Data extends AbstractHelper implements \Cleargo\Clearomni\Helper\Clearomni
         $store = $this->storeManager->getStore()->getId();
         $customer = $this->_objectManager->create('Magento\Customer\Model\Customer')->load($order->getCustomerId());
         $clearomniOrder = $this->_objectManager->create('Cleargo\Clearomni\Model\Order')->load($order->getId(), 'magento_order_id');
-        $expiryDate =  date("Y-m-d", strtotime('+2 days'));
 
         $orderRep = $this->_objectManager->create('Magento\Sales\Api\OrderRepositoryInterface')->get($order->getId());
         $extensionAttribute = $orderRep->getExtensionAttributes();
@@ -216,14 +215,22 @@ class Data extends AbstractHelper implements \Cleargo\Clearomni\Helper\Clearomni
         switch ($orderType) {
             case Util::ORDER_TYPE_CNR:
                 $temp['is_cnr'] = true;
+                $expiryDate =  date("Y-m-d", strtotime('+2 days'));
                 break;
             case Util::ORDER_TYPE_CNC:
                 $temp['is_cnc'] = true;
+                $expiryDate =  date("Y-m-d", strtotime('+14 days'));
                 break;
+            default:
+                $expiryDate =  date("Y-m-d", strtotime('+2 days'));
         }
 
+        $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+        $emul = $objectManager->create("\Magento\Store\Model\App\Emulation");
+        $initialEnvironmentInfo = $emul->startEnvironmentEmulation($order->getStoreId(),'frontend',true);
+
         $transport = $this->_transportBuilder->setTemplateIdentifier($emailId)
-            ->setTemplateOptions(['area' => 'frontend', 'store' => $store])
+            ->setTemplateOptions(['area' => 'frontend', 'store' => $order->getStoreId()])
             ->setTemplateVars(
                 [
                     'store' => $this->storeManager->getStore(),
