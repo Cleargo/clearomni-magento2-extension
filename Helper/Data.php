@@ -208,6 +208,10 @@ class Data extends AbstractHelper implements \Cleargo\Clearomni\Helper\Clearomni
         $customer = $this->_objectManager->create('Magento\Customer\Model\Customer')->load($order->getCustomerId());
         $clearomniOrder = $this->_objectManager->create('Cleargo\Clearomni\Model\Order')->load($order->getId(), 'magento_order_id');
 
+        $groupRepository  = $this->_objectManager->create('\Magento\Customer\Api\GroupRepositoryInterface');
+        $customerGroup = $groupRepository->getById($customer->getGroupId());
+        $customerGroupLabel = $customerGroup->getCode();
+
         $orderRep = $this->_objectManager->create('Magento\Sales\Api\OrderRepositoryInterface')->get($order->getId());
         $extensionAttribute = $orderRep->getExtensionAttributes();
         $orderType = $extensionAttribute->getOrderType();
@@ -240,6 +244,7 @@ class Data extends AbstractHelper implements \Cleargo\Clearomni\Helper\Clearomni
                     'clearomni_order' => $clearomniOrder,
                     'is_cnr' => $temp['is_cnr'],
                     'is_cnc' => $temp['is_cnc'],
+                    'customer_group' => __($customerGroupLabel)
                 ]
             )
             ->setFrom('general')
