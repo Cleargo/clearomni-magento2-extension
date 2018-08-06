@@ -233,20 +233,29 @@ class Data extends AbstractHelper implements \Cleargo\Clearomni\Helper\Clearomni
         $emul = $objectManager->create("\Magento\Store\Model\App\Emulation");
         $initialEnvironmentInfo = $emul->startEnvironmentEmulation($order->getStoreId(),'frontend',true);
 
+        $templateVars = [
+            'store' => $this->storeManager->getStore(),
+            'order' => $order,
+            'customer' => $customer,
+            'expiry_date' => $expiryDate,
+            'clearomni_order' => $clearomniOrder,
+            'is_cnr' => $temp['is_cnr'],
+            'is_cnc' => $temp['is_cnc'],
+            'customer_group' => __($customerGroupLabel)
+        ];
+
+        if ($emailId == 'clearomni_clearomni_ready_to_pick' || $emailId == 'clearomni_clearomni_ready_to_pick_guest') {
+            $invoiceCollection = $order->getInvoiceCollection();
+            if ($invoiceCollection) {
+                $invoice = $invoiceCollection->getFirstItem();
+                $tempArr = ['invoice' => $invoice];
+                $templateVars = array_merge($templateVars, $tempArr);
+            }
+        }
+
         $transport = $this->_transportBuilder->setTemplateIdentifier($emailId)
             ->setTemplateOptions(['area' => 'frontend', 'store' => $order->getStoreId()])
-            ->setTemplateVars(
-                [
-                    'store' => $this->storeManager->getStore(),
-                    'order' => $order,
-                    'customer' => $customer,
-                    'expiry_date' => $expiryDate,
-                    'clearomni_order' => $clearomniOrder,
-                    'is_cnr' => $temp['is_cnr'],
-                    'is_cnc' => $temp['is_cnc'],
-                    'customer_group' => __($customerGroupLabel)
-                ]
-            )
+            ->setTemplateVars($templateVars)
             ->setFrom('general')
             // you can config general email address in Store -> Configuration -> General -> Store Email Addresses
             ->addTo($order->getCustomerEmail(), $order->getShippingAddress()->getName())
