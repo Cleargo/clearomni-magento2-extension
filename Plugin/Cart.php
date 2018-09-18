@@ -136,13 +136,17 @@ class Cart
         $product = $this->_getProduct($productInfo);
         $request = $this->_getProductRequest($requestInfo);
         $productId = $product->getId();
-        if($requestInfo['buyType']=='bnd'){
+        if(isset($requestInfo['buyType']) &&  $requestInfo['buyType']=='bnd'){
             return [$productInfo,$requestInfo];
         }
         if(isset($requestInfo['super_attribute'])) {//check product is configurable
             //get child product sku
             $childProduct =  $this->configurable->getProductByAttributes($requestInfo['super_attribute'],$product);
-            $response=$this->helper->request('/get-store?order_type=cnr&store_view='.$this->_storeManager->getStore()->getId().'&skus[]='.$childProduct->getSku());
+            $response=$this->helper->request(
+                '/get-store?order_type=' . $this->getOrderTypeForRequest()
+                .'&store_view='.$this->_storeManager->getStore()->getId()
+                .'&skus[]='.$childProduct->getSku()
+            );
             if($response['error']==true||$response['error']=='true'){
                 throw new \Magento\Framework\Exception\LocalizedException(__('Error Occur'));
             }else{
@@ -152,7 +156,11 @@ class Cart
                 }
             }
         }else{
-            $response=$this->helper->request('/get-store?order_type=cnr&store_view='.$this->_storeManager->getStore()->getId().'&skus[]='.$product->getSku());
+            $response=$this->helper->request(
+                '/get-store?order_type='.$this->getOrderTypeForRequest()
+                .'&store_view='.$this->_storeManager->getStore()->getId()
+                .'&skus[]='.$product->getSku()
+            );
             if($response['error']==true||$response['error']=='true'){
                 throw new \Magento\Framework\Exception\LocalizedException(__('Error Occur'));
             }else{
@@ -217,6 +225,11 @@ class Cart
                 ->get(\Magento\Checkout\Model\Cart\RequestInfoFilterInterface::class);
         }
         return $this->requestInfoFilter;
+    }
+
+    protected function getOrderTypeForRequest()
+    {
+        return 'cnr';
     }
 
 }
