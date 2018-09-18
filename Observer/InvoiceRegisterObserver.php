@@ -65,10 +65,6 @@ class InvoiceRegisterObserver implements ObserverInterface
 
     protected $connection;
     /**
-     * @var \Smile\Retailer\Api\RetailerRepositoryInterface
-     */
-    protected $retailerRepository;
-    /**
      * @param \Magento\Framework\Event\Manager            $eventManager
      * @param \Magento\Framework\ObjectManagerInterface   $objectManager
      * @param \Magento\Customer\Model\Session             $customerSession
@@ -86,7 +82,6 @@ class InvoiceRegisterObserver implements ObserverInterface
         \Cleargo\Clearomni\Api\OrderRepositoryInterface $orderRepository,
         \Cleargo\Clearomni\Helper\Data $helper,
         \Cleargo\Clearomni\Helper\Request $requestHelper,
-        \Smile\Retailer\Api\RetailerRepositoryInterface $retailerRepository,
         \Cleargo\Clearomni\Model\Order $order
     ) {
         $this->_eventManager = $eventManager;
@@ -100,7 +95,6 @@ class InvoiceRegisterObserver implements ObserverInterface
         $this->requestHelper=$requestHelper;
         $this->orderRepository=$orderRepository;
         $this->order=$order;
-        $this->retailerRepository=$retailerRepository;
         $this->connection=$objectManager->get('Magento\Framework\App\ResourceConnection')->getConnection();
     }
 

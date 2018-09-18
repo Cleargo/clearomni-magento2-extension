@@ -47,11 +47,7 @@ class MultiCartOrderPlaceAfterObserver implements ObserverInterface
      * @var \Cleargo\AigleClearomniConnector\Helper\Data
      */
     protected $aigleHelper;
-
-    /**
-     * @var \Smile\Retailer\Api\RetailerRepositoryInterface
-     */
-    protected $retailerRepository;
+    
     /**
      * @var \Magento\Sales\Api\OrderRepositoryInterface
      */
@@ -93,7 +89,6 @@ class MultiCartOrderPlaceAfterObserver implements ObserverInterface
         \Magento\Framework\Stdlib\DateTime\DateTime $date,
         \Cleargo\Clearomni\Model\OrderItemFactory $orderItemFactory,
         \Cleargo\Clearomni\Helper\Data $helper,
-        \Smile\Retailer\Api\RetailerRepositoryInterface $retailerRepository,
         \Magento\Sales\Api\OrderRepositoryInterface $orderRepositoryInterface,
         \Magento\Framework\Api\SearchCriteriaInterface $criteria,
         \Magento\Framework\Api\Search\FilterGroup $filterGroup,
@@ -109,7 +104,6 @@ class MultiCartOrderPlaceAfterObserver implements ObserverInterface
         $this->_date = $date;
         $this->orderItemFactory = $orderItemFactory;
         $this->helper = $helper;
-        $this->retailerRepository = $retailerRepository;
         $this->orderRepository = $orderRepositoryInterface;
         $this->searchCriteria = $criteria;
         $this->filterGroup = $filterGroup;

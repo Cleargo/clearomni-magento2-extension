@@ -49,10 +49,6 @@ class SalesOrderPlaceBeforeObserver implements ObserverInterface
     protected $aigleHelper;
 
     /**
-     * @var \Smile\Retailer\Api\RetailerRepositoryInterface
-     */
-    protected $retailerRepository;
-    /**
      * @var \Magento\Sales\Api\OrderRepositoryInterface
      */
     public $orderRepository;
@@ -76,7 +72,6 @@ class SalesOrderPlaceBeforeObserver implements ObserverInterface
         \Magento\Framework\Stdlib\DateTime\DateTime $date,
         \Cleargo\Clearomni\Model\OrderItemFactory $orderItemFactory,
         \Cleargo\Clearomni\Helper\Data $helper,
-        \Smile\Retailer\Api\RetailerRepositoryInterface $retailerRepository,
         \Magento\Sales\Api\OrderRepositoryInterface $orderRepositoryInterface,
         \Magento\Framework\Api\SearchCriteriaBuilder $searchCriteriaBuilder
     ) {
@@ -87,7 +82,6 @@ class SalesOrderPlaceBeforeObserver implements ObserverInterface
         $this->_date = $date;
         $this->orderItemFactory=$orderItemFactory;
         $this->helper=$helper;
-        $this->retailerRepository=$retailerRepository;
         $this->orderRepository = $orderRepositoryInterface;
         $this->searchCriteriaBuilder = $searchCriteriaBuilder;
     }
@@ -114,7 +108,10 @@ class SalesOrderPlaceBeforeObserver implements ObserverInterface
             if(empty($retailerId)){
                 $retailerId=$quote->getSellerId();
             }
-            $retailer=$this->retailerRepository->get($retailerId);
+
+            $retailer = \Magento\Framework\App\ObjectManager::getInstance()
+                            ->create('Smile\Retailer\Api\RetailerRepositoryInterface')
+                            ->get($retailerId);
             $code=$retailer->getSellerCode();
 
         }catch (\Exception $e){
@@ -134,6 +131,6 @@ class SalesOrderPlaceBeforeObserver implements ObserverInterface
             $customerData=\Magento\Framework\App\ObjectManager::getInstance()->create('Smile\StoreLocator\CustomerData\CurrentStore');
             $customerData->setRetailer($retailer);
         }
-        
+
     }
 }

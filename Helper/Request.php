@@ -45,10 +45,6 @@ class Request extends AbstractHelper
     protected $_transportBuilder;
 
     /**
-     * @var \Cleargo\Clearomni\Helper\ClearomniHelperInterface
-     */
-    protected $externalClearomniHelper;
-    /**
      * @param Magento\Framework\App\Helper\Context $context
      * @param Magento\Framework\ObjectManagerInterface $objectManager
      * @param Magento\Framework\Translate\Inline\StateInterface $inlineTranslation

@@ -64,10 +64,7 @@ class SalesOrderPlaceAfterObserver implements ObserverInterface
     protected $order;
 
     protected $connection;
-    /**
-     * @var \Smile\Retailer\Api\RetailerRepositoryInterface
-     */
-    protected $retailerRepository;
+    
     /**
      * @param \Magento\Framework\Event\Manager            $eventManager
      * @param \Magento\Framework\ObjectManagerInterface   $objectManager
@@ -86,7 +83,6 @@ class SalesOrderPlaceAfterObserver implements ObserverInterface
         \Cleargo\Clearomni\Api\OrderRepositoryInterface $orderRepository,
         \Cleargo\Clearomni\Helper\Data $helper,
         \Cleargo\Clearomni\Helper\Request $requestHelper,
-        \Smile\Retailer\Api\RetailerRepositoryInterface $retailerRepository,
         \Cleargo\Clearomni\Model\Order $order
     ) {
         $this->_eventManager = $eventManager;
@@ -100,7 +96,6 @@ class SalesOrderPlaceAfterObserver implements ObserverInterface
         $this->requestHelper=$requestHelper;
         $this->orderRepository=$orderRepository;
         $this->order=$order;
-        $this->retailerRepository=$retailerRepository;
         $this->connection=$objectManager->get('Magento\Framework\App\ResourceConnection')->getConnection();
     }
 
@@ -123,7 +118,10 @@ class SalesOrderPlaceAfterObserver implements ObserverInterface
             if(empty($retailerId)){
                 $retailerId=$order->getSellerId();
             }
-            $retailer=$this->retailerRepository->get($retailerId);
+
+            $retailer= \Magento\Framework\App\ObjectManager::getInstance()
+                        ->create('Smile\Retailer\Api\RetailerRepositoryInterface')
+                        ->get($retailerId);
             $clearomniOrder->setPickupStore($retailer->getSellerCode());
             $clearomniOrder->setPickupStoreLabel($retailer->getName());
             $clearomniOrder->setPickupStoreClearomniId($retailer->getClearomniId());
