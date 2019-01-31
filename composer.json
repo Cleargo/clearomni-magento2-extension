@@ -1,15 +1,18 @@
 {
     "name": "cleargo/module-clearomni",
-    "description": "Extend Product",
-    "license": "proprietary",
+    "description": "Cleaomni Api",
+    "license": "MIT",
+	"keywords": ["clearomni"],
     "authors": [
         {
-            "name": "Mage2Gen",
-            "email": "info@mage2gen.com"
+            "name": "Leo",
+            "email": "leo@cleargo.com"
         }
     ],
     "minimum-stability": "dev",
-    "require": {},
+    "require": {
+		"php": ">=5.5.0"
+	},
     "autoload": {
         "psr-4": {
             "Cleargo\\Clearomni\\": ""
