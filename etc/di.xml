@@ -25,4 +25,7 @@
 	<type name="Magento\Sales\Model\Order">
 		<plugin name="payment_plugin" type="Cleargo\Clearomni\Plugin\CapturePayment" sortOrder="1000" disabled="false" />
 	</type>
+	<type name="Magento\OfflinePayments\Model\Checkmo">
+		<plugin name="checkmo_plugin" type="Cleargo\Clearomni\Plugin\CheckmoPlugin" sortOrder="1000" disabled="false" />
+	</type>
 </config>
