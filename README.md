@@ -829,3 +829,35 @@ return
         "message": "Order Status is updated to closed_exchange_success"
 }
 ```
+
+
+
+### get Catalog price rule price list
+```
+GET /rest/V1/cleargo-clearomni/catalogruleprice
+```
+## body
+```
+[
+    {
+        "rule_product_price_id": "1",
+        "rule_date": "2019-02-19",
+        "customer_group_id": "0",
+        "product_id": "22970",
+        "rule_price": "32.0000",
+        "website_id": "1",
+        "latest_start_date": "2019-02-19",
+        "earliest_end_date": null
+    },
+    {
+        "rule_product_price_id": "2",
+        "rule_date": "2019-02-20",
+        "customer_group_id": "0",
+        "product_id": "22970",
+        "rule_price": "32.0000",
+        "website_id": "1",
+        "latest_start_date": "2019-02-19",
+        "earliest_end_date": null
+    }
+]
+```
