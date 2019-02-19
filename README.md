@@ -10,10 +10,27 @@ detail in here<br />
 ###OAuth-based<br />
 ```http://devdocs.magento.com/guides/v2.1/get-started/authentication/gs-authentication-oauth.html```<br />
 
-###API List
+# API List
 1.  Get product frontend label
 [/rest/V1/cleargo-clearomni/product-attribute/frontendlabels?attribute_code={attribute_code}](#ProductFrontlabel)
-2. Get Catalog price rule price list
+
+2. Get Website Ids of product
+[/rest/V1/cleargo-clearomni/product/websiteids?sku={sku}](#Get-Website-Ids-of-product)
+
+3. Get Order Status List
+[/rest/V1/cleargo-clearomni/orderstatus](#Get-Order-Status-List)
+
+4. Get order by id (Default Magento API)
+[/rest/V1/orders/:id](#get-order-by-id)
+
+5. Update quote_item api
+[/rest/V1/cleargo-clearomni/quoteitem/:quote_item_id](#update-quote_item-api)
+[/rest/V1/cleargo-clearomni/quoteitem/:id](#update-quote_item-api)
+
+6. Update order status
+[/rest/V1/cleargo-clearomni/order/update](#update-order-status)
+
+7. Get Catalog price rule price list
 [/rest/V1/cleargo-clearomni/catalogruleprice](#get-Catalog-price-rule-price-list)
 
 
@@ -38,7 +55,7 @@ detail in here<br />
 ]
 ```
 
-### Website Ids - product is available in websites
+### Get Website Ids of product
 ```/rest/V1/cleargo-clearomni/product/websiteids?sku={sku}```
 
 **Example:**
@@ -53,7 +70,7 @@ detail in here<br />
 ```
 
 ## Orders
-### Order Status
+### Get Order Status List
 ```/rest/V1/cleargo-clearomni/orderstatus```
 
 **Response:**
