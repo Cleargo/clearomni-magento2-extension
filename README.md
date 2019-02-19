@@ -10,6 +10,10 @@ detail in here<br />
 ###OAuth-based<br />
 ```http://devdocs.magento.com/guides/v2.1/get-started/authentication/gs-authentication-oauth.html```<br />
 
+###API List
+1.  [Go to api](#get-Catalog-price-rule-price-list)
+
+
 ## Product
 ### Frontlabel
 ```/rest/V1/cleargo-clearomni/product-attribute/frontendlabels?attribute_code={attribute_code}```
