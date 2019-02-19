@@ -82,4 +82,10 @@
 			<resource ref="Cleargo_Clearomni::Order_update"/>
 		</resources>
 	</route>
+	<route method="GET" url="/V1/cleargo-clearomni/catalogruleprice">
+		<service class="Cleargo\Clearomni\Api\CatalogrulepriceRepositoryInterface" method="getCatalogRulePriceList"/>
+		<resources>
+			<resource ref="Cleargo_Clearomni::Catalogruleprice_view"/>
+		</resources>
+	</route>
 </routes>
