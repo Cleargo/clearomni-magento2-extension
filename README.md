@@ -836,7 +836,7 @@ return
 ```
 GET /rest/V1/cleargo-clearomni/catalogruleprice
 ```
-## body
+## Response
 ```
 [
     {
