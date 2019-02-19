@@ -1,13 +1,13 @@
 # CLEAROmni Magento 2 Connector by Cleargo team 01
 
-##Authentication
+## Authentication
 get token if you facing unauth access
 detail in here<br />
-###Authentication<br />
+### Authentication<br />
 ```http://devdocs.magento.com/guides/v2.1/get-started/authentication/gs-authentication.html```<br />
-###Token-based<br />
+### Token-based<br />
 ```http://devdocs.magento.com/guides/v2.1/get-started/authentication/gs-authentication-token.html```<br />
-###OAuth-based<br />
+### OAuth-based<br />
 ```http://devdocs.magento.com/guides/v2.1/get-started/authentication/gs-authentication-oauth.html```<br />
 
 # API List
