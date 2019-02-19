@@ -11,11 +11,14 @@ detail in here<br />
 ```http://devdocs.magento.com/guides/v2.1/get-started/authentication/gs-authentication-oauth.html```<br />
 
 ###API List
-1.  [Go to api](#get-Catalog-price-rule-price-list)
+1.  Get product frontend label
+[/rest/V1/cleargo-clearomni/product-attribute/frontendlabels?attribute_code={attribute_code}](#ProductFrontlabel)
+2. Get Catalog price rule price list
+[/rest/V1/cleargo-clearomni/catalogruleprice](#get-Catalog-price-rule-price-list)
 
 
 ## Product
-### Frontlabel
+### ProductFrontlabel
 ```/rest/V1/cleargo-clearomni/product-attribute/frontendlabels?attribute_code={attribute_code}```
 
 **Example:**
