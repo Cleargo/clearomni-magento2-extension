@@ -33,6 +33,9 @@ detail in here<br />
 7. Get Catalog price rule price list
 [/rest/V1/cleargo-clearomni/catalogruleprice](#get-Catalog-price-rule-price-list)
 
+8. Search catalog price rule price list(support searchCriteria)
+
+
 
 ## Product
 ### ProductFrontlabel
@@ -884,4 +887,52 @@ GET /rest/V1/cleargo-clearomni/catalogruleprice
         "earliest_end_date": null
     }
 ]
+```
+
+
+### Search Catalog price rule price list
+    Support seatch fields on all returning fields and sku
+```
+GET /rest/V1/cleargo-clearomni/catalogruleprice/search?searchCriteria[filter_groups][0][filters][0][condition_type]=eq&searchCriteria[filter_groups][0][filters][0][value]=CZW181W10906024050&searchCriteria[filter_groups][0][filters][0][field]=sku
+```
+## Response
+```
+{
+    "items": [
+        {
+            "rule_product_price_id": "569",
+            "rule_date": "2019-02-27",
+            "customer_group_id": "1",
+            "product_id": "15641",
+            "rule_price": "545.0000",
+            "website_id": "1",
+            "latest_start_date": "2019-02-20",
+            "earliest_end_date": null
+        },
+        {
+            "rule_product_price_id": "570",
+            "rule_date": "2019-02-28",
+            "customer_group_id": "1",
+            "product_id": "15641",
+            "rule_price": "545.0000",
+            "website_id": "1",
+            "latest_start_date": "2019-02-20",
+            "earliest_end_date": null
+        }
+    ],
+    "search_criteria": {
+        "filter_groups": [
+            {
+                "filters": [
+                    {
+                        "field": "sku",
+                        "value": "CZW181W10906024050",
+                        "condition_type": "eq"
+                    }
+                ]
+            }
+        ]
+    },
+    "total_count": 2
+}
 ```
