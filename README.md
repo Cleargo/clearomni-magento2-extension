@@ -34,7 +34,7 @@ detail in here<br />
 [/rest/V1/cleargo-clearomni/catalogruleprice](#get-Catalog-price-rule-price-list)
 
 8. Search catalog price rule price list(support searchCriteria)
-
+[/rest/V1/cleargo-clearomni/catalogruleprice/search?searchCriteria...](#Search-Catalog-price-rule-price-list)
 
 
 ## Product
