@@ -225,8 +225,14 @@ class Data extends AbstractHelper implements \Cleargo\Clearomni\Helper\Clearomni
                 $temp['is_cnc'] = true;
                 $expiryDate =  date("Y-m-d", strtotime('+14 days'));
                 break;
+            case Util::ORDER_TYPE_BND:
+                $temp['is_bnd'] = true;
+                $expiryDate =  false;
+                break;
             default:
+                $temp['is_normal'] = true;
                 $expiryDate =  date("Y-m-d", strtotime('+2 days'));
+                break;
         }
 
         $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
@@ -241,7 +247,9 @@ class Data extends AbstractHelper implements \Cleargo\Clearomni\Helper\Clearomni
             'clearomni_order' => $clearomniOrder,
             'is_cnr' => $temp['is_cnr'],
             'is_cnc' => $temp['is_cnc'],
-            'customer_group' => __($customerGroupLabel)
+            'customer_group' => __($customerGroupLabel),
+            'is_bnd' => $temp['is_bnd'],
+            'is_normal' => $temp['is_normal'],
         ];
 
         if ($emailId == 'clearomni_clearomni_ready_to_pick' || $emailId == 'clearomni_clearomni_ready_to_pick_guest') {
