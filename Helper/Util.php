@@ -13,6 +13,7 @@ class Util extends AbstractHelper
     const ORDER_TYPE_CNR='reserve';
     const ORDER_TYPE_CNC='collect';
     const ORDER_TYPE_NORMAL='normal';
+    const ORDER_TYPE_BND='delivery';
 
     protected $_objectManager;
     protected $_filesystem;
