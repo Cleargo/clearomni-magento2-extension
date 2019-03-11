@@ -132,6 +132,10 @@ class OrderManagement
      */
     public function updateOrder($param,$items)
     {
+        $writer = new \Zend\Log\Writer\Stream(BP . '/var/log/clearomni_api_'.date("Y_m_d").'.log');
+        $logger = new \Zend\Log\Logger();
+        $logger->addWriter($writer);
+        $logger->info(json_encode(['request_url'=>'from clearomni','requset_body'=>$param,'response_body'=>$items,'response_code'=>'from clearomni','date'=>date('d-m-Y H:i:s'),'debug'=>json_encode(debug_backtrace())]));
         /**
          * param:{"order_id":"","status":""}
          */

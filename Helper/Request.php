@@ -94,14 +94,10 @@ class Request extends AbstractHelper
             return false;
         }
         $this->curl->get($this->getBaseUrl() . $url);
-        $query=$this->connection->prepare('insert into cleargo_clearomni_api_log set request_url=?,request_body=?,response_body=?,response_code=?,`date`=?,`debug`=?');
-        $query->bindValue(1,$url);
-        $query->bindValue(2,'empty');
-        $query->bindValue(3,$this->curl->getBody());
-        $query->bindValue(4,$this->curl->getStatus());
-        $query->bindValue(5,date('d-m-Y H:i:s'));
-        $query->bindValue(6,json_encode(debug_backtrace()));
-        $query->execute();
+		$writer = new \Zend\Log\Writer\Stream(BP . '/var/log/clearomni_api_'.date("Y_m_d").'.log');
+		$logger = new \Zend\Log\Logger();
+		$logger->addWriter($writer);
+		$logger->info(json_encode(['request_url'=>$url,'requset_body'=>'empty','response_body'=>$this->curl->getBody(),'response_code'=>$this->curl->getStatus(),'date'=>date('d-m-Y H:i:s'),'debug'=>json_encode(debug_backtrace())]));
         $response = json_decode($this->curl->getBody(), $returnArray);
         return $response;
     }

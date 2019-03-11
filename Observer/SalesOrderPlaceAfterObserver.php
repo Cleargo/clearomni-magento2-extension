@@ -126,7 +126,10 @@ class SalesOrderPlaceAfterObserver implements ObserverInterface
             $clearomniOrder->setPickupStoreLabel($retailer->getName());
             $clearomniOrder->setPickupStoreClearomniId($retailer->getClearomniId());
         }catch (\Exception $e){
-
+            $writer = new \Zend\Log\Writer\Stream(BP . '/var/log/clearomni_api_'.date("Y_m_d").'.log');
+            $logger = new \Zend\Log\Logger();
+            $logger->addWriter($writer);
+            $logger->info(json_encode(['request_url'=>'error on create clearomni_order','requset_body'=>$e->getMessage(),'response_body'=>$e->getTraceAsString(),'response_code'=>'error on create clearomni_order','date'=>date('d-m-Y H:i:s'),'debug'=>json_encode(debug_backtrace())]));
         }
         $clearomniOrder->setMagentoOrderId($order->getId());
         $clearomniOrder->setClearomniRemarks('');
