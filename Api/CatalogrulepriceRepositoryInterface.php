@@ -8,7 +8,17 @@ interface CatalogrulepriceRepositoryInterface
      *
      * @api
      * @param string
-     * @return array
+     * @return \Magento\Framework\Api\SearchResultsInterface
      */
     public function getCatalogRulePriceList();
+
+    /**
+     * Returns table catalogrule_product_price
+     *
+     * @api
+     * @param \Magento\Framework\Api\SearchCriteriaInterface $criteria
+     * @return \Magento\Framework\Api\SearchResultsInterface
+     */
+    public function getList( \Magento\Framework\Api\SearchCriteriaInterface $searchCriteria);
+
 }

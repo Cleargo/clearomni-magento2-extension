@@ -13,6 +13,7 @@
 	<preference for="Cleargo\Clearomni\Api\Data\OrderSearchResultsInterface" type="Magento\Framework\Api\SearchResults"/>
 	<preference for="Magento\Sales\Model\Order\StatusResolver" type="Cleargo\Clearomni\Model\StatusResolver" />
 	<preference for="Cleargo\Clearomni\Api\CatalogrulepriceRepositoryInterface" type="Cleargo\Clearomni\Model\CatalogrulepriceManagement"/>
+	<preference for="Cleargo\Clearomni\Api\Data\CatalogRuleProductPriceResultsInterface" type="Magento\Framework\Api\SearchResults"/>
 	<type name="Magento\Sales\Model\OrderRepository">
 		<plugin name="orderrepository_plugin" type="Cleargo\Clearomni\Plugin\ExtraInfo" sortOrder="1000" disabled="false" />
 	</type>
